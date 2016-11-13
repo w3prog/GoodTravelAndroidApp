@@ -7,7 +7,9 @@
 
 # Java class files
 *.class
-
+GoodTravel/.idea/
+GoodTravel/.idea/*
+GoodTravel/.idea
 # Generated files
 bin/
 gen/
