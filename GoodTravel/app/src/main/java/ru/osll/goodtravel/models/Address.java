@@ -7,7 +7,22 @@ import io.realm.RealmObject;
  */
 
 public class Address extends RealmObject {
-    String country;
-    String are;
+    private String country;
+    private String are;
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAre() {
+        return are;
+    }
+
+    public void setAre(String are) {
+        this.are = are;
+    }
 }

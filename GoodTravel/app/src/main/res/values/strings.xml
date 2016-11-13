@@ -3,6 +3,35 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="title_activity_content">ContentActivity</string>
     <string name="action_settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment"> </string>
+
+    <string name="make_easy_route">Создать маршрут</string>
+    <string name="maker_travel_type_text">Выберете одну или несколько категорий отдыха.</string>
+    <string name="maker_travel_spec_text">Расскажите подробнее о том, какой отдых Вас интересует.</string>
+    <string name="maker_travel_list_text">Мы отобрали для вас несколько мест, которые Вы возможно захотите посетить.</string>
+    <string name="maker_travel_calendar_text">Укажите даты начала и конца
+        планируемой поездки.</string>
+    <string name="maker_travel_average_bill_label">Средний чек:</string>
+    <string name="maker_travel_spec_wealth_level">Укажите сколько вы готовы потратить</string>
+    <string name="maker_travel_type_active">Активный</string>
+    <string name="maker_travel_type_relax">Пассивный</string>
+    <string name="maker_travel_type_culture">Культурный</string>
+    <string name="maker_travel_spec_familyornot">Едет ли с Вами еще кто-нибудь?</string>
+    <string name="maker_travel_spec_individuals">Только я</string>
+    <string name="maker_travel_spec_couple">С партнером</string>
+    <string name="maker_travel_spec_family">С семьей</string>
+
+    <string name="maker_step1_label">Первый шаг</string>
+    <string name="maker_step2_label">Второй шаг</string>
+    <string name="maker_step3_label">Третий шаг</string>
+    <string name="maker_step4_label">Четвертый шаг</string>
+
+    <string name="maker_travel_last_label">Проверьте информацию о маршруте. Если все в порядке, нажмите "Готово", чтобы сохранить маршрут.</string>
+    <string name="maker_travel_ready_button">Готово</string>
+
 </resources>

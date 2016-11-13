@@ -2,6 +2,8 @@
 
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url 'https://github.com/yongjhih/android-gradle-plugin.m2/raw/master/' }
         jcenter()
     }
     dependencies {
