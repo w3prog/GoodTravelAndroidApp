@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,11 +11,15 @@ import android.view.View;
 import android.widget.TabHost;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.presentapp.fragment.MakerTravelCalendarFragment;
-import ru.osll.goodtravel.presentapp.fragment.MakerTravelListFragment;
-import ru.osll.goodtravel.presentapp.fragment.MakerTravelPackingFragment;
-import ru.osll.goodtravel.presentapp.fragment.MakerTravelSpecsFragment;
-import ru.osll.goodtravel.presentapp.fragment.MakerTravelTypeFragment;
+import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.enums.TravelType;
+import ru.osll.goodtravel.enums.WealthType;
+import ru.osll.goodtravel.models.TravelPlace;
+import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
+import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
+import ru.osll.goodtravel.ui.fragments.MakerTravelPackingFragment;
+import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
+import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
 
 import java.util.ArrayList;
 

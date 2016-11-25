@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ru.osll.goodtravel.presentapp.View.NonSwipeViewPager
+                <ru.osll.goodtravel.ui.View.NonSwipeViewPager
                     android:id="@+id/route_maker_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

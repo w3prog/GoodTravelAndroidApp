@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.models.TravelPlace;
+import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 
 /**
  * Created by artem96 on 09.11.16.

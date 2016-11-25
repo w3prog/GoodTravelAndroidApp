@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp.fragment;
+package ru.osll.goodtravel.ui.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.presentapp.RouteMakerInfoBundle;
-import ru.osll.goodtravel.presentapp.TravelType;
+import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.enums.TravelType;
 
 /**
  * Created by artem96 on 10.10.16.

@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp.fragment;
+package ru.osll.goodtravel.ui.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.presentapp.PartnerType;
+import ru.osll.goodtravel.enums.PartnerType;
 
-import ru.osll.goodtravel.presentapp.RouteMakerInfoBundle;
-import ru.osll.goodtravel.presentapp.WealthType;
+import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.enums.WealthType;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 

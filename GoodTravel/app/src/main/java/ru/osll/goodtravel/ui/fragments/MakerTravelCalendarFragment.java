@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp.fragment;
+package ru.osll.goodtravel.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,11 +12,8 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.presentapp.RouteMakerInfoBundle;
+import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
-/**
- * Created by artem96 on 11.10.16.
- */
 //TODO change nonDefault constructor
 
 public class MakerTravelCalendarFragment extends Fragment {

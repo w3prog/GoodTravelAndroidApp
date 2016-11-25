@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.ui.activities.ContentActivity;
 
 public class MainActivity extends AppCompatActivity {
 

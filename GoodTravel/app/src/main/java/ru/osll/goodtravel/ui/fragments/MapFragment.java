@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp.fragment;
+package ru.osll.goodtravel.ui.fragments;
 
 
 import android.support.v4.app.Fragment;

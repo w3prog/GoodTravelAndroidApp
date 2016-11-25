@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel.enums;
 
 /**
  * Created by artem96 on 01.11.16.

@@ -1,10 +1,14 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel.bundles;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.osll.goodtravel.enums.PartnerType;
+import ru.osll.goodtravel.enums.TravelType;
+import ru.osll.goodtravel.enums.WealthType;
 
 /**
  * Простой Java-bean, содержащий сведения, полученные

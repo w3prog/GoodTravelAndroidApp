@@ -1,10 +1,9 @@
-package ru.osll.goodtravel.presentapp.View;
+package ru.osll.goodtravel.ui.View;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 /**
  * Created by mycrfotkai on 25.11.16.

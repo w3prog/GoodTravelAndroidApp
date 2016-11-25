@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.presentapp.fragment;
+package ru.osll.goodtravel.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.presentapp.RouteMakerActivity;
-import ru.osll.goodtravel.presentapp.RouteMakerInfoBundle;
-import ru.osll.goodtravel.presentapp.TravelPlace;
+import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
+import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.models.TravelPlace;
 
 import java.util.List;
 

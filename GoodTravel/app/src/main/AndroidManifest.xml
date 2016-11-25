@@ -18,7 +18,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".presentapp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,11 +28,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentapp.ContentActivity"
+            android:name=".ui.activities.ContentActivity"
             android:label="@string/title_activity_content"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".presentapp.RouteMakerActivity"
+            android:name=".ui.activities.RouteMakerActivity"
             android:label="@string/title_activity_content"
             android:theme="@style/AppTheme" >
 

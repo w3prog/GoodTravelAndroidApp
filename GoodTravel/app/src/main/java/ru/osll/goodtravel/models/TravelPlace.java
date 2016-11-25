@@ -1,8 +1,10 @@
-package ru.osll.goodtravel.presentapp;
+package ru.osll.goodtravel.models;
 
 import java.util.ArrayList;
 
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.enums.TravelType;
+import ru.osll.goodtravel.enums.WealthType;
 
 /**
  * Любое место (ресторан, отель, торговый центр) представлено
