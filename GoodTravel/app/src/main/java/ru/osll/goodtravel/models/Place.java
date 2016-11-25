@@ -1,10 +1,8 @@
 package ru.osll.goodtravel.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
-
-/**
- * Created by denis on 10/30/16.
- */
+import ru.osll.goodtravel.enums.PlaceTypeEnum;
 
 public class Place extends RealmObject {
     private String name;
@@ -13,6 +11,15 @@ public class Place extends RealmObject {
     private String image;
     private String type;
 
+    public RealmList<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(RealmList<Service> services) {
+        this.services = services;
+    }
+
+    private RealmList<Service> services;
     public String getName() {
         return name;
     }
@@ -45,11 +52,11 @@ public class Place extends RealmObject {
         this.image = image;
     }
 
-    public String getType() {
-        return type;
+    public PlaceTypeEnum getType() {
+        PlaceTypeEnum.valueOf(type);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(PlaceTypeEnum type) {
+        this.type = type.toString();
     }
 }

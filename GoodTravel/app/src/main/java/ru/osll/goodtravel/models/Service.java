@@ -15,6 +15,7 @@ public class Service extends RealmObject {
     private Date finishDate;
     private int price;
     private String srcToImg;
+    private Place place;
 
     public String getName() {
         return name;

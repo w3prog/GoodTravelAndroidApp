@@ -8,7 +8,11 @@ import io.realm.RealmObject;
 
 public class Address extends RealmObject {
     private String country;
-    private String are;
+    private String area;
+    private String coordinate;
+    private String settlement;
+    private String addressInSettlements;
+
 
     public String getCountry() {
         return country;
@@ -18,11 +22,35 @@ public class Address extends RealmObject {
         this.country = country;
     }
 
-    public String getAre() {
-        return are;
+    public String getArea() {
+        return area;
     }
 
-    public void setAre(String are) {
-        this.are = are;
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public String getSettlement() {
+        return settlement;
+    }
+
+    public void setSettlement(String settlement) {
+        this.settlement = settlement;
+    }
+
+    public String getAddressInSettlements() {
+        return addressInSettlements;
+    }
+
+    public void setAddressInSettlements(String addressInSettlements) {
+        this.addressInSettlements = addressInSettlements;
+    }
+
+    public void setArea(String are) {
+        this.area = are;
     }
 }
