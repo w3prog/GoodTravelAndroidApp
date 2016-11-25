@@ -36,6 +36,6 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'com.prolificinteractive:material-calendarview:1.4.2'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
-
+    compile 'io.realm:android-adapters:1.4.0'
     testCompile 'junit:junit:4.12'
 }
