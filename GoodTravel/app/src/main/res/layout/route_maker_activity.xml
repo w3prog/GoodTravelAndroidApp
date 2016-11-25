@@ -9,7 +9,9 @@
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,14 +21,16 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"/>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v4.view.ViewPager
+                <ru.osll.goodtravel.presentapp.View.NonSwipeViewPager
                     android:id="@+id/route_maker_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

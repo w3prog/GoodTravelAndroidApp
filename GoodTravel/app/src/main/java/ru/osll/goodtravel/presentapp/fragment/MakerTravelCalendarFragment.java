@@ -41,7 +41,7 @@ public class MakerTravelCalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = (View) inflater.inflate(R.layout.maker_travel_calendar_fragment, container, false);
+        View v = inflater.inflate(R.layout.maker_travel_calendar_fragment, container, false);
 
         calendarView = (MaterialCalendarView) v.findViewById(R.id.route_maker_calendar);
 

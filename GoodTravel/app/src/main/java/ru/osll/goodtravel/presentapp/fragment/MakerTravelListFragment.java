@@ -51,6 +51,7 @@ public class MakerTravelListFragment extends Fragment {
 
         View v = (View) inflater.inflate(R.layout.maker_travel_list_fragment, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.route_maker_list);
+        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setAdapter(new TravelListAdapter(maker.getFakePlaces()));
 

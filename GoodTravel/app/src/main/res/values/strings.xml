@@ -33,5 +33,7 @@
 
     <string name="maker_travel_last_label">Проверьте информацию о маршруте. Если все в порядке, нажмите "Готово", чтобы сохранить маршрут.</string>
     <string name="maker_travel_ready_button">Готово</string>
+    <string name="next">Далее</string>
+    <string name="try_again">Добавить еще дату</string>
 
 </resources>

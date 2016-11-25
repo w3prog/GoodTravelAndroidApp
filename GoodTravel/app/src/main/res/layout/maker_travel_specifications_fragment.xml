@@ -140,6 +140,14 @@
 
         </LinearLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:text="@string/next"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClickNextButton"/>
+
     </LinearLayout>
 
 </ScrollView>

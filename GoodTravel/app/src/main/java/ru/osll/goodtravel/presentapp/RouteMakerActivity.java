@@ -73,6 +73,8 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
         mTabHost.addTab(mTabHost.newTabSpec("fourth_step").setIndicator("Шаг 4").setContent(fakeFactory));
         mTabHost.addTab(mTabHost.newTabSpec("fifth_step").setIndicator("Шаг 5").setContent(fakeFactory));
 
+        for(int i = 0; i < mTabHost.getTabWidget().getTabCount(); i++)
+            mTabHost.getTabWidget().getChildTabViewAt(i).setEnabled(false);
     }
 
     private class FakeTabContent implements TabHost.TabContentFactory {
@@ -258,5 +260,26 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
 
     public ArrayList<TravelPlace> getFakePlaces() {
         return fakePlaces;
+    }
+
+    public void onClickNextButton(View view)
+    {
+        if(pager.getCurrentItem() != 4)
+        {
+            pager.setCurrentItem(pager.getCurrentItem() + 1);
+        }
+        else
+        {
+            pager.setCurrentItem(0);
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(pager.getCurrentItem() == 0)
+        {
+            super.onBackPressed();
+        }
     }
 }
