@@ -40,6 +40,12 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     private List<DayViewDecorator> decorators = new ArrayList<>();
     private List<DecoratorResult> decoratorResults = null;
     private boolean selectionEnabled = true;
+    private static List<CalendarDay> fixedList = new ArrayList<>();
+
+    public void addFixedDate(CalendarDay calendarDay)
+    {
+        fixedList.add(calendarDay);
+    }
 
     CalendarPagerAdapter(MaterialCalendarView mcv) {
         this.mcv = mcv;
@@ -271,6 +277,13 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
         invalidateSelectedDates();
     }
 
+    public void clearSelectionsOnFixedDate()
+    {
+        selectedDates = new ArrayList<>(fixedList);
+
+        invalidateSelectedDates();
+    }
+
     public void setDateSelected(CalendarDay day, boolean selected) {
         if (selected) {
             if (!selectedDates.contains(day)) {
@@ -319,5 +332,10 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
 
     protected int getWeekDayTextAppearance() {
         return weekDayTextAppearance == null ? 0 : weekDayTextAppearance;
+    }
+
+    public void clearFixed()
+    {
+        fixedList.clear();
     }
 }

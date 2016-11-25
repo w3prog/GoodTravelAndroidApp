@@ -75,7 +75,7 @@ public class MaterialCalendarView extends ViewGroup {
      * @see #getSelectionMode()
      */
     @Retention(RetentionPolicy.RUNTIME)
-    @IntDef({SELECTION_MODE_NONE, SELECTION_MODE_SINGLE, SELECTION_MODE_MULTIPLE, SELECTION_MODE_RANGE})
+    @IntDef({SELECTION_MODE_NONE, SELECTION_MODE_SINGLE, SELECTION_MODE_MULTIPLE, SELECTION_MODE_RANGE, SELECTION_MODE_REQUEST_MULTIPLE})
     public @interface SelectionMode {
     }
 
@@ -101,6 +101,8 @@ public class MaterialCalendarView extends ViewGroup {
      * Selection mode which allows selection of a range between two dates
      */
     public static final int SELECTION_MODE_RANGE = 3;
+
+    public static final int SELECTION_MODE_REQUEST_MULTIPLE = 4;
 
     /**
      * {@linkplain IntDef} annotation for showOtherDates.
@@ -191,6 +193,7 @@ public class MaterialCalendarView extends ViewGroup {
         public void onClick(View v) {
             if (v == buttonFuture) {
                 pager.setCurrentItem(pager.getCurrentItem() + 1, true);
+            } else if (v == buttonPast) {
             } else if (v == buttonPast) {
                 pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             }
@@ -461,7 +464,7 @@ public class MaterialCalendarView extends ViewGroup {
                     }
                 }
                 break;
-            default:
+            default: break;
             case SELECTION_MODE_NONE:
                 this.selectionMode = SELECTION_MODE_NONE;
                 if (oldMode != SELECTION_MODE_NONE) {
@@ -1357,11 +1360,12 @@ public class MaterialCalendarView extends ViewGroup {
      * @param day      the day that was selected
      * @param selected true if the day is now currently selected, false otherwise
      */
-    protected void dispatchOnDateSelected(final CalendarDay day, final boolean selected) {
+    protected boolean dispatchOnDateSelected(final CalendarDay day, final boolean selected) {
         OnDateSelectedListener l = listener;
         if (l != null) {
-            l.onDateSelected(MaterialCalendarView.this, day, selected);
+            return l.onDateSelected(MaterialCalendarView.this, day, selected);
         }
+        return true;
     }
 
     /**
@@ -1404,6 +1408,17 @@ public class MaterialCalendarView extends ViewGroup {
         }
     }
 
+
+    public void fixDay(CalendarDay calendarDay)
+    {
+        adapter.addFixedDate(calendarDay);
+    }
+
+    public void clearFixed()
+    {
+        adapter.clearFixed();
+    }
+
     /**
      * Call by {@link CalendarPagerView} to indicate that a day was clicked and we should handle it.
      * This method will always process the click to the selected date.
@@ -1413,9 +1428,14 @@ public class MaterialCalendarView extends ViewGroup {
      */
     protected void onDateClicked(@NonNull CalendarDay date, boolean nowSelected) {
         switch (selectionMode) {
+            case SELECTION_MODE_REQUEST_MULTIPLE:
+                adapter.clearSelectionsOnFixedDate();
+                adapter.setDateSelected(date, true);
+                dispatchOnDateSelected(date, true);
+            break;
             case SELECTION_MODE_MULTIPLE: {
-                adapter.setDateSelected(date, nowSelected);
                 dispatchOnDateSelected(date, nowSelected);
+                adapter.setDateSelected(date, nowSelected);
             }
             break;
             case SELECTION_MODE_RANGE: {

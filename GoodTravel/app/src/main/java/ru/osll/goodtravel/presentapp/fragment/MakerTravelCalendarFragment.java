@@ -21,16 +21,11 @@ import ru.osll.goodtravel.presentapp.RouteMakerInfoBundle;
 
 public class MakerTravelCalendarFragment extends Fragment {
 
-    private RouteMakerInfoBundle routeInfo;
-
+    private CalendarDay currentDay;
     private MaterialCalendarView calendarView;
 
-    public MakerTravelCalendarFragment(RouteMakerInfoBundle routeInfo) {
-        this.routeInfo = routeInfo;
-    }
-
     public static MakerTravelCalendarFragment createInstance(RouteMakerInfoBundle routeInfo) {
-        MakerTravelCalendarFragment fragment = new MakerTravelCalendarFragment(routeInfo);
+        MakerTravelCalendarFragment fragment = new MakerTravelCalendarFragment();
 
         // here we can add some information with bundle class
 
@@ -44,15 +39,33 @@ public class MakerTravelCalendarFragment extends Fragment {
         View v = inflater.inflate(R.layout.maker_travel_calendar_fragment, container, false);
 
         calendarView = (MaterialCalendarView) v.findViewById(R.id.route_maker_calendar);
+        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_REQUEST_MULTIPLE);
 
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                routeInfo.setFirstDay(date);
+            public boolean onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+                currentDay = date;
+
+                return false;
             }
         });
 
         return v;
     }
 
+    public CalendarDay getCurrentDay()
+    {
+        return currentDay;
+    }
+
+    public void fixCurrentDay()
+    {
+        calendarView.fixDay(currentDay);
+    }
+
+    public void clearFixed()
+    {
+        calendarView.clearFixed();
+    }
 }

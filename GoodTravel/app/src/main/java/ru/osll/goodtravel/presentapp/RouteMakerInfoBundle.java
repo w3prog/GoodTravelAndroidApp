@@ -4,6 +4,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Простой Java-bean, содержащий сведения, полученные
@@ -18,8 +19,7 @@ import java.util.ArrayList;
 public class RouteMakerInfoBundle implements Serializable{
 
     private ArrayList<TravelType> tripTypes;
-    private CalendarDay firstDay;
-    private CalendarDay secondDay;
+    private List<CalendarDay> calendarDayList;
 
     private PartnerType partnerType;
     private WealthType wealthType;
@@ -29,6 +29,7 @@ public class RouteMakerInfoBundle implements Serializable{
         tripTypes = new ArrayList<>();
         partnerType = PartnerType.SINGLE;
         wealthType = WealthType.NORMAL;
+        calendarDayList = new ArrayList<>();
     }
 
 
@@ -40,12 +41,20 @@ public class RouteMakerInfoBundle implements Serializable{
         return tripTypes;
     }
 
-    public void setFirstDay(CalendarDay firstDay) {
-        this.firstDay = firstDay;
+    public void addDay(CalendarDay day)
+    {
+        if(!calendarDayList.contains(day) && day != null)
+            calendarDayList.add(day);
     }
 
-    public CalendarDay getFirstDay() {
-        return firstDay;
+    public boolean contains(CalendarDay calendarDay)
+    {
+        return calendarDayList.contains(calendarDay);
+    }
+
+    public CalendarDay getFirstDay()
+    {
+        return calendarDayList.get(0);
     }
 
     public void setPartnerType(PartnerType partner) {

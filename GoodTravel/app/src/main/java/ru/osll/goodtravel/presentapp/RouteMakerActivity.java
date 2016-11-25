@@ -28,7 +28,6 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
     private static final String POSITION_ARGUMENT = "posarg";
 
     private RouteMakerInfoBundle routeInfo;
-
     public static final int STEP_COUNT = 5;
 
     private ViewPager pager;
@@ -140,7 +139,7 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
 
     private void createFakeTravelPlaces() {
 
-        //String name, String description, String adress, int coordinates,
+        //String name, String description, String address, int coordinates,
         //ArrayList<TravelType> type, WealthType wealthType, int averageBill, boolean[] partnerTypeFilter, int pictureURL
 
         fakePlaces = new ArrayList<>();
@@ -264,13 +263,16 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
 
     public void onClickNextButton(View view)
     {
-        if(pager.getCurrentItem() != 4)
+        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+        if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
             pager.setCurrentItem(pager.getCurrentItem() + 1);
+            routeInfo.addDay(fragment.getCurrentDay());
         }
         else
         {
             pager.setCurrentItem(0);
+            fragment.fixCurrentDay();
         }
     }
 
@@ -279,7 +281,14 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
     {
         if(pager.getCurrentItem() == 0)
         {
+            MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+            fragment.clearFixed();
+
             super.onBackPressed();
+        }
+        else
+        {
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
         }
     }
 }
