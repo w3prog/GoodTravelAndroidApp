@@ -1,12 +1,17 @@
 package ru.osll.goodtravel.models;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 10/30/16.
  */
 
 public class Address extends RealmObject {
+
+    @PrimaryKey
+    private long id;
     private String country;
     private String area;
     private String coordinate;
@@ -52,5 +57,9 @@ public class Address extends RealmObject {
 
     public void setArea(String are) {
         this.area = are;
+    }
+
+    public static Address getByPrimaryKey(Realm realm, int id) {
+        return realm.where(Address.class).equalTo("id", id).findFirst();
     }
 }

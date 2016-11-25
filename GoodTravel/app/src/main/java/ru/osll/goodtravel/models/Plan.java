@@ -2,12 +2,17 @@ package ru.osll.goodtravel.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 10/30/16.
  */
 
 public class Plan extends RealmObject {
+
+    @PrimaryKey
+    private long id;
+
     private String name;
     private String dates;
     private int money;

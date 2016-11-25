@@ -1,10 +1,16 @@
 package ru.osll.goodtravel.models;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
 
 public class Place extends RealmObject {
+
+    @PrimaryKey
+    private long id;
+
     private String name;
     private String Description;
     private Address address;
@@ -29,6 +35,9 @@ public class Place extends RealmObject {
     }
 
     public String getDescription() {
+        if (Description.isEmpty()){
+            return "Без описания";
+        }
         return Description;
     }
 
@@ -58,5 +67,9 @@ public class Place extends RealmObject {
 
     public void setType(PlaceTypeEnum type) {
         this.type = type.toString();
+    }
+
+    public static Place getByPrimaryKey(Realm realm, int id) {
+        return realm.where(Place.class).equalTo("id", id).findFirst();
     }
 }

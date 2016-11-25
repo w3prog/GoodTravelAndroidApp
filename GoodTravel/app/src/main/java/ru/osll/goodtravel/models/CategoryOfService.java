@@ -1,6 +1,7 @@
 package ru.osll.goodtravel.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 11/26/16.
@@ -8,14 +9,30 @@ import io.realm.RealmObject;
 
 public class CategoryOfService extends RealmObject {
 
+    @PrimaryKey
+    private long id;
+
     private String name;
     private String strImg;
 
     public String getStrImg() {
         if (strImg.isEmpty())
-            // TODO: 11/26/16 Сделать вставку дефолтной картинки 
+            // TODO: 11/26/16 Сделать вставку дефолтной картинки
             return "defaultimg";
         return strImg;
+    }
+
+    public CategoryOfService(){
+
+    }
+
+    public CategoryOfService(String name, String strImg) {
+        this.name = name;
+        this.strImg = strImg;
+    }
+
+    public CategoryOfService(String name) {
+        this.name = name;
     }
 
     public void setStrImg(String strImg) {

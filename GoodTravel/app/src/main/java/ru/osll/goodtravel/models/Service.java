@@ -2,13 +2,19 @@ package ru.osll.goodtravel.models;
 
 import java.util.Date;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 11/26/16.
  */
 
 public class Service extends RealmObject {
+
+    @PrimaryKey
+    private long id;
+
     private String name;
     private String Description;
     private Date startDate;
@@ -68,5 +74,9 @@ public class Service extends RealmObject {
 
     public void setSrcToImg(String srcToImg) {
         this.srcToImg = srcToImg;
+    }
+
+    public static Service getByPrimaryKey(Realm realm, int id) {
+        return realm.where(Service.class).equalTo("id", id).findFirst();
     }
 }
