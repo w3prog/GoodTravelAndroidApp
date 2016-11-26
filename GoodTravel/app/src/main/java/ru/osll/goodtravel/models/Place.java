@@ -66,7 +66,7 @@ public class Place extends RealmObject {
     }
 
     public PlaceTypeEnum getCategory() {
-        PlaceTypeEnum.valueOf(category);
+        return PlaceTypeEnum.valueOf(category);
     }
 
     public void setCategory(PlaceTypeEnum category) {
