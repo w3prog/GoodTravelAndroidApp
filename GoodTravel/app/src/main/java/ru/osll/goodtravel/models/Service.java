@@ -4,6 +4,7 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
@@ -23,6 +24,7 @@ public class Service extends RealmObject {
     private int price;
     private String srcToImg;
     private Place place;
+    @Ignore
     private String typeOfGroup;
 
     public CategoryOfService getCategory() {
@@ -130,6 +132,14 @@ public class Service extends RealmObject {
         return srcToImg;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setSrcToImg(String srcToImg) {
         this.srcToImg = srcToImg;
     }
@@ -137,5 +147,6 @@ public class Service extends RealmObject {
     public static Service getByPrimaryKey(Realm realm, int id) {
         return realm.where(Service.class).equalTo("id", id).findFirst();
     }
+
 
 }

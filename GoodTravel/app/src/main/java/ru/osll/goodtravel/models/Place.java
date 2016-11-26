@@ -3,6 +3,7 @@ package ru.osll.goodtravel.models;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
 
@@ -15,6 +16,7 @@ public class Place extends RealmObject {
     private String Description;
     private Address address;
     private String image;
+    @Ignore
     private String category;
 
     public RealmList<Service> getServices() {
@@ -84,4 +86,8 @@ public class Place extends RealmObject {
     public void setId(long id) {
         this.id = id;
     }
+
+    public Place() {
+    }
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="mcv_pager" category="id" />
+    <item name="mcv_pager" category="id" type="id" />
 
 </resources>

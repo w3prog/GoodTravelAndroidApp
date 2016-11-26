@@ -50,4 +50,8 @@ public class Day extends RealmObject {
     public void setId(long id) {
         this.id = id;
     }
+
+    public Day() {
+    }
+
 }

@@ -71,4 +71,8 @@ public class Address extends RealmObject {
     public static Address getByPrimaryKey(Realm realm, int id) {
         return realm.where(Address.class).equalTo("id", id).findFirst();
     }
+
+    public Address() {
+    }
+
 }
