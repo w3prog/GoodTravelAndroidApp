@@ -42,4 +42,12 @@ public class Day extends RealmObject {
     public void setPlaces(RealmList<Place> places) {
         this.places = places;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

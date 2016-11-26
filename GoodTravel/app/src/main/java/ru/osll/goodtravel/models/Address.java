@@ -10,6 +10,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Address extends RealmObject {
 
+
     @PrimaryKey
     private long id;
     private String country;
@@ -57,6 +58,14 @@ public class Address extends RealmObject {
 
     public void setArea(String are) {
         this.area = are;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public static Address getByPrimaryKey(Realm realm, int id) {

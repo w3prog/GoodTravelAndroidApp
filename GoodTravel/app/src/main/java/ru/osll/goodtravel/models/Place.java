@@ -17,8 +17,6 @@ public class Place extends RealmObject {
     private String image;
     private String category;
 
-
-
     public RealmList<Service> getServices() {
         return services;
     }
@@ -73,5 +71,13 @@ public class Place extends RealmObject {
 
     public static Place getByPrimaryKey(Realm realm, int id) {
         return realm.where(Place.class).equalTo("id", id).findFirst();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -137,4 +137,5 @@ public class Service extends RealmObject {
     public static Service getByPrimaryKey(Realm realm, int id) {
         return realm.where(Service.class).equalTo("id", id).findFirst();
     }
+
 }

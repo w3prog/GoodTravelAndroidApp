@@ -67,4 +67,12 @@ public class Plan extends RealmObject {
     public void setDays(RealmList<Day> days) {
         this.days = days;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
