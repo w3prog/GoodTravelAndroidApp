@@ -54,6 +54,10 @@ public class Place extends RealmObject {
     }
 
     public String getImage() {
+        if (image.isEmpty()){
+            // TODO: 11/26/16 подставить правильный путь
+            return "Вернуть дефолтный адрес пути";
+        }
         return image;
     }
 
