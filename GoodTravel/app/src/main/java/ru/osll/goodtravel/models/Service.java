@@ -5,6 +5,7 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
 /**
  * Created by denis on 11/26/16.
@@ -22,7 +23,64 @@ public class Service extends RealmObject {
     private int price;
     private String srcToImg;
     private Place place;
+    private String typeOfGroup;
 
+    public CategoryOfService getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryOfService category) {
+        this.category = category;
+    }
+
+    private CategoryOfService category;
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+
+
+    public Service() {
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public Service(String name, int price, Place place) {
+        this.name = name;
+        this.price = price;
+        this.place = place;
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public Service(String name, int price, Place place,CategoryOfService category) {
+        this.name = name;
+        this.price = price;
+        this.place = place;
+        this.category = category;
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+    public Service(String name, int price, Place place,
+                   CategoryOfService category,TypeOfGroupEnum typeOfGroupEnum) {
+        this.name = name;
+        this.price = price;
+        this.place = place;
+        this.category = category;
+        this.typeOfGroup = typeOfGroupEnum.toString();
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+
+    public TypeOfGroupEnum getTypeOfGroup() {
+        return TypeOfGroupEnum.valueOf(typeOfGroup);
+    }
+
+    public void setTypeOfGroup(TypeOfGroupEnum typeOfGroupEnum) {
+        this.typeOfGroup = typeOfGroupEnum.toString();
+    }
     public String getName() {
         return name;
     }

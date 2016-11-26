@@ -15,7 +15,9 @@ public class Place extends RealmObject {
     private String Description;
     private Address address;
     private String image;
-    private String type;
+    private String category;
+
+
 
     public RealmList<Service> getServices() {
         return services;
@@ -61,12 +63,12 @@ public class Place extends RealmObject {
         this.image = image;
     }
 
-    public PlaceTypeEnum getType() {
-        PlaceTypeEnum.valueOf(type);
+    public PlaceTypeEnum getCategory() {
+        PlaceTypeEnum.valueOf(category);
     }
 
-    public void setType(PlaceTypeEnum type) {
-        this.type = type.toString();
+    public void setCategory(PlaceTypeEnum category) {
+        this.category = category.toString();
     }
 
     public static Place getByPrimaryKey(Realm realm, int id) {

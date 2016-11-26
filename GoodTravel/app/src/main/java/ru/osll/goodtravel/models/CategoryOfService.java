@@ -1,5 +1,6 @@
 package ru.osll.goodtravel.models;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -46,5 +47,13 @@ public class CategoryOfService extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static CategoryOfService getByPrimaryKey(Realm realm, int id) {
+        return realm.where(CategoryOfService.class).equalTo("id", id).findFirst();
+    }
+
+    public static CategoryOfService getByName(Realm realm, String name) {
+        return realm.where(CategoryOfService.class).equalTo("id", name).findFirst();
     }
 }

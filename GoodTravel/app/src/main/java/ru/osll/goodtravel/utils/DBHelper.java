@@ -1,7 +1,12 @@
 package ru.osll.goodtravel.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmList;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
+import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 import ru.osll.goodtravel.models.Address;
 import ru.osll.goodtravel.models.CategoryOfService;
 import ru.osll.goodtravel.models.Place;
@@ -17,12 +22,51 @@ public class DBHelper {
     //executor не стал писать
     private static void generateService(){
 
-        Service service = new Service();
         Place place = Place.getByPrimaryKey(realm,1);
+        CategoryOfService c1 = CategoryOfService.getByName(realm,"Музей");
+        CategoryOfService c2 = CategoryOfService.getByName(realm,"Экскурсии по городу");
+        CategoryOfService c3 = CategoryOfService.getByName(realm,"Спортиные мероприятия");
+        CategoryOfService c4 = CategoryOfService.getByName(realm,"Концерты");
+        CategoryOfService c5 = CategoryOfService.getByName(realm,"Кинотеатры");
+        CategoryOfService c6 = CategoryOfService.getByName(realm,"Театры");
+        CategoryOfService c7 = CategoryOfService.getByName(realm,"Памятники культуры");
+        CategoryOfService c8 = CategoryOfService.getByName(realm,"Особые");
+        RealmList<Service> services = new RealmList<>();
+        services.add(new Service("Русский музей",340,place,c1));
+        services.add(new Service("Эрмитаж",400,place,c1));
+        services.add(new Service("Музей артиллерии",1200,place,c1));
+        services.add(new Service("Музей радиосвязи",600,place,c1));
+        services.add(new Service("Кунскамера",700,place,c1, TypeOfGroupEnum.NO_FAMILY));
+        services.add(new Service("Экскурсия по Санкт-Петербургу",2000,place,c2));
+        services.add(new Service("Водная экскурсия по Санкт-Петербургу",2200,place,c2));
+        services.add(new Service("Экскурсия по Петергофу",450,place,c2));
+        services.add(new Service("Экскурсия по городу Пушкину",700,place,c2));
+        services.add(new Service("Экскурсия по Кромштату",800,place,c2));
+        services.add(new Service("Хоккей",3000,place,c3));
+        services.add(new Service("Футбол",2000,place,c3));
+        services.add(new Service("Чемпионат по Dota 2",200,place,c3, TypeOfGroupEnum.NO_FAMILY));
+        services.add(new Service("Чемпионат по стрельбе",1000,place,c3, TypeOfGroupEnum.ONLY_SINGLE));
+        services.add(new Service("Любительский бокс",600,place,c3, TypeOfGroupEnum.ONLY_SINGLE));
+        services.add(new Service("Рок концерт",1000,place,c4));
+        services.add(new Service("Поп концерт",500,place,c4));
+        services.add(new Service("Джаз фестиваль",300,place,c4));
+        services.add(new Service("Рубий глаз",300,place,c5));
+        services.add(new Service("Стрелка",400,place,c5));
+        services.add(new Service("Космос",500,place,c5));
+        services.add(new Service("Мариинка",2000,place,c6));
+        services.add(new Service("Music holl",1000,place,c6));
+        services.add(new Service("Детский театр",125,place,c6));
+        services.add(new Service("Крейсер Автора",0,place,c7));
+        services.add(new Service("Петропавловская крепость",0,place,c7));
+        services.add(new Service("Центральная площадь",0,place,c7));
+        services.add(new Service("Зимний дворец",0,place,c7));
+        services.add(new Service("Медный всадник",0,place,c7));
+        services.add(new Service("Летний марафон по городу",0,place,c8));
+        services.add(new Service("Сьезд любителей Гарри Поттера",0,place,c8));
+
 
         realm.beginTransaction();
-
-        realm.copyToRealm(service);
+        realm.copyToRealm(services);
         realm.commitTransaction();
     }
 
@@ -59,9 +103,11 @@ public class DBHelper {
     }
 
     private static void generatePlans() {
+        // TODO: 11/26/16 реализовать метод
     }
 
     private static void generateDays() {
+        // TODO: 11/26/16 реализовать метод
     }
 
     private static void generatePlaces() {
@@ -71,7 +117,7 @@ public class DBHelper {
         fakePlace.setAddress(address);
         fakePlace.setName("Непонятное место");
         fakePlace.setDescription("Какое-то описание");
-        fakePlace.setType(PlaceTypeEnum.MUSEUM);
+        fakePlace.setCategory(PlaceTypeEnum.MUSEUM);
         realm.copyToRealm(fakePlace);
         realm.commitTransaction();
     }
