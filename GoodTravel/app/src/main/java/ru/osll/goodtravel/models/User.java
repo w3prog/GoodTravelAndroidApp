@@ -11,18 +11,17 @@ public class User extends RealmObject {
 
     //// TODO: 11/26/16 что нам нужно знать о пользователе на телефоне?
 
-
-    public User() {
-    }
+    public User()
+    {}
 
     @PrimaryKey
     private long id;
 
-
     private String email;
 
-    public User(String email) {
+    public User(String email, long id) {
         this.email = email;
+        this.id = id;
     }
 
     public String getEmail() {

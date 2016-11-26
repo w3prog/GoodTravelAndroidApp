@@ -1,9 +1,12 @@
 package ru.osll.goodtravel.utils;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
@@ -18,8 +21,21 @@ import ru.osll.goodtravel.models.User;
  */
 
 public class DBHelper {
-    final static Realm realm = Realm.getDefaultInstance();
+    private static Realm realm;
     //executor не стал писать
+
+    public static void initRealm(Context context)
+    {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+        realm = Realm.getDefaultInstance();
+    }
+
+    public static Realm getInstance()
+    {
+        return realm;
+    }
+
     private static void generateService(){
 
         Place place = Place.getByPrimaryKey(realm,1);
@@ -66,20 +82,27 @@ public class DBHelper {
 
 
         realm.beginTransaction();
-        realm.copyToRealm(services);
+        realm.copyToRealmOrUpdate(services);
         realm.commitTransaction();
     }
 
     public static void generateCategory(){
+
         realm.beginTransaction();
-        realm.copyToRealm(new CategoryOfService("Музей"));
-        realm.copyToRealm(new CategoryOfService("Экскурсии по городу"));
-        realm.copyToRealm(new CategoryOfService("Спортиные мероприятия"));
-        realm.copyToRealm(new CategoryOfService("Концерты"));
-        realm.copyToRealm(new CategoryOfService("Кинотеатры"));
-        realm.copyToRealm(new CategoryOfService("Театры"));
-        realm.copyToRealm(new CategoryOfService("Памятники культуры"));
-        realm.copyToRealm(new CategoryOfService("Особые"));
+        String[] categories = new String[]
+                {
+                        "Музей",
+                        "Экскурсии по городу",
+                        "Спортиные мероприятия",
+                        "Концерты",
+                        "Кинотеатры",
+                        "Театры",
+                        "Памятники культуры",
+                        "Особые"
+                };
+        List<CategoryOfService> categoryOfServiceList = new ArrayList<>();
+        for (String item : categories) categoryOfServiceList.add(new CategoryOfService(item, categoryOfServiceList.size()));
+        realm.copyToRealmOrUpdate(categoryOfServiceList);
         realm.commitTransaction();
     }
 
@@ -97,8 +120,9 @@ public class DBHelper {
     }
 
     private static void generateUser() {
-        realm.commitTransaction();
-        realm.copyToRealm(new User("user@mail.ru"));
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(new User("user@mail.ru", 0));
         realm.commitTransaction();
     }
 
@@ -111,26 +135,26 @@ public class DBHelper {
     }
 
     private static void generatePlaces() {
-        realm.commitTransaction();
-        Address address = Address.getByPrimaryKey(realm,1);
+        realm.beginTransaction();
+        Address address = Address.getByPrimaryKey(realm, 1);
         Place fakePlace = new Place();
         fakePlace.setAddress(address);
         fakePlace.setName("Непонятное место");
         fakePlace.setDescription("Какое-то описание");
         fakePlace.setCategory(PlaceTypeEnum.MUSEUM);
-        realm.copyToRealm(fakePlace);
+        realm.copyToRealmOrUpdate(fakePlace);
         realm.commitTransaction();
     }
 
     private static void generateAddresses() {
-        realm.commitTransaction();
+        realm.beginTransaction();
         Address fakeAddress = new Address();
         fakeAddress.setCountry("Россия");
         fakeAddress.setArea("Ленинградская область");
         fakeAddress.setSettlement("Санкт-Петербург");
         fakeAddress.setAddressInSettlements("Улица Пупкина дом 7");
         fakeAddress.setCoordinate("90.60");
-        realm.copyToRealm(fakeAddress);
+        realm.copyToRealmOrUpdate(fakeAddress);
         realm.commitTransaction();
     }
 

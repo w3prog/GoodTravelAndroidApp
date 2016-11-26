@@ -124,10 +124,6 @@ public class Service extends RealmObject {
     }
 
     public String getSrcToImg() {
-        if (srcToImg.isEmpty() || srcToImg == null){
-            //todo добавить стандартную картинку при отсудствии картинки.
-            return "defaultimage";
-        }
 
         return srcToImg;
     }

@@ -1,5 +1,7 @@
 package ru.osll.goodtravel.models;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -17,9 +19,6 @@ public class CategoryOfService extends RealmObject {
     private String strImg;
 
     public String getStrImg() {
-        if (strImg.isEmpty())
-            // TODO: 11/26/16 Сделать вставку дефолтной картинки
-            return "defaultimg";
         return strImg;
     }
 
@@ -32,8 +31,9 @@ public class CategoryOfService extends RealmObject {
         this.strImg = strImg;
     }
 
-    public CategoryOfService(String name) {
+    public CategoryOfService(String name, long id) {
         this.name = name;
+        this.id = id;
     }
 
     public void setStrImg(String strImg) {
@@ -65,5 +65,8 @@ public class CategoryOfService extends RealmObject {
         return realm.where(CategoryOfService.class).equalTo("name", name).findFirst();
     }
 
-
+    public static List<CategoryOfService> getAllCategoryOfService(Realm realm)
+    {
+        return realm.where(CategoryOfService.class).findAll();
+    }
 }
