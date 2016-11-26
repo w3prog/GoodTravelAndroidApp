@@ -62,7 +62,7 @@ public class CategoryOfService extends RealmObject {
     }
 
     public static CategoryOfService getByName(Realm realm, String name) {
-        return realm.where(CategoryOfService.class).equalTo("id", name).findFirst();
+        return realm.where(CategoryOfService.class).equalTo("name", name).findFirst();
     }
 
 

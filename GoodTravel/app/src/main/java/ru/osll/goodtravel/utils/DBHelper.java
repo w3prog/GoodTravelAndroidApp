@@ -83,7 +83,7 @@ public class DBHelper {
         realm.commitTransaction();
     }
 
-    static void generateData(){
+    public static void generateData(){
 
         if(dbIsEmpty()){
             generateUser();
