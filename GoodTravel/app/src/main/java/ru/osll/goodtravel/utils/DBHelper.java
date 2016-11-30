@@ -26,7 +26,10 @@ public class DBHelper {
 
     public static void initRealm(Context context)
     {
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration
+                .Builder(context)
+                .deleteRealmIfMigrationNeeded()
+                .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         realm = Realm.getDefaultInstance();
     }
