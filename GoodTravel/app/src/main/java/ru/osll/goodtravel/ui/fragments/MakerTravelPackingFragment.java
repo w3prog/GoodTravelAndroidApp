@@ -22,7 +22,7 @@ import java.util.List;
  * Created by artem96 on 13.10.16.
  */
 
-public class MakerTravelPackingFragment extends Fragment {
+public class MakerTravelPackingFragment extends BaseFragment {
 
     private RouteMakerInfoBundle routeInfo;
     private LinearLayout packingContainer;
@@ -63,6 +63,12 @@ public class MakerTravelPackingFragment extends Fragment {
         view.setLayoutManager(manager);
 
         return v;
+    }
+
+    @Override
+    public void request()
+    {
+
     }
 
     private class PackingListItemHolder extends RecyclerView.ViewHolder {

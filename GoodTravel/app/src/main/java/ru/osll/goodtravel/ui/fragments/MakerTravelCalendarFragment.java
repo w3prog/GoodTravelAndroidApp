@@ -16,7 +16,7 @@ import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
 //TODO change nonDefault constructor
 
-public class MakerTravelCalendarFragment extends Fragment {
+public class MakerTravelCalendarFragment extends BaseFragment {
 
     private CalendarDay currentDay;
     private MaterialCalendarView calendarView;
@@ -64,5 +64,11 @@ public class MakerTravelCalendarFragment extends Fragment {
     public void clearFixed()
     {
         calendarView.clearFixed();
+    }
+
+    @Override
+    public void request()
+    {
+
     }
 }

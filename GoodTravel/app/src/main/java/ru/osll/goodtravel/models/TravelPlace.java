@@ -1,7 +1,10 @@
 package ru.osll.goodtravel.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmObject;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.enums.TravelType;
 import ru.osll.goodtravel.enums.WealthType;
@@ -17,7 +20,7 @@ public class TravelPlace {
 
     private String name;
     private String description;
-    private String adress;
+    private String address;
     private int picture;
     private int coordinates;
     private ArrayList<TravelType> type;
@@ -30,22 +33,22 @@ public class TravelPlace {
 
         this.name = name;
         this.description = description;
-        this.picture = R.drawable.ic_audiotrack;
+        this.picture = android.R.drawable.sym_def_app_icon;
         this.type = type;
 
-        adress = "Unknown";
+        address = "Unknown";
         coordinates = -1;
         averageBill = -1;
 
     }
 
-    public TravelPlace(String name, String description, String adress, int coordinates,
+    public TravelPlace(String name, String description, String address, int coordinates,
                        ArrayList<TravelType> type, WealthType wealthType, int averageBill, boolean[] partnerTypeFilter, int picture) {
 
         this.name = name;
         this.description = description;
         this.picture = picture;
-        this.adress = adress;
+        this.address = address;
         this.coordinates = coordinates;
         this.type = type;
         this.minWealthType = wealthType;
@@ -70,12 +73,12 @@ public class TravelPlace {
         this.description = description;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public int getPicture() {
@@ -125,7 +128,4 @@ public class TravelPlace {
     public void setAverageBill(int bill) {
         this.averageBill = bill;
     }
-
-
-
 }

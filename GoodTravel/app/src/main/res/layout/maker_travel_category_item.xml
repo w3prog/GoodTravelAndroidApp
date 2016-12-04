@@ -24,15 +24,14 @@
                 android:id="@+id/categoryImageView"
                 android:layout_gravity="center_horizontal"/>
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tick_background"
+                android:visibility="invisible"
                 android:layout_gravity="end|top"
-                android:id="@+id/tickLinearLayout"
-                android:orientation="horizontal"
-                android:visibility="invisible"/>
+                android:id="@+id/tickImageView"
+                android:src="@mipmap/tick"/>
 
         </FrameLayout>
 

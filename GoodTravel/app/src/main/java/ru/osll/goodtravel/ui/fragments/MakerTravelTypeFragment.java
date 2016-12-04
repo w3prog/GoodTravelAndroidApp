@@ -1,13 +1,6 @@
 package ru.osll.goodtravel.ui.fragments;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.CheckableImageButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,20 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import java.util.List;
+
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.enums.TravelType;
 import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.utils.DBHelper;
 
 /**
  * Created by artem96 on 10.10.16.
  */
 
-public class MakerTravelTypeFragment extends Fragment {
+public class MakerTravelTypeFragment extends BaseFragment
+{
 
     private RouteMakerInfoBundle routeInfo;
     private DBHelper dbHelper;
@@ -48,8 +42,6 @@ public class MakerTravelTypeFragment extends Fragment {
 
     public static MakerTravelTypeFragment createInstance(RouteMakerInfoBundle routeInfo) {
         MakerTravelTypeFragment fragment = new MakerTravelTypeFragment(routeInfo);
-
-        // here we can add some information with bundle class
 
         return fragment;
     }
@@ -76,13 +68,14 @@ public class MakerTravelTypeFragment extends Fragment {
     {
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
         DBHelper.generateData();
-        CategoryAdapter categoryAdapter = new CategoryAdapter(CategoryOfService.getAllCategoryOfService(DBHelper.getInstance()));
+        final List<CategoryOfService> categoryOfServiceList = CategoryOfService.getAllCategoryOfService(DBHelper.getInstance());
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryOfServiceList);
         categoryAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                View v = view.findViewById(R.id.tickLinearLayout);
+                View v = view.findViewById(R.id.tickImageView);
 
                 if(v.getVisibility() == View.INVISIBLE)
                 {
@@ -92,9 +85,26 @@ public class MakerTravelTypeFragment extends Fragment {
                 {
                     v.setVisibility(View.INVISIBLE);
                 }
+
+                CategoryOfService categoryOfService = categoryOfServiceList.get(i);
+
+                if(RouteMakerActivity.categoryOfServiceList.contains(categoryOfService))
+                {
+                    RouteMakerActivity.categoryOfServiceList.remove(categoryOfService);
+                }
+                else
+                {
+                    RouteMakerActivity.categoryOfServiceList.add(categoryOfService);
+                }
             }
         });
         categoryRecyclerView.setAdapter(categoryAdapter);
+    }
+
+    @Override
+    public void request()
+    {
+        RouteMakerActivity.categoryOfServiceList.clear();
     }
 
     /**

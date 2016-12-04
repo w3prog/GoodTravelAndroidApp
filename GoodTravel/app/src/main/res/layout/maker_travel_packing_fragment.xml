@@ -46,7 +46,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:textColor="@color/wallet_primary_text_holo_light"
                 android:text="@string/maker_travel_ready_button"
                 android:layout_weight="1"/>
 

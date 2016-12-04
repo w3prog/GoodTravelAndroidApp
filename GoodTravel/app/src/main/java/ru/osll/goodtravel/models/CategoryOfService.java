@@ -42,7 +42,6 @@ public class CategoryOfService extends RealmObject {
 
     public String getName() {
         return name;
-
     }
 
     public long getId() {

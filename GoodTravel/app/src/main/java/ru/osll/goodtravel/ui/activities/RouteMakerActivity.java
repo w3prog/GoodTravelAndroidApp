@@ -14,7 +14,9 @@ import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.enums.TravelType;
 import ru.osll.goodtravel.enums.WealthType;
+import ru.osll.goodtravel.models.CategoryOfService;
 import ru.osll.goodtravel.models.TravelPlace;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelPackingFragment;
@@ -22,6 +24,8 @@ import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by artem96 on 10.10.16.
@@ -38,6 +42,9 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
     private RouteMakerAdapter adapter;
 
     private ArrayList<TravelPlace> fakePlaces;
+
+    public static List<CategoryOfService> categoryOfServiceList = new ArrayList<>();
+    public static int progress = 0;
 
     TabHost mTabHost;
 
@@ -242,12 +249,16 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
     public void onTabChanged(String tabId) {
         int currentTab = mTabHost.getCurrentTab();
         pager.setCurrentItem(currentTab);
+
     }
 
     @Override
     public void onPageSelected(int selectedItem) {
 
         mTabHost.setCurrentTab(selectedItem);
+
+        Fragment currentFragment = getSupportFragmentManager().getFragments().get(pager.getCurrentItem());
+        ((BaseFragment)currentFragment).request();
 
     }
 
@@ -268,6 +279,7 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
     public void onClickNextButton(View view)
     {
         MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+
         if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
             pager.setCurrentItem(pager.getCurrentItem() + 1);

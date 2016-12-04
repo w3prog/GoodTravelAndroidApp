@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.plus.PlusOneButton;
 
 import ru.osll.goodtravel.R;
 
@@ -26,7 +25,6 @@ public class PlusOneFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private PlusOneButton mPlusOneButton;
 
 
     public PlusOneFragment() {
@@ -57,7 +55,6 @@ public class PlusOneFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_plus_one, container, false);
 
         //Find the +1 button
-        mPlusOneButton = (PlusOneButton) view.findViewById(R.id.plus_one_button);
 
         return view;
     }

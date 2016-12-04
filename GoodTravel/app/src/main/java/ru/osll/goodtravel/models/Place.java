@@ -37,7 +37,7 @@ public class Place extends RealmObject {
     }
 
     public String getDescription() {
-        if (Description.isEmpty()){
+        if (Description.isEmpty()) {
             return "Без описания";
         }
         return Description;

@@ -13,6 +13,7 @@ import ru.osll.goodtravel.enums.PartnerType;
 
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.enums.WealthType;
+import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -20,7 +21,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
  * Created by artem96 on 11.10.16.
  */
 
-public class MakerTravelSpecsFragment extends Fragment {
+public class MakerTravelSpecsFragment extends BaseFragment {
 
     private RouteMakerInfoBundle routeInfo;
 
@@ -57,6 +58,9 @@ public class MakerTravelSpecsFragment extends Fragment {
         seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                if(value >= 1500) value = Integer.MAX_VALUE;
+
+                RouteMakerActivity.progress = value;
                 if (value == 1) {
                     routeInfo.setWealthType(WealthType.BUDGET);
                 } else if (value == 2) {
@@ -84,6 +88,12 @@ public class MakerTravelSpecsFragment extends Fragment {
         singleButton.setOnClickListener(listener);
 
         return v;
+    }
+
+    @Override
+    public void request()
+    {
+
     }
 
     private class OnClickRelationStatusListener implements View.OnClickListener {

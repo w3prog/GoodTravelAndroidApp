@@ -1,5 +1,6 @@
 package ru.osll.goodtravel.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,23 +13,29 @@ import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import io.realm.Realm;
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.models.Service;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.models.TravelPlace;
+import ru.osll.goodtravel.utils.DBHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by artem96 on 13.10.16.
  */
 
-public class MakerTravelListFragment extends Fragment {
+public class MakerTravelListFragment extends BaseFragment {
 
     RouteMakerInfoBundle routeInfo;
     RouteMakerActivity maker;
 
-    SimpleCursorAdapter cursorAdapter;
     RecyclerView recyclerView;
 
     public MakerTravelListFragment(RouteMakerActivity maker, RouteMakerInfoBundle routeInfo) {
@@ -53,16 +60,28 @@ public class MakerTravelListFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.route_maker_list);
         recyclerView.setNestedScrollingEnabled(false);
 
-        recyclerView.setAdapter(new TravelListAdapter(maker.getFakePlaces()));
+        Log.e("LIST FRAGMENT","Places: " + maker.getFakePlaces().size());
+
+        return v;
+    }
+
+    @Override
+    public void request()
+    {
+        Realm realm = DBHelper.getInstance();
+
+        List<Service> serviceArrayList = new ArrayList<>();
+
+        for(int i = 0; i < RouteMakerActivity.categoryOfServiceList.size(); i++)
+        {
+            serviceArrayList.addAll(Service.getServices(realm, RouteMakerActivity.categoryOfServiceList.get(i), RouteMakerActivity.progress));
+        }
+
+        recyclerView.setAdapter(new TravelListAdapter(new ArrayList<>(serviceArrayList)));
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-
-        Log.e("LIST FRAGMENT","Places: "+maker.getFakePlaces().size());
-
-
-        return v;
     }
 
     private class TravelListItemHolder extends RecyclerView.ViewHolder {
@@ -85,15 +104,15 @@ public class MakerTravelListFragment extends Fragment {
     private class TravelListAdapter extends
             RecyclerView.Adapter<TravelListItemHolder> {
 
-        private List<TravelPlace> places;
+        private List<Service> services;
 
-        TravelListAdapter(List<TravelPlace> places) {
+        TravelListAdapter(List<Service> services) {
 
-            if (places == null) {
+            if (services == null) {
                 throw new IllegalArgumentException("places must not be null");
             }
 
-            this.places = places;
+            this.services = services;
         }
 
         @Override
@@ -108,21 +127,27 @@ public class MakerTravelListFragment extends Fragment {
         @Override
         public void onBindViewHolder(TravelListItemHolder itemHolder, int position) {
 
-            TravelPlace model = places.get(position);
+            Service model = services.get(position);
 
             itemHolder.placeTitle.setText(model.getName());
             itemHolder.placeDescription.setText(model.getDescription());
-            itemHolder.averageBill.setText(model.getAverageBill()+" Руб");
-            itemHolder.placePicture.setImageDrawable(getActivity().getResources().
-                    getDrawable(model.getPicture()));
-
+            itemHolder.averageBill.setText(model.getPrice()+" Руб");
+            if(model.getSrcToImg() != null && !model.getSrcToImg().isEmpty())
+            {
+                Picasso
+                        .with(getContext())
+                        .load(model.getSrcToImg())
+                        .into(itemHolder.placePicture);
+            }
+            else
+            {
+                itemHolder.placePicture.setImageResource(android.R.drawable.sym_def_app_icon);
+            }
         }
 
         @Override
         public int getItemCount() {
-            return places.size();
+            return services.size();
         }
-
     }
-
 }
