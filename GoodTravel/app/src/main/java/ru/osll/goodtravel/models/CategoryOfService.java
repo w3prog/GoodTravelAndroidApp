@@ -17,6 +17,7 @@ public class CategoryOfService extends RealmObject {
 
     private String name;
     private String strImg;
+    private RealmList<Service> services;
 
     public String getStrImg() {
         return strImg;
@@ -54,6 +55,14 @@ public class CategoryOfService extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public RealmList<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(RealmList<Service> services) {
+        this.services = services;
     }
 
     public static CategoryOfService getByPrimaryKey(Realm realm, int id) {
