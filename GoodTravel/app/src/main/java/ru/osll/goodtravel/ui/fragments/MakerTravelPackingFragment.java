@@ -47,7 +47,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = (View) inflater.inflate(R.layout.maker_travel_packing_fragment, container, false);
+        View v = inflater.inflate(R.layout.maker_travel_packing_fragment, container, false);
 
         TextView dayLabel = (TextView) v.findViewById(R.id.maker_packing_firstDayLabel);
 

@@ -63,79 +63,122 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:id="@+id/single_button">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@mipmap/route_maker_individuals"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_gravity="center"
+                        android:padding="6dp"
+                        android:textColor="@color/wallet_holo_blue_light"
+                        android:textAlignment="center"
+                        android:text="@string/maker_travel_spec_individuals"/>
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/single_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@mipmap/route_maker_individuals"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/tick"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="10dp"
+                    android:visibility="gone"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:padding="6dp"
-                    android:textColor="@color/wallet_holo_blue_light"
-                    android:textAlignment="center"
-                    android:text="@string/maker_travel_spec_individuals"/>
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:id="@+id/couple_button">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@mipmap/route_maker_couple"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_gravity="center"
+                        android:padding="6dp"
+                        android:textColor="@color/wallet_holo_blue_light"
+                        android:textAlignment="center"
+                        android:text="@string/maker_travel_spec_couple"/>
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/couple_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@mipmap/route_maker_couple"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/tick"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="10dp"
+                    android:visibility="gone"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:padding="6dp"
-                    android:textColor="@color/wallet_holo_blue_light"
-                    android:textAlignment="center"
-                    android:text="@string/maker_travel_spec_couple"/>
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:onClick="onClickNextButton"
+                android:id="@+id/family_button">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@mipmap/route_maker_family"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_gravity="center"
+                        android:padding="6dp"
+                        android:textColor="@color/wallet_holo_blue_light"
+                        android:textAlignment="center"
+                        android:text="@string/maker_travel_spec_family"/>
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/family_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@mipmap/route_maker_family"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/tick"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="10dp"
+                    android:visibility="gone"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:padding="6dp"
-                    android:textColor="@color/wallet_holo_blue_light"
-                    android:textAlignment="center"
-                    android:text="@string/maker_travel_spec_family"/>
-            </LinearLayout>
+            </FrameLayout>
 
 
         </LinearLayout>

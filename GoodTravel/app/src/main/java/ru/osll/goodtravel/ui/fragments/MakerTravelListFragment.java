@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -84,7 +85,7 @@ public class MakerTravelListFragment extends BaseFragment {
         recyclerView.setLayoutManager(manager);
     }
 
-    private class TravelListItemHolder extends RecyclerView.ViewHolder {
+    private class TravelListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView placePicture;
         private TextView placeTitle;
@@ -98,6 +99,23 @@ public class MakerTravelListFragment extends BaseFragment {
             placeTitle = (TextView) view.findViewById(R.id.maker_list_event_title);
             placeDescription = (TextView) view.findViewById(R.id.maker_list_event_description);
             averageBill = (TextView) view.findViewById(R.id.maker_list_event_average_bill);
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            view = view.findViewById(R.id.tickImageView);
+
+            if(view.getVisibility() == View.GONE)
+            {
+                view.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                view.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.osll.goodtravel.R;
@@ -21,11 +23,14 @@ import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 public class TravelPlacesAdapter extends ArrayAdapter<TravelPlace> {
 
     private RouteMakerActivity maker;
+    private List<View> viewList;
 
     public TravelPlacesAdapter(Context context, int resourse, List<TravelPlace> objects,
                                RouteMakerActivity maker) {
         super(context, resourse, objects);
+
         this.maker = maker;
+        viewList = new ArrayList<>();
     }
 
     @Override
@@ -35,6 +40,8 @@ public class TravelPlacesAdapter extends ArrayAdapter<TravelPlace> {
         TravelPlace place = getItem(position);
 
         View v = inflater.inflate(R.layout.maker_travel_list_item, null);
+
+        viewList.add(v);
 
         TextView title = (TextView) v.findViewById(R.id.maker_list_event_title);
         title.setText(place.getName());

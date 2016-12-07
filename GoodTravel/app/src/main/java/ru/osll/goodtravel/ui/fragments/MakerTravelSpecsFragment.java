@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.enums.PartnerType;
@@ -26,9 +29,9 @@ public class MakerTravelSpecsFragment extends BaseFragment {
     private RouteMakerInfoBundle routeInfo;
 
     private DiscreteSeekBar seekBar;
-    private ImageView singleButton;
-    private ImageView coupleButton;
-    private ImageView familyButton;
+    private View singleButton;
+    private View coupleButton;
+    private View familyButton;
 
     public MakerTravelSpecsFragment(RouteMakerInfoBundle routeInfo) {
 
@@ -48,11 +51,11 @@ public class MakerTravelSpecsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = (View) inflater.inflate(R.layout.maker_travel_specifications_fragment, container, false);
+        View v = inflater.inflate(R.layout.maker_travel_specifications_fragment, container, false);
 
-        familyButton = (ImageView) v.findViewById(R.id.family_button);
-        coupleButton = (ImageView) v.findViewById(R.id.couple_button);
-        singleButton = (ImageView) v.findViewById(R.id.single_button);
+        familyButton = v.findViewById(R.id.family_button);
+        coupleButton = v.findViewById(R.id.couple_button);
+        singleButton = v.findViewById(R.id.single_button);
 
         seekBar = (DiscreteSeekBar) v.findViewById(R.id.seekBar);
         seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
@@ -100,21 +103,25 @@ public class MakerTravelSpecsFragment extends BaseFragment {
 
         @Override
         public void onClick(View v) {
+            View tickView = ((FrameLayout)v).getChildAt(1);
+            clearSelect((LinearLayout)v.getParent());
+            tickView.setVisibility(View.VISIBLE);
+
             if (v.getId() == R.id.family_button) {
                 routeInfo.setPartnerType(PartnerType.FAMILY);
-                v.setBackgroundColor(Color.BLUE);
-                coupleButton.setBackgroundColor(Color.WHITE);
-                singleButton.setBackgroundColor(Color.WHITE);
             } else if (v.getId() == R.id.couple_button) {
                 routeInfo.setPartnerType(PartnerType.COUPLE);
-                v.setBackgroundColor(Color.BLUE);
-                familyButton.setBackgroundColor(Color.WHITE);
-                singleButton.setBackgroundColor(Color.WHITE);
             } else {
                 routeInfo.setPartnerType(PartnerType.SINGLE);
-                v.setBackgroundColor(Color.BLUE);
-                coupleButton.setBackgroundColor(Color.WHITE);
-                familyButton.setBackgroundColor(Color.WHITE);
+            }
+        }
+
+        private void clearSelect(LinearLayout parent)
+        {
+            for(int i = 0; i < parent.getChildCount(); i++)
+            {
+                FrameLayout frameLayout = (FrameLayout) parent.getChildAt(i);
+                frameLayout.getChildAt(1).setVisibility(View.GONE);
             }
         }
     }
