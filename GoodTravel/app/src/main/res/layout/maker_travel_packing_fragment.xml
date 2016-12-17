@@ -46,7 +46,8 @@
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
                 android:text="@string/maker_travel_ready_button"
-                android:layout_weight="1"/>
+                android:layout_weight="1.5"
+                android:onClick="onClickFinishButton"/>
 
             <Button
                 android:layout_height="70dp"

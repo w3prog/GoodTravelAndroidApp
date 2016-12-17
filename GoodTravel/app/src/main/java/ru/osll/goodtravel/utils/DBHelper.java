@@ -9,6 +9,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.exceptions.RealmMigrationNeededException;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 import ru.osll.goodtravel.models.Address;
@@ -27,12 +28,18 @@ public class DBHelper {
 
     public static void initRealm(Context context)
     {
-        RealmConfiguration realmConfiguration = new RealmConfiguration
-                .Builder(context)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        realm = Realm.getDefaultInstance();
+        try
+        {
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+            realm = Realm.getDefaultInstance();
+        }
+        catch (RealmMigrationNeededException e)
+        {
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).deleteRealmIfMigrationNeeded().build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+            realm = Realm.getDefaultInstance();
+        }
     }
 
     public static Realm getInstance()
@@ -124,9 +131,8 @@ public class DBHelper {
     }
 
     private static void generateUser() {
-
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(new User("user@mail.ru", 0));
+        realm.copyToRealmOrUpdate(new User("user@mail.ru", 1));
         realm.commitTransaction();
     }
 

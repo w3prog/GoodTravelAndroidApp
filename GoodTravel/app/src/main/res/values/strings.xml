@@ -35,5 +35,6 @@
     <string name="maker_travel_ready_button">Готово</string>
     <string name="next">Далее</string>
     <string name="try_again">Добавить еще дату</string>
+    <string name="title_activity_plan">PlanActivity</string>
 
 </resources>

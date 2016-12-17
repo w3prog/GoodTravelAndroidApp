@@ -11,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.models.Service;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.models.TravelPlace;
@@ -27,6 +30,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
     private RouteMakerInfoBundle routeInfo;
     private LinearLayout packingContainer;
     private RouteMakerActivity maker;
+    private RecyclerView view;
 
     public MakerTravelPackingFragment(RouteMakerInfoBundle routeInfo, RouteMakerActivity maker) {
         this.routeInfo = routeInfo;
@@ -53,9 +57,8 @@ public class MakerTravelPackingFragment extends BaseFragment {
 
         dayLabel.setText(routeInfo.getFirstDay().getDate().toString());
 
-        RecyclerView view = (RecyclerView) v.findViewById(R.id.packing_list_container);
+        view = (RecyclerView) v.findViewById(R.id.packing_list_container);
 
-        view.setAdapter(new PackingListAdapter(maker.getFakePlaces()));
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -68,7 +71,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
     @Override
     public void request()
     {
-
+        view.setAdapter(new PackingListAdapter(MakerTravelListFragment.serviceList));
     }
 
     private class PackingListItemHolder extends RecyclerView.ViewHolder {
@@ -87,9 +90,9 @@ public class MakerTravelPackingFragment extends BaseFragment {
     private class PackingListAdapter extends
             RecyclerView.Adapter<PackingListItemHolder> {
 
-        private List<TravelPlace> places;
+        private List<Service> places;
 
-        PackingListAdapter(List<TravelPlace> places) {
+        PackingListAdapter(List<Service> places) {
 
             if (places == null) {
                 throw new IllegalArgumentException("places must not be null");
@@ -114,9 +117,21 @@ public class MakerTravelPackingFragment extends BaseFragment {
         public void onBindViewHolder(
                 PackingListItemHolder viewHolder, int position) {
 
-            TravelPlace model = places.get(position);
-            viewHolder.placePicture.setImageDrawable(getActivity().getResources().getDrawable(model.getPicture()));
+            Service model = places.get(position);
+
             viewHolder.placeTitle.setText(model.getName());
+
+            if(model.getSrcToImg() != null && !model.getSrcToImg().isEmpty())
+            {
+                Picasso
+                        .with(getContext())
+                        .load(model.getSrcToImg())
+                        .into(viewHolder.placePicture);
+            }
+            else
+            {
+                viewHolder.placePicture.setImageResource(android.R.drawable.sym_def_app_icon);
+            }
 
         }
 
