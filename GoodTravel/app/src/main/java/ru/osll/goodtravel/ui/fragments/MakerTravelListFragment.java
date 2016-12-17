@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
@@ -39,6 +40,8 @@ public class MakerTravelListFragment extends BaseFragment {
 
     RecyclerView recyclerView;
 
+    public static List<Service> serviceList;
+
     public MakerTravelListFragment(RouteMakerActivity maker, RouteMakerInfoBundle routeInfo) {
         this.routeInfo = routeInfo;
         this.maker = maker;
@@ -47,6 +50,7 @@ public class MakerTravelListFragment extends BaseFragment {
     public static MakerTravelListFragment createInstance(
             RouteMakerActivity maker, RouteMakerInfoBundle routeInfo) {
         MakerTravelListFragment fragment = new MakerTravelListFragment(maker, routeInfo);
+        serviceList = new ArrayList<>();
 
         // here we can add some information with bundle class
 
@@ -69,16 +73,38 @@ public class MakerTravelListFragment extends BaseFragment {
     @Override
     public void request()
     {
+        serviceList.clear();
+
         Realm realm = DBHelper.getInstance();
 
-        List<Service> serviceArrayList = new ArrayList<>();
+        final List<Service> serviceArrayList = new ArrayList<>();
 
         for(int i = 0; i < RouteMakerActivity.categoryOfServiceList.size(); i++)
         {
             serviceArrayList.addAll(Service.getServices(realm, RouteMakerActivity.categoryOfServiceList.get(i), RouteMakerActivity.progress));
         }
 
-        recyclerView.setAdapter(new TravelListAdapter(new ArrayList<>(serviceArrayList)));
+        TravelListAdapter adapter = new TravelListAdapter(new ArrayList<>(serviceArrayList));
+
+        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Service selectedService = serviceArrayList.get(i);
+
+                if(serviceList.contains(selectedService))
+                {
+                    serviceList.remove(selectedService);
+                }
+                else
+                {
+                    serviceList.add(selectedService);
+                }
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -91,6 +117,7 @@ public class MakerTravelListFragment extends BaseFragment {
         private TextView placeTitle;
         private TextView placeDescription;
         private TextView averageBill;
+        private AdapterView.OnItemClickListener onItemClickListener;
 
         TravelListItemHolder(View view) {
             super(view);
@@ -116,13 +143,21 @@ public class MakerTravelListFragment extends BaseFragment {
             {
                 view.setVisibility(View.GONE);
             }
+
+            if(onItemClickListener != null)
+                onItemClickListener.onItemClick(null, view, getAdapterPosition(), getAdapterPosition());
+        }
+
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
+        {
+            this.onItemClickListener = onItemClickListener;
         }
     }
 
-    private class TravelListAdapter extends
-            RecyclerView.Adapter<TravelListItemHolder> {
+    private class TravelListAdapter extends RecyclerView.Adapter<TravelListItemHolder> {
 
         private List<Service> services;
+        private AdapterView.OnItemClickListener onItemClickListener;
 
         TravelListAdapter(List<Service> services) {
 
@@ -148,8 +183,9 @@ public class MakerTravelListFragment extends BaseFragment {
             Service model = services.get(position);
 
             itemHolder.placeTitle.setText(model.getName());
-            itemHolder.placeDescription.setText(model.getDescription());
+            itemHolder.placeDescription.setText(model.getName());
             itemHolder.averageBill.setText(model.getPrice()+" Руб");
+            itemHolder.setOnItemClickListener(onItemClickListener);
             if(model.getSrcToImg() != null && !model.getSrcToImg().isEmpty())
             {
                 Picasso
@@ -161,6 +197,11 @@ public class MakerTravelListFragment extends BaseFragment {
             {
                 itemHolder.placePicture.setImageResource(android.R.drawable.sym_def_app_icon);
             }
+        }
+
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
+        {
+            this.onItemClickListener = onItemClickListener;
         }
 
         @Override

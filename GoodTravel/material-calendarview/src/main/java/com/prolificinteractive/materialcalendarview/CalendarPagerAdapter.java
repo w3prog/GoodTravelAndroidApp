@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Pager adapter backing the calendar view
  */
-abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAdapter {
+public abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAdapter {
 
     private final ArrayDeque<V> currentViews;
 
@@ -40,7 +40,7 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     private List<DayViewDecorator> decorators = new ArrayList<>();
     private List<DecoratorResult> decoratorResults = null;
     private boolean selectionEnabled = true;
-    private static List<CalendarDay> fixedList = new ArrayList<>();
+    public static List<CalendarDay> fixedList = new ArrayList<>();
 
     public void addFixedDate(CalendarDay calendarDay)
     {

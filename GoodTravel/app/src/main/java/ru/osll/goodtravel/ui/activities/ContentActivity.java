@@ -100,7 +100,7 @@ public class ContentActivity extends AppCompatActivity
             // start easy route make wizard
             startRouteMaker();
         } else if (id == R.id.path_list) {
-
+            startActivity(new Intent(this, PlanActivity.class));
         } else if (id == R.id.settings) {
 
         } else if (id == R.id.signin) {

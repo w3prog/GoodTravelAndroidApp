@@ -10,11 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TabHost;
 
+import com.prolificinteractive.materialcalendarview.CalendarPagerAdapter;
+
+import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.enums.TravelType;
 import ru.osll.goodtravel.enums.WealthType;
 import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.models.PlanService;
+import ru.osll.goodtravel.models.Service;
 import ru.osll.goodtravel.models.TravelPlace;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
@@ -22,6 +27,7 @@ import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelPackingFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
+import ru.osll.goodtravel.utils.DBHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +108,6 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
             fakeView.setMinimumWidth(0);
 
             return fakeView;
-
         }
     }
 
@@ -290,6 +295,15 @@ public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnT
             pager.setCurrentItem(0);
             fragment.fixCurrentDay();
         }
+    }
+
+    public void onClickFinishButton(View view)
+    {
+        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+        fragment.fixCurrentDay();
+        Realm realm = DBHelper.getInstance();
+        PlanService.addAll(MakerTravelListFragment.serviceList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
+        finish();
     }
 
     @Override
