@@ -1,5 +1,6 @@
 package ru.osll.goodtravel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,6 +32,15 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.this.getPackageName());
                 System.out.println(fingerprints[0]);
                 VKSdk.login(LoginActivity.this, "profile");
+            }
+        });
+
+        Button continueWithoutSignin = (Button) findViewById(R.id.continue_without_signin_button);
+        continueWithoutSignin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
