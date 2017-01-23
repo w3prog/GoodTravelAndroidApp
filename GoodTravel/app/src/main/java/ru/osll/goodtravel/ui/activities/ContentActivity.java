@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -50,8 +51,6 @@ public class ContentActivity extends AppCompatActivity
     //for google maps
     Retrofit retrofitMaps;
     GoogleRouteService routeService;
-
-    RouteResponse lastResponse = null;
 
     // width of route line
     private static final float ROUTE_PATH_WIDTH = 4f;
@@ -164,16 +163,16 @@ public class ContentActivity extends AppCompatActivity
         LatLng obshagaLeng = new LatLng(59.991078, 30.318714);
         LatLng univerLeng = new LatLng(59.972280, 30.322924);
 
-        drawRouteOnMap(obshagaLeng, univerLeng);
+        callRouteService(obshagaLeng, univerLeng);
     }
 
     /**
-     * Draw a route based on input points
+     * Call a google route service.
      *
      * @param origin - first point of route
      * @param destination - second point of route
      */
-    public void drawRouteOnMap(LatLng origin, LatLng destination) {
+    public void callRouteService(LatLng origin, LatLng destination) {
 
         String position = new StringBuilder()
                 .append(origin.latitude)
@@ -191,9 +190,18 @@ public class ContentActivity extends AppCompatActivity
 
         rawCall.enqueue(this);
 
-        RouteResponse response = lastResponse;
+    }
 
-        List<LatLng> route = PolyUtil.decode(response.getPoints());
+    /**
+     * Draw route on the map, based on google route service
+     * response. Call callRouteService method for response obj.
+     *
+     * @param routeInfo
+     */
+    private void drawRouteOnMap(RouteResponse routeInfo) {
+
+
+        List<LatLng> route = PolyUtil.decode(routeInfo.getPoints());
 
         PolylineOptions line = new PolylineOptions();
         line.width(ROUTE_PATH_WIDTH).color(ROUTE_PATH_COLOR);
@@ -221,7 +229,6 @@ public class ContentActivity extends AppCompatActivity
         LatLngBounds latLngBounds = latLngBuilder.build();
         CameraUpdate track = CameraUpdateFactory.newLatLngBounds(latLngBounds, size, size, 25);
         mMap.moveCamera(track);
-
     }
 
     private void startRouteMaker() {
@@ -233,11 +240,11 @@ public class ContentActivity extends AppCompatActivity
     @Override
     public void onFailure(Call<RouteResponse> response, Throwable t) {
         Toast.makeText(this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        lastResponse = null;
+        Log.e("ContentActivity: ", "Cannot access google route service");
     }
 
     @Override
     public void onResponse(Call<RouteResponse> call, Response<RouteResponse> response) {
-        lastResponse = response.body();
+        drawRouteOnMap(response.body());
     }
 }
