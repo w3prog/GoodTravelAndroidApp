@@ -37,4 +37,13 @@
     <string name="try_again">Добавить еще дату</string>
     <string name="title_activity_plan">PlanActivity</string>
 
+    <integer name="com_vk_sdk_AppId">5725354</integer>
+    <string name="login_message">Вход в приложение </string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="new_quote_text_hint">Введите текст цитаты</string>
+    <string name="new_quote_author_hint">Введите автора</string>
+    <string name="add_new_quote_title">Добавление цитаты</string>
+    <string name="continue_without_signin">Продолжить без входа</string>
+
 </resources>

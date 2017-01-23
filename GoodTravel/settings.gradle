@@ -1,1 +1,1 @@
-include ':app', ':material-calendarview'
+include ':vksdk_library', ':app', ':material-calendarview'
