@@ -11,6 +11,7 @@
         android:installLocation="preferExternal"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".TravelApplication"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
