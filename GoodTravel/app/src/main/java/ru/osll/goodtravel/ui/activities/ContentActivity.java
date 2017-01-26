@@ -139,10 +139,6 @@ public class ContentActivity extends AppCompatActivity
             startRouteMaker();
         } else if (id == R.id.path_list) {
             startActivity(new Intent(this, PlanActivity.class));
-        } else if (id == R.id.settings) {
-
-        } else if (id == R.id.signin) {
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
