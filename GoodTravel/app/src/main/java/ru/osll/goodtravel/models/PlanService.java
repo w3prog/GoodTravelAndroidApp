@@ -25,23 +25,23 @@ public class PlanService extends RealmObject
     @Ignore
     private TypeOfGroupEnum typeOfGroup;
 
-    public static void addAll(List<Service> serviceList, Realm realm, Date date)
+    public static void addAll(List<Place> placeList, Realm realm, Date date)
     {
         realm.beginTransaction();
         int id = realm.where(PlanService.class).findAll().max("id").intValue();
         List<PlanService> planServices = new ArrayList<>();
 
-        for(int i = 0; i < serviceList.size(); i++)
+        for(int i = 0; i < placeList.size(); i++)
         {
-            Service service = serviceList.get(i);
+            Place place = placeList.get(i);
             PlanService planService = new PlanService();
 
             planService.setId(id++);
-            planService.setDescription(service.getDescription());
-            planService.setName(service.getName());
-            planService.setPrice(service.getPrice());
-            planService.setSrcToImg(service.getSrcToImg());
-            planService.setTypeOfGroup(service.getTypeOfGroup());
+            planService.setDescription(place.getDescription());
+            planService.setName(place.getName());
+            planService.setPrice(place.getPrice());
+            planService.setSrcToImg(place.getSrcToImg());
+            planService.setTypeOfGroup(place.getTypeOfGroup());
             planService.setDate(date);
 
             planServices.add(planService);

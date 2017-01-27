@@ -15,12 +15,8 @@ import com.prolificinteractive.materialcalendarview.CalendarPagerAdapter;
 import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.enums.TravelType;
-import ru.osll.goodtravel.enums.WealthType;
-import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.models.PlaceCategory;
 import ru.osll.goodtravel.models.PlanService;
-import ru.osll.goodtravel.models.Service;
-import ru.osll.goodtravel.models.TravelPlace;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
@@ -30,7 +26,6 @@ import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
 import ru.osll.goodtravel.utils.DBHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,9 +43,8 @@ public class RouteMakerActivity extends AppCompatActivity
     private ViewPager pager;
     private RouteMakerAdapter adapter;
 
-    private ArrayList<TravelPlace> fakePlaces;
 
-    public static List<CategoryOfService> categoryOfServiceList = new ArrayList<>();
+    public static List<PlaceCategory> placeCategoryList = new ArrayList<>();
     public static int progress = 0;
 
     TabHost mTabHost;
@@ -58,15 +52,9 @@ public class RouteMakerActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.setContentView(R.layout.route_maker_activity);
-
         initViewPager();
-
         initTabHost();
-
-        createFakeTravelPlaces();
-
         routeInfo = new RouteMakerInfoBundle();
 
     }
@@ -154,102 +142,102 @@ public class RouteMakerActivity extends AppCompatActivity
 
     }
 
-    private void createFakeTravelPlaces() {
-
-        //String name, String description, String address, int coordinates,
-        //ArrayList<TravelType> type, WealthType wealthType, int averageBill, boolean[] partnerTypeFilter, int pictureURL
-
-        fakePlaces = new ArrayList<>();
-
-        ArrayList<TravelType> travelTypes = new ArrayList<>();
-        travelTypes.add(TravelType.CULTURE);
-        boolean[] partnerTypeFilter = {true,true,true};
-
-        TravelPlace newTravelPlace = new TravelPlace(
-                "Петропавловская крепость",
-                "Крепость была заложена 16 (27) мая 1703 года по совместному плану Петра I" +
-                        " и французского инженера Ламбера: 6 бастионов, соединённых куртинами," +
-                        " 2 равелина, кронверк (первоначально дерево-земляные, в 1730-е-1740-е и " +
-                        "1780-е годы одеты камнем). В 1703 году Заячий остров был соединён с" +
-                        " Петроградской стороной Иоанновским мостом.",
-                "Россия Санкт-Петербург, Заячий Остров",
-                55, travelTypes, WealthType.BUDGET, 100, partnerTypeFilter, R.mipmap.picture1);
-
-        fakePlaces.add(newTravelPlace);
-
-        travelTypes = new ArrayList<>();
-        travelTypes.add(TravelType.ACTIVE);
-
-
-        newTravelPlace = new TravelPlace(
-                "Аквапарк ПитерЛэнд",
-                "Памятка для посетителя\n" +
-                        "\n" +
-                        "При посещении аквапарка с собой необходимо взять купальный костюм, полотенце, обувь на нескользящей резиновой подошве. Полотенце можно взять в прокат в самом аквапарке - 100 р. Также все это можно приобрести у нас в магазине при аквапарке!\n" +
-                        "\n" +
-                        "Для маленьких детей необходимо взять непромокаемые памперсы. Их можно приобрести у нас в магазине.",
-                "Приморский пр., 72 ",
-                55, travelTypes, WealthType.NORMAL, 2000, partnerTypeFilter, R.mipmap.picture2);
-
-        fakePlaces.add(newTravelPlace);
-
-        travelTypes.add(TravelType.CULTURE);
-        partnerTypeFilter[0] = true;
-        partnerTypeFilter[1] = false;
-        partnerTypeFilter[2] = false;
-
-        newTravelPlace = new TravelPlace(
-                "Клуб ИОНОТЕКА",
-                "В клубе регулярно проводятся концерты различных жанров музыки. Можно отдохнуть с" +
-                        " друзьями. Для посетителей работает бар, в котором можно заказать как" +
-                        " алкогольные, так и безалкогольные напитки.",
-                "Большой Концертный Зал «ИОНОТЕКА», Лиговский 50 корпус 12, Saint Petersburg",
-                55, travelTypes, WealthType.BUDGET, 200, partnerTypeFilter, R.mipmap.picture3);
-
-        travelTypes = new ArrayList<>();
-
-        fakePlaces.add(newTravelPlace);
-
-        travelTypes.add(TravelType.CULTURE);
-        partnerTypeFilter[0] = true;
-        partnerTypeFilter[1] = false;
-        partnerTypeFilter[2] = true;
-
-        newTravelPlace = new TravelPlace(
-                "Кунсткамера",
-                "Музей антропологии и этнографии им. Петра Великого (Кунсткамера)" +
-                        " Российской академии наук (МАЭ РАН) – один из крупнейших " +
-                        "и старейших этнографических музеев мира, коллекционные" +
-                        " фонды которого насчитывают свыше 1.2 млн. единиц хранения." +
-                        " Он является преемником первого российского государственного " +
-                        "публичного музея, знаменитой Петровской Кунсткамеры, основанной " +
-                        "Петром I в 1714 г.",
-                "Университетская наб., 3, Санкт-Петербург, 199034",
-                55, travelTypes, WealthType.BUDGET, 200, partnerTypeFilter, R.mipmap.picture4);
-
-        fakePlaces.add(newTravelPlace);
-
-        travelTypes.add(TravelType.ACTIVE);
-        travelTypes.add(TravelType.PASSIVE);
-
-        newTravelPlace = new TravelPlace(
-                "Отель Гельвеция",
-                " Этот отель расположен в 5 минутах ходьбы от Невского " +
-                        "проспекта и станции метро «Маяковская». Неподалеку находится" +
-                        " Московский вокзал, музей Достоевского и различные кафе.\n" +
-                        "\n" +
-                        "Современные номера отеля «Гельвеция» оснащены телевизором с" +
-                        " плоским экраном и мини-баром и обставлены удобной мебелью.",
-                " Этот отель расположен в 5 минутах ходьбы от Невского проспекта и станции метро " +
-                        "«Маяковская». Неподалеку находится Московский вокзал, музей Достоевского и " +
-                        "различные кафе.\n" +
-                        "\n" +
-                        "Современные номера отеля «Гельвеция» оснащены телевизором с плоским экраном и мини-баром и обставлены удобной мебелью.",
-                55, travelTypes, WealthType.LUXURY, 6000, partnerTypeFilter, R.mipmap.picture5);
-
-        fakePlaces.add(newTravelPlace);
-
-    }
+//    private void createFakeTravelPlaces() {
+//
+//        //String name, String description, String address, int coordinates,
+//        //ArrayList<TravelType> type, WealthType wealthType, int averageBill, boolean[] partnerTypeFilter, int pictureURL
+//
+//        fakePlaces = new ArrayList<>();
+//
+//        ArrayList<TravelType> travelTypes = new ArrayList<>();
+//        travelTypes.add(TravelType.CULTURE);
+//        boolean[] partnerTypeFilter = {true,true,true};
+//
+//        TravelPlace newTravelPlace = new TravelPlace(
+//                "Петропавловская крепость",
+//                "Крепость была заложена 16 (27) мая 1703 года по совместному плану Петра I" +
+//                        " и французского инженера Ламбера: 6 бастионов, соединённых куртинами," +
+//                        " 2 равелина, кронверк (первоначально дерево-земляные, в 1730-е-1740-е и " +
+//                        "1780-е годы одеты камнем). В 1703 году Заячий остров был соединён с" +
+//                        " Петроградской стороной Иоанновским мостом.",
+//                "Россия Санкт-Петербург, Заячий Остров",
+//                55, travelTypes, WealthType.BUDGET, 100, partnerTypeFilter, R.mipmap.picture1);
+//
+//        fakePlaces.add(newTravelPlace);
+//
+//        travelTypes = new ArrayList<>();
+//        travelTypes.add(TravelType.ACTIVE);
+//
+//
+//        newTravelPlace = new TravelPlace(
+//                "Аквапарк ПитерЛэнд",
+//                "Памятка для посетителя\n" +
+//                        "\n" +
+//                        "При посещении аквапарка с собой необходимо взять купальный костюм, полотенце, обувь на нескользящей резиновой подошве. Полотенце можно взять в прокат в самом аквапарке - 100 р. Также все это можно приобрести у нас в магазине при аквапарке!\n" +
+//                        "\n" +
+//                        "Для маленьких детей необходимо взять непромокаемые памперсы. Их можно приобрести у нас в магазине.",
+//                "Приморский пр., 72 ",
+//                55, travelTypes, WealthType.NORMAL, 2000, partnerTypeFilter, R.mipmap.picture2);
+//
+//        fakePlaces.add(newTravelPlace);
+//
+//        travelTypes.add(TravelType.CULTURE);
+//        partnerTypeFilter[0] = true;
+//        partnerTypeFilter[1] = false;
+//        partnerTypeFilter[2] = false;
+//
+//        newTravelPlace = new TravelPlace(
+//                "Клуб ИОНОТЕКА",
+//                "В клубе регулярно проводятся концерты различных жанров музыки. Можно отдохнуть с" +
+//                        " друзьями. Для посетителей работает бар, в котором можно заказать как" +
+//                        " алкогольные, так и безалкогольные напитки.",
+//                "Большой Концертный Зал «ИОНОТЕКА», Лиговский 50 корпус 12, Saint Petersburg",
+//                55, travelTypes, WealthType.BUDGET, 200, partnerTypeFilter, R.mipmap.picture3);
+//
+//        travelTypes = new ArrayList<>();
+//
+//        fakePlaces.add(newTravelPlace);
+//
+//        travelTypes.add(TravelType.CULTURE);
+//        partnerTypeFilter[0] = true;
+//        partnerTypeFilter[1] = false;
+//        partnerTypeFilter[2] = true;
+//
+//        newTravelPlace = new TravelPlace(
+//                "Кунсткамера",
+//                "Музей антропологии и этнографии им. Петра Великого (Кунсткамера)" +
+//                        " Российской академии наук (МАЭ РАН) – один из крупнейших " +
+//                        "и старейших этнографических музеев мира, коллекционные" +
+//                        " фонды которого насчитывают свыше 1.2 млн. единиц хранения." +
+//                        " Он является преемником первого российского государственного " +
+//                        "публичного музея, знаменитой Петровской Кунсткамеры, основанной " +
+//                        "Петром I в 1714 г.",
+//                "Университетская наб., 3, Санкт-Петербург, 199034",
+//                55, travelTypes, WealthType.BUDGET, 200, partnerTypeFilter, R.mipmap.picture4);
+//
+//        fakePlaces.add(newTravelPlace);
+//
+//        travelTypes.add(TravelType.ACTIVE);
+//        travelTypes.add(TravelType.PASSIVE);
+//
+//        newTravelPlace = new TravelPlace(
+//                "Отель Гельвеция",
+//                " Этот отель расположен в 5 минутах ходьбы от Невского " +
+//                        "проспекта и станции метро «Маяковская». Неподалеку находится" +
+//                        " Московский вокзал, музей Достоевского и различные кафе.\n" +
+//                        "\n" +
+//                        "Современные номера отеля «Гельвеция» оснащены телевизором с" +
+//                        " плоским экраном и мини-баром и обставлены удобной мебелью.",
+//                " Этот отель расположен в 5 минутах ходьбы от Невского проспекта и станции метро " +
+//                        "«Маяковская». Неподалеку находится Московский вокзал, музей Достоевского и " +
+//                        "различные кафе.\n" +
+//                        "\n" +
+//                        "Современные номера отеля «Гельвеция» оснащены телевизором с плоским экраном и мини-баром и обставлены удобной мебелью.",
+//                55, travelTypes, WealthType.LUXURY, 6000, partnerTypeFilter, R.mipmap.picture5);
+//
+//        fakePlaces.add(newTravelPlace);
+//
+//    }
 
     @Override
     public void onTabChanged(String tabId) {
@@ -278,10 +266,6 @@ public class RouteMakerActivity extends AppCompatActivity
 
     }
 
-    public ArrayList<TravelPlace> getFakePlaces() {
-        return fakePlaces;
-    }
-
     public void onClickNextButton(View view)
     {
         MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
@@ -303,7 +287,7 @@ public class RouteMakerActivity extends AppCompatActivity
         MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
         fragment.fixCurrentDay();
         Realm realm = DBHelper.getInstance();
-        PlanService.addAll(MakerTravelListFragment.serviceList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
+        PlanService.addAll(MakerTravelListFragment.placeList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
         finish();
     }
 
@@ -312,7 +296,8 @@ public class RouteMakerActivity extends AppCompatActivity
     {
         if(pager.getCurrentItem() == 0)
         {
-            MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+            MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter
+                    .instantiateItem(pager, 1);
             fragment.clearFixed();
 
             super.onBackPressed();

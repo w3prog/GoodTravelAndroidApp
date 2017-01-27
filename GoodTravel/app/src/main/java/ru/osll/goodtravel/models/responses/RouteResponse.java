@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.models;
+package ru.osll.goodtravel.models.responses;
 
 import java.util.List;
 

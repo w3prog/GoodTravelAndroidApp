@@ -17,7 +17,7 @@ public class Day extends RealmObject {
 
     private Plan plan;
     private Date date;
-    private RealmList<Service> services;
+    private RealmList<Place> places;
 
     public Plan getPlan() {
         return plan;
@@ -35,12 +35,12 @@ public class Day extends RealmObject {
         this.date = date;
     }
 
-    public RealmList<Service> getServices() {
-        return services;
+    public RealmList<Place> getPlaces() {
+        return places;
     }
 
-    public void setServices(RealmList<Service> services) {
-        this.services = services;
+    public void setPlaces(RealmList<Place> places) {
+        this.places = places;
     }
 
     public long getId() {

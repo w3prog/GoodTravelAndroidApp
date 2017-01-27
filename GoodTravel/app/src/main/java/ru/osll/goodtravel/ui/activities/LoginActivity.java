@@ -1,4 +1,4 @@
-package ru.osll.goodtravel;
+package ru.osll.goodtravel.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         continueWithoutSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MarketingActivity.class);
                 startActivity(intent);
             }
         });

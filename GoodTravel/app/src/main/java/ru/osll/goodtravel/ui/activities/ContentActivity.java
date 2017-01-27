@@ -22,10 +22,7 @@ import ru.osll.goodtravel.utils.DBHelper;
 public class ContentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     SupportMapFragment mapFragment;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +31,6 @@ public class ContentActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mapFragment = new GoogleMapFragment();
         setFragment(mapFragment);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,8 +93,10 @@ public class ContentActivity extends AppCompatActivity
             // start easy route make wizard
             startRouteMaker();
         } else if (id == R.id.path_list) {
+            //// TODO: 27.01.17 исправить на фрагмент
             startActivity(new Intent(this, PlanActivity.class));
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         Toast.makeText(this,"Working",Toast.LENGTH_LONG);

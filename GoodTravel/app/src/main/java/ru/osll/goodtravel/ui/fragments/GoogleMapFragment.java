@@ -1,7 +1,6 @@
 package ru.osll.goodtravel.ui.fragments;
 
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,9 +25,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.Day;
-import ru.osll.goodtravel.models.RouteResponse;
+import ru.osll.goodtravel.models.responses.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
-import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 
 /**
  * A simple {@link Fragment} subclass.

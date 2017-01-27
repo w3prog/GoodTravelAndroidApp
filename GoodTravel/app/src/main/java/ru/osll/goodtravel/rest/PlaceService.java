@@ -2,7 +2,7 @@ package ru.osll.goodtravel.rest;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import ru.osll.goodtravel.models.Address;
+import ru.osll.goodtravel.models.Place;
 
 /**
  * Created by denis on 11/26/16.
@@ -10,5 +10,5 @@ import ru.osll.goodtravel.models.Address;
 
 public interface PlaceService {
     @GET("/Places/{id}")
-    Address getUserInfo(@Path("id") int id);
+    Place getUserInfo(@Path("id") int id);
 }

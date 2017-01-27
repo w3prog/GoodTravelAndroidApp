@@ -1,33 +1,105 @@
 package ru.osll.goodtravel.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
-import ru.osll.goodtravel.enums.PlaceTypeEnum;
+import ru.osll.goodtravel.enums.TypeOfGroupEnum;
+
+/**
+ * Created by denis on 11/26/16.
+ */
 
 public class Place extends RealmObject {
 
     @PrimaryKey
-    private long id;
-
     private String name;
     private String Description;
-    private Address address;
-    private String image;
+
+    private String PlaceName;
+    private String address;
+
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPlaceName() {
+        return PlaceName;
+    }
+
+    public void setPlaceName(String placeName) {
+        PlaceName = placeName;
+    }
+
+    private String coordinate;
+
+    private int price;
+    private String srcToImg;
     @Ignore
-    private String category;
+    private String typeOfGroup;
 
-    public RealmList<Service> getServices() {
-        return services;
+    private PlaceCategory category;
+
+    public PlaceCategory getCategory() {
+        return category;
     }
 
-    public void setServices(RealmList<Service> services) {
-        this.services = services;
+    public void setCategory(PlaceCategory category) {
+        this.category = category;
     }
 
-    private RealmList<Service> services;
+
+    public Place() {
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public Place(String name, int price, String place) {
+        this.name = name;
+        this.price = price;
+        this.PlaceName = place;
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public Place(String name, int price, String place, PlaceCategory category) {
+        this.name = name;
+        this.price = price;
+        this.PlaceName = place;
+        this.category = category;
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public Place(String name, int price, String place,
+                 PlaceCategory category, TypeOfGroupEnum typeOfGroupEnum) {
+        this.name = name;
+        this.price = price;
+        this.PlaceName = place;
+        this.category = category;
+        this.typeOfGroup = typeOfGroupEnum.toString();
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
+
+    public TypeOfGroupEnum getTypeOfGroup() {
+        return TypeOfGroupEnum.valueOf(typeOfGroup);
+    }
+
+    public void setTypeOfGroup(TypeOfGroupEnum typeOfGroupEnum) {
+        this.typeOfGroup = typeOfGroupEnum.toString();
+    }
     public String getName() {
         return name;
     }
@@ -37,9 +109,6 @@ public class Place extends RealmObject {
     }
 
     public String getDescription() {
-        if (Description.isEmpty()) {
-            return "Без описания";
-        }
         return Description;
     }
 
@@ -47,43 +116,58 @@ public class Place extends RealmObject {
         Description = description;
     }
 
-    public Address getAddress() {
-        return address;
+    public int getPrice() {
+        return price;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public String getImage() {
-        return image;
+    public String getSrcToImg() {
+
+        return srcToImg;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setSrcToImg(String srcToImg) {
+        this.srcToImg = srcToImg;
     }
 
-    public PlaceTypeEnum getCategory() {
-        return PlaceTypeEnum.valueOf(category);
+    public static Place getByName(String name) {
+        return Realm
+                .getDefaultInstance()
+                .where(Place.class)
+                .equalTo("name", name)
+                .findFirst();
     }
 
-    public void setCategory(PlaceTypeEnum category) {
-        this.category = category.toString();
+    public static List<Place> getAll(Realm realm)
+    {
+        return realm.where(Place.class).findAll();
     }
 
-    public static Place getByPrimaryKey(Realm realm, int id) {
-        return realm.where(Place.class).equalTo("id", id).findFirst();
+    public static List<Place> getServicesWithCategory(PlaceCategory placeCategory)
+    {
+        Realm realm = Realm.getDefaultInstance();
+        List<Place> places = realm
+                .where(Place.class)
+                .equalTo("category", placeCategory.getName())
+                .findAll();
+
+        return places;
     }
 
-    public long getId() {
-        return id;
-    }
+    public static List<Place> getServices(PlaceCategory placeCategory, int price)
+    {
+        List<Place> servicesList = getServicesWithCategory(placeCategory);
+        List<Place> tempPlaceList = new ArrayList<>();
 
-    public void setId(long id) {
-        this.id = id;
-    }
+        for(int i = 0; i < servicesList.size(); i++)
+        {
+            Place place = servicesList.get(i);
+            if(place.getPrice() <= price) tempPlaceList.add(place);
+        }
 
-    public Place() {
+        return tempPlaceList;
     }
-
 }

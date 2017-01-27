@@ -2,8 +2,7 @@ package ru.osll.goodtravel.rest;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import ru.osll.goodtravel.models.Address;
-import ru.osll.goodtravel.models.Service;
+import ru.osll.goodtravel.models.Place;
 
 /**
  * Created by denis on 11/26/16.
@@ -11,5 +10,5 @@ import ru.osll.goodtravel.models.Service;
 
 public interface ServiceService {
     @GET("/Services/{id}")
-    Service getService(@Path("id") int id);
+    Place getService(@Path("id") int id);
 }

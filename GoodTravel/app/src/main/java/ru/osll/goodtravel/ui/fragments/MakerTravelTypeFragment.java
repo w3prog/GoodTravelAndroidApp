@@ -1,7 +1,6 @@
 package ru.osll.goodtravel.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,7 @@ import java.util.List;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.models.PlaceCategory;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.utils.DBHelper;
 
@@ -71,8 +70,8 @@ public class MakerTravelTypeFragment extends BaseFragment
     {
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
         DBHelper.generateData();
-        final List<CategoryOfService> categoryOfServiceList = CategoryOfService.getAllCategoryOfService(DBHelper.getInstance());
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryOfServiceList);
+        final List<PlaceCategory> placeCategoryList = PlaceCategory.getAll(DBHelper.getInstance());
+        CategoryAdapter categoryAdapter = new CategoryAdapter(placeCategoryList);
         categoryAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -89,15 +88,15 @@ public class MakerTravelTypeFragment extends BaseFragment
                     v.setVisibility(View.INVISIBLE);
                 }
 
-                CategoryOfService categoryOfService = categoryOfServiceList.get(i);
+                PlaceCategory placeCategory = placeCategoryList.get(i);
 
-                if(RouteMakerActivity.categoryOfServiceList.contains(categoryOfService))
+                if(RouteMakerActivity.placeCategoryList.contains(placeCategory))
                 {
-                    RouteMakerActivity.categoryOfServiceList.remove(categoryOfService);
+                    RouteMakerActivity.placeCategoryList.remove(placeCategory);
                 }
                 else
                 {
-                    RouteMakerActivity.categoryOfServiceList.add(categoryOfService);
+                    RouteMakerActivity.placeCategoryList.add(placeCategory);
                 }
             }
         });
@@ -107,7 +106,7 @@ public class MakerTravelTypeFragment extends BaseFragment
     @Override
     public void request()
     {
-        RouteMakerActivity.categoryOfServiceList.clear();
+        RouteMakerActivity.placeCategoryList.clear();
     }
 
     /**

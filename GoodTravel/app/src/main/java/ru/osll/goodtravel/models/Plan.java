@@ -11,13 +11,8 @@ import io.realm.annotations.PrimaryKey;
 public class Plan extends RealmObject {
 
     @PrimaryKey
-    private long id;
-
     private String name;
-    private String dates;
     private int money;
-    private String Place;
-    private String feachures;
     private RealmList<Day> days;
 
     public String getName() {
@@ -28,36 +23,12 @@ public class Plan extends RealmObject {
         this.name = name;
     }
 
-    public String getDates() {
-        return dates;
-    }
-
-    public void setDates(String dates) {
-        this.dates = dates;
-    }
-
     public int getMoney() {
         return money;
     }
 
     public void setMoney(int money) {
         this.money = money;
-    }
-
-    public String getPlace() {
-        return Place;
-    }
-
-    public void setPlace(String place) {
-        Place = place;
-    }
-
-    public String getFeachures() {
-        return feachures;
-    }
-
-    public void setFeachures(String feachures) {
-        this.feachures = feachures;
     }
 
     public RealmList<Day> getDays() {
@@ -67,15 +38,6 @@ public class Plan extends RealmObject {
     public void setDays(RealmList<Day> days) {
         this.days = days;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 
     public Plan() {
     }

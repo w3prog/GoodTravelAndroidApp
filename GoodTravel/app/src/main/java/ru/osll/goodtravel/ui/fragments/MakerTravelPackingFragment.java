@@ -1,7 +1,6 @@
 package ru.osll.goodtravel.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,10 +13,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.Service;
+import ru.osll.goodtravel.models.Place;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.models.TravelPlace;
 
 import java.util.List;
 
@@ -67,7 +65,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
     @Override
     public void request()
     {
-        view.setAdapter(new PackingListAdapter(MakerTravelListFragment.serviceList));
+        view.setAdapter(new PackingListAdapter(MakerTravelListFragment.placeList));
     }
 
     private class PackingListItemHolder extends RecyclerView.ViewHolder {
@@ -86,9 +84,9 @@ public class MakerTravelPackingFragment extends BaseFragment {
     private class PackingListAdapter extends
             RecyclerView.Adapter<PackingListItemHolder> {
 
-        private List<Service> places;
+        private List<Place> places;
 
-        PackingListAdapter(List<Service> places) {
+        PackingListAdapter(List<Place> places) {
 
             if (places == null) {
                 throw new IllegalArgumentException("places must not be null");
@@ -113,7 +111,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
         public void onBindViewHolder(
                 PackingListItemHolder viewHolder, int position) {
 
-            Service model = places.get(position);
+            Place model = places.get(position);
 
             viewHolder.placeTitle.setText(model.getName());
 

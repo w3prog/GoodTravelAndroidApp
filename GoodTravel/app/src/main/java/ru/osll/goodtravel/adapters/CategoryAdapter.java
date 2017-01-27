@@ -1,8 +1,6 @@
 package ru.osll.goodtravel.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.CategoryOfService;
+import ru.osll.goodtravel.models.PlaceCategory;
 
 /**
  * Created by mycrfotkai on 26.11.16.
@@ -76,12 +74,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
-    private List<CategoryOfService> categoryOfServiceList;
+    private List<PlaceCategory> placeCategoryList;
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public CategoryAdapter(List<CategoryOfService> categoryOfServiceList)
+    public CategoryAdapter(List<PlaceCategory> placeCategoryList)
     {
-        this.categoryOfServiceList = categoryOfServiceList;
+        this.placeCategoryList = placeCategoryList;
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
@@ -99,16 +97,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(CategoryAdapter.ViewHolder holder, int position)
     {
-        CategoryOfService categoryOfService = categoryOfServiceList.get(position);
+        PlaceCategory placeCategory = placeCategoryList.get(position);
 
-        holder.setImage(categoryOfService.getStrImg());
-        holder.setText(categoryOfService.getName());
+        holder.setImage(placeCategory.getStrImg());
+        holder.setText(placeCategory.getName());
         holder.setOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public int getItemCount()
     {
-        return categoryOfServiceList.size();
+        return placeCategoryList.size();
     }
 }
