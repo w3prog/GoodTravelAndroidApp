@@ -31,6 +31,9 @@ public class MakerTravelTypeFragment extends BaseFragment
 
     private RecyclerView categoryRecyclerView;
 
+    public MakerTravelTypeFragment() {
+    }
+
     public MakerTravelTypeFragment(RouteMakerInfoBundle routeInfo) {
 
         this.routeInfo = routeInfo;

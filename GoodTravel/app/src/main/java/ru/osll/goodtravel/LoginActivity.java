@@ -12,7 +12,7 @@ import com.vk.sdk.VKSdk;
 import com.vk.sdk.util.VKUtil;
 
 /**
- * Created by artem96 on 26.11.16.
+ * Активити для входа в приложение.
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.this.getPackageName());
                 System.out.println(fingerprints[0]);
                 VKSdk.login(LoginActivity.this, "profile");
+                // TODO: 27.01.17 Необходимо решить где в приложении должна быть логика для авторизации.
             }
         });
 

@@ -37,7 +37,8 @@ import java.util.List;
  * Created by artem96 on 10.10.16.
  */
 
-public class RouteMakerActivity extends AppCompatActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+public class RouteMakerActivity extends AppCompatActivity
+        implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
     private static final String POSITION_ARGUMENT = "posarg";
 

@@ -10,9 +10,6 @@ import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
-/**
- * Created by mycrfotkai on 16.12.16.
- */
 
 public class PlanService extends RealmObject
 {

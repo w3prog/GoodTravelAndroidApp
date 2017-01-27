@@ -33,15 +33,9 @@ public class MakerTravelSpecsFragment extends BaseFragment {
     private View coupleButton;
     private View familyButton;
 
-    public MakerTravelSpecsFragment(RouteMakerInfoBundle routeInfo) {
-
-        this.routeInfo = routeInfo;
-
-    }
-
     public static MakerTravelSpecsFragment createInstance(RouteMakerInfoBundle routeInfo) {
-        MakerTravelSpecsFragment fragment = new MakerTravelSpecsFragment(routeInfo);
-
+        MakerTravelSpecsFragment fragment = new MakerTravelSpecsFragment();
+        fragment.routeInfo = routeInfo;
         // here we can add some information with bundle class
 
         return fragment;

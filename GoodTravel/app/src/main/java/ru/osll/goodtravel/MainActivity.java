@@ -19,6 +19,8 @@ import android.widget.Button;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.ui.activities.ContentActivity;
 
+
+// TODO: 27.01.17 Необходимо решить когда стоит подключить данный класс.
 public class MainActivity extends AppCompatActivity {
 
     /**

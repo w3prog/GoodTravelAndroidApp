@@ -46,6 +46,9 @@ public class MakerTravelListFragment extends BaseFragment {
         this.routeInfo = routeInfo;
         this.maker = maker;
     }
+    public MakerTravelListFragment(){
+
+    }
 
     public static MakerTravelListFragment createInstance(
             RouteMakerActivity maker, RouteMakerInfoBundle routeInfo) {

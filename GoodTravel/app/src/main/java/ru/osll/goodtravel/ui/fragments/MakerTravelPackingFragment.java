@@ -32,16 +32,12 @@ public class MakerTravelPackingFragment extends BaseFragment {
     private RouteMakerActivity maker;
     private RecyclerView view;
 
-    public MakerTravelPackingFragment(RouteMakerInfoBundle routeInfo, RouteMakerActivity maker) {
-        this.routeInfo = routeInfo;
-        this.maker = maker;
-    }
-
     public static MakerTravelPackingFragment createInstance(RouteMakerInfoBundle routeInfo,
                                                             RouteMakerActivity maker) {
 
-        MakerTravelPackingFragment fragment = new MakerTravelPackingFragment(routeInfo, maker);
-
+        MakerTravelPackingFragment fragment = new MakerTravelPackingFragment();
+        fragment.routeInfo = routeInfo;
+        fragment.maker = maker;
         // here we can add some information with bundle class
 
         return fragment;

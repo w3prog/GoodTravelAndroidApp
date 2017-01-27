@@ -16,9 +16,7 @@ import java.util.List;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.PlanService;
 
-/**
- * Created by mycrfotkai on 17.12.16.
- */
+
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>
 {
