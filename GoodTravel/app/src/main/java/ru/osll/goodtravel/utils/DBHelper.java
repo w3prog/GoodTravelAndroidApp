@@ -98,19 +98,16 @@ public class DBHelper {
     public static void generateCategory(){
 
         realm.beginTransaction();
-        String[] categories = new String[]
-                {
-                        "Музей",
-                        "Экскурсии по городу",
-                        "Спортиные мероприятия",
-                        "Концерты",
-                        "Кинотеатры",
-                        "Театры",
-                        "Памятники культуры",
-                        "Особые"
-                };
         List<CategoryOfService> categoryOfServiceList = new ArrayList<>();
-        for (String item : categories) categoryOfServiceList.add(new CategoryOfService(item, categoryOfServiceList.size()));
+        categoryOfServiceList.add(new CategoryOfService("Музей","http://moodle.presby.edu/file.php/1/library.png"));
+        categoryOfServiceList.add(new CategoryOfService("Экскурсии по городу","http://www.webviki.ru/etc/sslimage.php?security=f8cce1334aaae63ce7f0ac3ef378006c&url=http%3A%2F%2Fru.gravatar.com%2Fuserimage%2F12749128%2Fa1bd70d2e349f482d2f32591ec0e2f69.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Спортивные мероприятия","http://yasenevo.mos.ru/upload/resize_cache/iblock/2dc/80_80_2/depositphotos_30042605_set_of_winter_sport_icons.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Концерты","https://0.s3.envato.com/files/74612636/Rock.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Кинотеатры","http://www.stclassifieds.sg/images/ads/hobbies-interests/2014-07-05/music-movies_3681360_102304_ga0_t.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Театры","http://skydome.ee/wp-content/uploads/2015/02/Skydome_serv1.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Памятники культуры","http://topbestseller.ru/crontab/2015/imgnews/minkulturi-blagodarit-molodchikov-kotorie-snosyat-pamyatniki-leninu.jpg"));
+        categoryOfServiceList.add(new CategoryOfService("Особые","https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.avanta-med.ru/images/eye.gif"));
+
         realm.copyToRealmOrUpdate(categoryOfServiceList);
         realm.commitTransaction();
     }

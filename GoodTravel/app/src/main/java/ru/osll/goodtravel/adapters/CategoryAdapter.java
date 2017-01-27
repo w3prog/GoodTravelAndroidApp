@@ -54,6 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 Picasso
                         .with(context)
                         .load(src)
+                        .resize(80,80)// TODO: 27.01.17 найти более универсальное решение
                         .into(imageView);
             }
             else

@@ -45,7 +45,6 @@ public class ContentActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        DBHelper.initRealm(this);
     }
 
     @Override

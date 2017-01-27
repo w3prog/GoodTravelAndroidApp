@@ -170,14 +170,15 @@ public class Service extends RealmObject {
         return realm.where(Service.class).findAll();
     }
 
-    public static List<Service> getServices(Realm realm, CategoryOfService categoryOfService)
+    public static List<Service> getServices(CategoryOfService categoryOfService)
     {
+        Realm realm = Realm.getDefaultInstance();
         List<Service> services = realm.where(Service.class).findAll();
         List<Service> tempServices = new ArrayList<>();
 
         for(Service service : services)
         {
-            if(service.getCategory().getId() == categoryOfService.getId())
+            if(service.getCategory().getName().equals(categoryOfService.getName()))
             {
                 tempServices.add(service);
             }
@@ -188,6 +189,7 @@ public class Service extends RealmObject {
 
     public static List<Service> getServices(Realm realm, CategoryOfService categoryOfService, int price)
     {
+
         List<Service> servicesList = getServices(realm, categoryOfService);
         List<Service> tempServiceList = new ArrayList<>();
 

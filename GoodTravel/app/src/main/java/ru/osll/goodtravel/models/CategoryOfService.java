@@ -14,8 +14,6 @@ import io.realm.annotations.PrimaryKey;
 public class CategoryOfService extends RealmObject {
 
     @PrimaryKey
-    private long id;
-
     private String name;
     private String strImg;
     private RealmList<Service> services;
@@ -35,7 +33,6 @@ public class CategoryOfService extends RealmObject {
 
     public CategoryOfService(String name, long id) {
         this.name = name;
-        this.id = id;
     }
 
     public void setStrImg(String strImg) {
@@ -46,13 +43,6 @@ public class CategoryOfService extends RealmObject {
         return name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
         this.name = name;
