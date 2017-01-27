@@ -1,7 +1,6 @@
 package ru.osll.goodtravel.ui.activities;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,36 +9,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.RouteResponse;
-import ru.osll.goodtravel.rest.GoogleRouteService;
-import ru.osll.goodtravel.ui.fragments.GoodleMapFragment;
+import ru.osll.goodtravel.ui.fragments.GoogleMapFragment;
 import ru.osll.goodtravel.utils.DBHelper;
 
 public class ContentActivity extends AppCompatActivity
@@ -55,7 +32,7 @@ public class ContentActivity extends AppCompatActivity
         setContentView(R.layout.activity_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mapFragment = new GoodleMapFragment();
+        mapFragment = new GoogleMapFragment();
         setFragment(mapFragment);
 
 

@@ -14,7 +14,6 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
-//TODO change nonDefault constructor
 
 public class MakerTravelCalendarFragment extends BaseFragment {
 

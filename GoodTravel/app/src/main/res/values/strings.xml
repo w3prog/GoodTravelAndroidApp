@@ -7,8 +7,6 @@
     <string name="action_settings">Settings</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment"> </string>
 
     <string name="make_easy_route">Создать маршрут</string>
     <string name="maker_travel_type_text">Выберете одну или несколько категорий отдыха.</string>

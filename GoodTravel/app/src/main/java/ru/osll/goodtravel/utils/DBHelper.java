@@ -8,7 +8,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
-import io.realm.RealmObject;
 import io.realm.exceptions.RealmMigrationNeededException;
 import ru.osll.goodtravel.enums.PlaceTypeEnum;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
@@ -16,7 +15,6 @@ import ru.osll.goodtravel.models.Address;
 import ru.osll.goodtravel.models.CategoryOfService;
 import ru.osll.goodtravel.models.Place;
 import ru.osll.goodtravel.models.Service;
-import ru.osll.goodtravel.models.User;
 
 /**
  * Created by denis on 11/26/16.
@@ -120,7 +118,6 @@ public class DBHelper {
     public static void generateData(){
 
         if(dbIsEmpty()){
-            generateUser();
             generateCategory();
             generateAddresses();
             generatePlaces();
@@ -130,11 +127,6 @@ public class DBHelper {
         }
     }
 
-    private static void generateUser() {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(new User("user@mail.ru", 1));
-        realm.commitTransaction();
-    }
 
     private static void generatePlans() {
         // TODO: 11/26/16 реализовать метод

@@ -25,6 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.models.Day;
 import ru.osll.goodtravel.models.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
@@ -32,7 +33,7 @@ import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GoodleMapFragment extends SupportMapFragment implements OnMapReadyCallback,
+public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyCallback,
         Callback<RouteResponse> {
     private GoogleMap mMap;
 
@@ -46,7 +47,7 @@ public class GoodleMapFragment extends SupportMapFragment implements OnMapReadyC
     // color of route
     private static final int ROUTE_PATH_COLOR = R.color.vk_light_color;
 
-    public GoodleMapFragment() {
+    public GoogleMapFragment() {
         // init google service
 
         retrofitMaps = new Retrofit.Builder()
@@ -73,6 +74,10 @@ public class GoodleMapFragment extends SupportMapFragment implements OnMapReadyC
         LatLng univerLeng = new LatLng(59.972280, 30.322924);
 
         callRouteService(obshagaLeng, univerLeng);
+    }
+
+    public void showDay(Day day){
+        // TODO: 27.01.17 Реализовать отображения маршрута на один день
     }
 
     /**
