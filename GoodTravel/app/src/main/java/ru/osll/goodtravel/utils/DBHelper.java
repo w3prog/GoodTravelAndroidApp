@@ -8,18 +8,27 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.exceptions.RealmMigrationNeededException;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
+import ru.osll.goodtravel.models.Day;
 import ru.osll.goodtravel.models.PlaceCategory;
 import ru.osll.goodtravel.models.Place;
+import ru.osll.goodtravel.models.Plan;
 
 /**
  * Created by denis on 11/26/16.
  */
 
-public class DBHelper {
+public final class DBHelper {
     private static Realm realm;
     //executor не стал писать
+
+    public static void execute(RealmList objects){
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(objects);
+        realm.commitTransaction();
+    }
 
     public static void initRealm(Context context)
     {
@@ -37,22 +46,52 @@ public class DBHelper {
         }
     }
 
+    private static boolean dbIsEmpty() {
+        // TODO: 11/26/16 реализовать данный метод
+        return true;
+    }
+
     public static Realm getInstance()
     {
         return realm;
     }
 
+    public static void generateData(){
+
+        if(dbIsEmpty()){
+            generateCategory();
+            generatePlaces();
+            generatePlans();
+        }
+    }
+
+    public static void generateCategory(){
+
+
+        RealmList<PlaceCategory> placeCategoryList = new RealmList<>();
+        placeCategoryList.add(new PlaceCategory("Музей","http://moodle.presby.edu/file.php/1/library.png"));
+        placeCategoryList.add(new PlaceCategory("Экскурсии по городу","http://www.webviki.ru/etc/sslimage.php?security=f8cce1334aaae63ce7f0ac3ef378006c&url=http%3A%2F%2Fru.gravatar.com%2Fuserimage%2F12749128%2Fa1bd70d2e349f482d2f32591ec0e2f69.jpg"));
+        placeCategoryList.add(new PlaceCategory("Спортивные мероприятия","http://yasenevo.mos.ru/upload/resize_cache/iblock/2dc/80_80_2/depositphotos_30042605_set_of_winter_sport_icons.jpg"));
+        placeCategoryList.add(new PlaceCategory("Концерты","https://0.s3.envato.com/files/74612636/Rock.jpg"));
+        placeCategoryList.add(new PlaceCategory("Кинотеатры","http://www.stclassifieds.sg/images/ads/hobbies-interests/2014-07-05/music-movies_3681360_102304_ga0_t.jpg"));
+        placeCategoryList.add(new PlaceCategory("Театры","http://skydome.ee/wp-content/uploads/2015/02/Skydome_serv1.jpg"));
+        placeCategoryList.add(new PlaceCategory("Памятники культуры","http://topbestseller.ru/crontab/2015/imgnews/minkulturi-blagodarit-molodchikov-kotorie-snosyat-pamyatniki-leninu.jpg"));
+        placeCategoryList.add(new PlaceCategory("Особые","https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.avanta-med.ru/images/eye.gif"));
+
+        execute(placeCategoryList);
+    }
+
     private static void generatePlaces(){
 
         String place = "Санкт-Петербург";
-        PlaceCategory c1 = PlaceCategory.getByName(realm,"Музей");
-        PlaceCategory c2 = PlaceCategory.getByName(realm,"Экскурсии по городу");
-        PlaceCategory c3 = PlaceCategory.getByName(realm,"Спортиные мероприятия");
-        PlaceCategory c4 = PlaceCategory.getByName(realm,"Концерты");
-        PlaceCategory c5 = PlaceCategory.getByName(realm,"Кинотеатры");
-        PlaceCategory c6 = PlaceCategory.getByName(realm,"Театры");
-        PlaceCategory c7 = PlaceCategory.getByName(realm,"Памятники культуры");
-        PlaceCategory c8 = PlaceCategory.getByName(realm,"Особые");
+        PlaceCategory c1 = PlaceCategory.getByName("Музей");
+        PlaceCategory c2 = PlaceCategory.getByName("Экскурсии по городу");
+        PlaceCategory c3 = PlaceCategory.getByName("Спортиные мероприятия");
+        PlaceCategory c4 = PlaceCategory.getByName("Концерты");
+        PlaceCategory c5 = PlaceCategory.getByName("Кинотеатры");
+        PlaceCategory c6 = PlaceCategory.getByName("Театры");
+        PlaceCategory c7 = PlaceCategory.getByName("Памятники культуры");
+        PlaceCategory c8 = PlaceCategory.getByName("Особые");
         RealmList<Place> places = new RealmList<>();
         places.add(new Place("Русский музей",340,place,c1));
         places.add(new Place("Эрмитаж",400,place,c1));
@@ -86,51 +125,19 @@ public class DBHelper {
         places.add(new Place("Летний марафон по городу",0,place,c8));
         places.add(new Place("Сьезд любителей Гарри Поттера",200,place,c8));
 
+        execute(places);
 
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(places);
-        realm.commitTransaction();
     }
-
-    public static void generateCategory(){
-
-        realm.beginTransaction();
-        List<PlaceCategory> placeCategoryList = new ArrayList<>();
-        placeCategoryList.add(new PlaceCategory("Музей","http://moodle.presby.edu/file.php/1/library.png"));
-        placeCategoryList.add(new PlaceCategory("Экскурсии по городу","http://www.webviki.ru/etc/sslimage.php?security=f8cce1334aaae63ce7f0ac3ef378006c&url=http%3A%2F%2Fru.gravatar.com%2Fuserimage%2F12749128%2Fa1bd70d2e349f482d2f32591ec0e2f69.jpg"));
-        placeCategoryList.add(new PlaceCategory("Спортивные мероприятия","http://yasenevo.mos.ru/upload/resize_cache/iblock/2dc/80_80_2/depositphotos_30042605_set_of_winter_sport_icons.jpg"));
-        placeCategoryList.add(new PlaceCategory("Концерты","https://0.s3.envato.com/files/74612636/Rock.jpg"));
-        placeCategoryList.add(new PlaceCategory("Кинотеатры","http://www.stclassifieds.sg/images/ads/hobbies-interests/2014-07-05/music-movies_3681360_102304_ga0_t.jpg"));
-        placeCategoryList.add(new PlaceCategory("Театры","http://skydome.ee/wp-content/uploads/2015/02/Skydome_serv1.jpg"));
-        placeCategoryList.add(new PlaceCategory("Памятники культуры","http://topbestseller.ru/crontab/2015/imgnews/minkulturi-blagodarit-molodchikov-kotorie-snosyat-pamyatniki-leninu.jpg"));
-        placeCategoryList.add(new PlaceCategory("Особые","https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.avanta-med.ru/images/eye.gif"));
-
-        realm.copyToRealmOrUpdate(placeCategoryList);
-        realm.commitTransaction();
-    }
-
-    public static void generateData(){
-
-        if(dbIsEmpty()){
-            generateCategory();
-            generatePlaces();
-            generateDays();
-            generatePlans();
-        }
-    }
-
 
     private static void generatePlans() {
-        // TODO: 11/26/16 реализовать метод
+
+        Day day1 = new Day();
+        Day day2 = new Day();
+        Day day3 = new Day();
+        Day day4 = new Day();
+        Day day5 = new Day();
+        Day day6 = new Day();
+        Plan plan = new Plan();
     }
 
-    private static void generateDays() {
-        // TODO: 11/26/16 реализовать метод
-    }
-
-
-    private static boolean dbIsEmpty() {
-        // TODO: 11/26/16 реализовать данный метод
-        return true;
-    }
 }
