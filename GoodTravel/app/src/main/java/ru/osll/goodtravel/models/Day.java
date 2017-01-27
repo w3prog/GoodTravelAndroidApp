@@ -1,5 +1,6 @@
 package ru.osll.goodtravel.models;
 
+
 import java.util.Date;
 
 import io.realm.RealmList;

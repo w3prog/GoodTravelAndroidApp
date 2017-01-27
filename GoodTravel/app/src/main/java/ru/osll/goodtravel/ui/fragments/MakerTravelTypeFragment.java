@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 
 import java.util.List;
 
+import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
@@ -30,21 +31,10 @@ public class MakerTravelTypeFragment extends BaseFragment
 
     private RecyclerView categoryRecyclerView;
 
-    public MakerTravelTypeFragment() {
-    }
-
-    public MakerTravelTypeFragment(RouteMakerInfoBundle routeInfo) {
-
-        this.routeInfo = routeInfo;
-
-        if (routeInfo == null) {
-            Log.e("RouteMaker Step1: ", "ERROR: RouteInfoBundle is missing");
-        }
-    }
 
     public static MakerTravelTypeFragment createInstance(RouteMakerInfoBundle routeInfo) {
-        MakerTravelTypeFragment fragment = new MakerTravelTypeFragment(routeInfo);
-
+        MakerTravelTypeFragment fragment = new MakerTravelTypeFragment();
+        fragment.routeInfo = routeInfo;
         return fragment;
     }
 
@@ -70,7 +60,7 @@ public class MakerTravelTypeFragment extends BaseFragment
     {
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
         DBHelper.generateData();
-        final List<PlaceCategory> placeCategoryList = PlaceCategory.getAll(DBHelper.getInstance());
+        final List<PlaceCategory> placeCategoryList = PlaceCategory.getAll();
         CategoryAdapter categoryAdapter = new CategoryAdapter(placeCategoryList);
         categoryAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {

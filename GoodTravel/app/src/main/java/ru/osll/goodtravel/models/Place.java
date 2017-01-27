@@ -82,13 +82,22 @@ public class Place extends RealmObject {
         this.category = category;
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
     }
+    public Place(String name, int price, String place,String coords, PlaceCategory category) {
+        this.name = name;
+        this.price = price;
+        this.PlaceName = place;
+        this.category = category;
+        coordinate = coords;
+        typeOfGroup = TypeOfGroupEnum.ALL.toString();
+    }
 
-    public Place(String name, int price, String place,
+    public Place(String name, int price, String place,String coords,
                  PlaceCategory category, TypeOfGroupEnum typeOfGroupEnum) {
         this.name = name;
         this.price = price;
         this.PlaceName = place;
         this.category = category;
+        coordinate = coords;
         this.typeOfGroup = typeOfGroupEnum.toString();
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
     }

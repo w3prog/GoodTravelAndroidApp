@@ -3,6 +3,7 @@ package ru.osll.goodtravel.models;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.osll.goodtravel.utils.ModelUtils;
 
 /**
  * Created by denis on 10/30/16.
@@ -39,7 +40,13 @@ public class Plan extends RealmObject {
         this.days = days;
     }
 
-    public Plan() {
+    public Plan(String name, RealmList<Day> days) {
+        this.name = name;
+        this.days=days;
+        this.money = ModelUtils.costPrice(days);
+    }
+    public Plan(){
+        name = "unknown plan";
     }
 
 }
