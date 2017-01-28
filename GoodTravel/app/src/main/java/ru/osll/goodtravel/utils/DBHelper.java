@@ -11,36 +11,10 @@ import ru.osll.goodtravel.models.DAO.Plan;
 
 public final class DBHelper {
 
-    public static void execute(ArrayList objects){
-//        realm.beginTransaction();
-//        realm.copyToRealmOrUpdate(objects);
-//        realm.commitTransaction();
-    }
-    public static void execute(Object objects){
-//        realm.beginTransaction();
-//        realm.copyToRealmOrUpdate(objects);
-//        realm.commitTransaction();
-    }
-
-
-    private static boolean dbIsEmpty() {
-        // TODO: 11/26/16 реализовать данный метод
-        return true;
-    }
-
     public static void generateData(){
 
-        if(dbIsEmpty()){
-            generateCategory();
-            generatePlaces();
-            generatePlans();
-        }
-    }
-
-    public static void generateCategory(){
-
-
         ArrayList<PlaceCategory> placeCategoryList = new ArrayList<>();
+
         placeCategoryList.add(new PlaceCategory("Музей",
                 "http://moodle.presby.edu/file.php/1/library.png"));
         placeCategoryList.add(new PlaceCategory("Экскурсии по городу",
@@ -57,11 +31,6 @@ public final class DBHelper {
                 "http://topbestseller.ru/crontab/2015/imgnews/minkulturi-blagodarit-molodchikov-kotorie-snosyat-pamyatniki-leninu.jpg"));
         placeCategoryList.add(new PlaceCategory("Особые",
                 "https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.avanta-med.ru/images/eye.gif"));
-
-        execute(placeCategoryList);
-    }
-
-    private static void generatePlaces(){
 
         String place = "Санкт-Петербург";
         PlaceCategory c1 = PlaceCategory.getByName("Музей");
@@ -85,7 +54,7 @@ public final class DBHelper {
         places.add(new Place("Экскурсия по городу Пушкину",700,place,"59.992546,30.318643",c2));
         places.add(new Place("Экскурсия по Кромштату",800,place,"59.992345,30.318543",c2));
 
-        /*places.add(new Place("Хоккей",3000,place,"59.992235,30.318345",c3));
+        places.add(new Place("Хоккей",3000,place,"59.992235,30.318345",c3));
         places.add(new Place("Футбол",2000,place,"59.992346,30.318354",c3));
         places.add(new Place("Чемпионат по Dota 2",200,place,"59.992123,30.318543",c3, TypeOfGroupEnum.NO_FAMILY));
         places.add(new Place("Чемпионат по стрельбе",1000,place,"59.992356,30.318654",c3, TypeOfGroupEnum.ONLY_SINGLE));
@@ -105,13 +74,7 @@ public final class DBHelper {
         places.add(new Place("Зимний дворец",0,place,"59.992356,30.31345",c7));
         places.add(new Place("Медный всадник",0,place,"59.990078,30.318120",c7));
         places.add(new Place("Летний марафон по городу",0,place,"59.992000,30.318000",c8));
-        places.add(new Place("Сьезд любителей Гарри Поттера",200,place,"59.982076,30.320604",c8));*/
-
-        execute(places);
-
-    }
-
-    private static void generatePlans() {
+        places.add(new Place("Сьезд любителей Гарри Поттера",200,place,"59.982076,30.320604",c8));
 
         Day day1 = new Day();
         ArrayList<Place> places1 = new ArrayList<>();
@@ -170,10 +133,8 @@ public final class DBHelper {
         days.add(day4);
         days.add(day5);
         days.add(day6);
-        execute(days);
 
         Plan plan = new Plan("Летний отдых",days);
-        execute(plan);
-    }
 
+    }
 }

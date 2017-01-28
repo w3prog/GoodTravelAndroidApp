@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -131,11 +133,12 @@ public class DataBase {
             database.delete(TABLE_PLACE_CATEGORIES, ID + " = " + pl.getId(), null);
         }
     }
+
     /**
      * Класс для CRUD операций с местами
      */
     public static class PlaceRepository {
-        public long save(Place pl){
+        public Place save(Place pl){
             ContentValues cv = new ContentValues();
             cv.put(ROW_PLACES_NAME, pl.getName());
             cv.put(ROW_PLACES_IMG, pl.getSrcToImg());
@@ -148,7 +151,42 @@ public class DataBase {
             cv.put(ROW_PLACES_TYPEOFGROUP, pl.getTypeOfGroup().toString());
             cv.put(ROW_PLACES_PLACE_CATEGORY, pl.getCategory().getId());
 
-            return database.insert(TABLE_PLACES, null, cv);
+            pl.setId(database.insert(TABLE_PLACES, null, cv));
+            return pl;
+        }
+        public Place saveOrUpdate(Place pl){
+
+            if (get(pl.getId())!=null){
+                update(pl);
+            }else {
+                return save(pl);
+            }
+            return pl;
+        }
+        public ArrayList<Place> saveOrUpdate(ArrayList<Place> places){
+            for(int i=0;i<places.size();i++){
+                places.set(i,saveOrUpdate(places.get(i)));
+            }
+            return places;
+        }
+        public  void update(Place pl){
+            ContentValues cv = new ContentValues();
+
+            cv.put(ROW_PLACES_NAME, pl.getName());
+            cv.put(ROW_PLACES_DESCRIPTION, pl.getDescription());
+            cv.put(ROW_PLACES_PLACE_NAME, pl.getPlaceName());
+            cv.put(ROW_PLACES_ADDRESS, pl.getAddress());
+            cv.put(ROW_PLACES_COORDINATE, pl.getCoordinate());
+            cv.put(ROW_PLACES_PRICE, pl.getCoordinate());
+            cv.put(ROW_PLACES_IMG, pl.getSrcToImg());
+            cv.put(ROW_PLACES_TYPEOFGROUP, pl.getTypeOfGroup().toString());
+            cv.put(ROW_PLACES_PLACE_CATEGORY, pl.getCategory().getId());
+            database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
+                    new String[]{Long.toString(pl.getId())});
+        }
+        public  void delete(Place pl){
+            //// TODO: 28.01.17 не реализованно каскадное удаление
+            database.delete(TABLE_PLACES, ID + " = " + pl.getId(), null);
         }
         public Place get(long id){
             Cursor c = database.query(TABLE_PLACE_CATEGORIES,
@@ -160,7 +198,7 @@ public class DataBase {
             if (c.moveToFirst()) {
 
                 PlaceCategory placeCategory = PlaceCategoryRepository
-                .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
+                        .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
                 place = new Place(
                         c.getLong(c.getColumnIndex(ID)),
                         c.getString(c.getColumnIndex(ROW_PLACES_NAME)),
@@ -185,6 +223,7 @@ public class DataBase {
                     ROW_PLACES_PLACE_NAME + ", " +
                     ROW_PLACES_ADDRESS + ", " +
                     ROW_PLACES_COORDINATE + ", " +
+                    ROW_PLACES_PLACE_CATEGORY + ", " +
                     ROW_PLACES_PRICE + ", " +
                     ROW_PLACES_IMG + ", " +
                     ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
@@ -209,24 +248,49 @@ public class DataBase {
             }
             return arrayList;
         }
-        public  void update(Place pl){
-            ContentValues cv = new ContentValues();
+        public ArrayList<Place> getFromFilter(@NotNull ArrayList<PlaceCategory> categories, Long price){
+            ArrayList<Place> arrayList = new ArrayList<Place>();
+            String categ = "";
+            for (int i = 0; i < categories.size(); i++) {
+                if (categories.size()-1==i)
+                    categ.concat(Long.toString(categories.get(i).getId()));
+                else
+                    categ.concat(Long.toString(categories.get(i).getId())).concat(", ");
+            }
 
-            cv.put(ROW_PLACES_NAME, pl.getName());
-            cv.put(ROW_PLACES_DESCRIPTION, pl.getDescription());
-            cv.put(ROW_PLACES_PLACE_NAME, pl.getPlaceName());
-            cv.put(ROW_PLACES_ADDRESS, pl.getAddress());
-            cv.put(ROW_PLACES_COORDINATE, pl.getCoordinate());
-            cv.put(ROW_PLACES_PRICE, pl.getCoordinate());
-            cv.put(ROW_PLACES_IMG, pl.getSrcToImg());
-            cv.put(ROW_PLACES_TYPEOFGROUP, pl.getTypeOfGroup().toString());
-            cv.put(ROW_PLACES_PLACE_CATEGORY, pl.getCategory().getId());
-            database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
-                    new String[]{Long.toString(pl.getId())});
-        }
-        public  void delete(Place pl){
-            //// TODO: 28.01.17 не реализованно каскадное удаление
-            database.delete(TABLE_PLACES, ID + " = " + pl.getId(), null);
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_PLACES_NAME + ", " +
+                    ROW_PLACES_DESCRIPTION + ", " +
+                    ROW_PLACES_PLACE_NAME + ", " +
+                    ROW_PLACES_ADDRESS + ", " +
+                    ROW_PLACES_COORDINATE + ", " +
+                    ROW_PLACES_PRICE + ", " +
+                    ROW_PLACES_IMG + ", " +
+                    ROW_PLACES_PLACE_CATEGORY + ", " +
+                    ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
+                    " where "+ ROW_PLACES_PLACE_CATEGORY + " in ( " + categ+ " ) and " +
+                    ROW_PLACES_PRICE +" >= "+price.toString()+
+                    "order by " + ID, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    PlaceCategory placeCategory = PlaceCategoryRepository
+                            .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
+                    arrayList.add(new Place(
+                            c.getLong(c.getColumnIndex(ID)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_NAME)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_DESCRIPTION)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_PLACE_NAME)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_ADDRESS)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_COORDINATE)),
+                            c.getLong(c.getColumnIndex(ROW_PLACES_PRICE)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_IMG)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
+                            placeCategory));
+                    c.moveToNext();
+                } while (c.isAfterLast() == false);
+            }
+            return arrayList;
         }
     }
 
@@ -354,6 +418,66 @@ public class DataBase {
             database.delete(TABLE_PLANS, ID + " = " + pl.getId(), null);
         }
     }
+
+    /**
+     * Класс для рабоваления мест к дню.
+     */
+    public static class PlaceInDayRepository{
+        public static void addPlaceInDay(Day day,Place place){
+            ContentValues cv = new ContentValues();
+            cv.put(ROW_PLACE_IN_DAYS_ID_DAY, day.getId());
+            cv.put(ROW_PLACE_IN_DAYS_ID_PLACE, place.getId());
+            database.insert(TABLE_PLACE_IN_DAYS, null, cv);
+        }
+        public static void addPlacesInDay(Day day, ArrayList<Place> places){
+            for (Place pl : places) {
+                addPlaceInDay(day, pl);
+            }
+        }
+        public static ArrayList<Place> getPlacesFromDay(Day day){
+            ArrayList<Place> places = new ArrayList<Place>();
+            // TODO: 28.01.17 Проверить данный запрос
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_PLACES_NAME + ", " +
+                    ROW_PLACES_DESCRIPTION + ", " +
+                    ROW_PLACES_PLACE_NAME + ", " +
+                    ROW_PLACES_ADDRESS + ", " +
+                    ROW_PLACES_COORDINATE + ", " +
+                    ROW_PLACES_PLACE_CATEGORY + ", " +
+                    ROW_PLACES_PRICE + ", " +
+                    ROW_PLACES_IMG + ", " +
+                    ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
+                    "where " + ROW_PLACES_PLACE_CATEGORY + " in ( select "
+                    +ROW_PLACE_IN_DAYS_ID_PLACE+ " from "+ TABLE_PLACE_IN_DAYS + " where "+
+                    ROW_PLACE_IN_DAYS_ID_DAY + " = " + Long.toString(day.getId()) + " ) " +
+                    "order by " + ID, null);
+            if (c.moveToFirst()) {
+                do {
+                    PlaceCategory placeCategory = PlaceCategoryRepository
+                            .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
+                    places.add(new Place(
+                            c.getLong(c.getColumnIndex(ID)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_NAME)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_DESCRIPTION)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_PLACE_NAME)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_ADDRESS)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_COORDINATE)),
+                            c.getLong(c.getColumnIndex(ROW_PLACES_PRICE)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_IMG)),
+                            c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
+                            placeCategory));
+                    c.moveToNext();
+                } while (c.isAfterLast() == false);
+            }
+
+            return places;
+        }
+        public static void deletePlaceInDay(Day day,Place place){
+            database.delete(TABLE_PLACE_IN_DAYS, ROW_PLACE_IN_DAYS_ID_DAY + " = " + day.getId()
+                    +" and " + ROW_PLACE_IN_DAYS_ID_PLACE + " = "+place.getId(), null);
+        }
+    }
+
 
     /**
      * Класс отвечающий за создание базы данных
