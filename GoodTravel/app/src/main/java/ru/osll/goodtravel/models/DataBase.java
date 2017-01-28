@@ -7,9 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import ru.osll.goodtravel.models.DAO.Day;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.Plan;
 
 /**
  * Created by denis on 28.01.17.
@@ -72,7 +75,7 @@ public class DataBase {
     }
 
     /**
-     * Специальный класс для CRUD операций с категориями
+     * Класс для CRUD операций с категориями
      */
     public static class PlaceCategoryRepository {
         public static long save(PlaceCategory pl){
@@ -129,7 +132,7 @@ public class DataBase {
         }
     }
     /**
-     * Специальный класс для CRUD операций с местами
+     * Класс для CRUD операций с местами
      */
     public static class PlaceRepository {
         public long save(Place pl){
@@ -227,7 +230,129 @@ public class DataBase {
         }
     }
 
+    /**
+     * Класс для CRUD операций с днями
+     */
+    public static class DayRepository {
+        public static long save(Day day){
+            ContentValues cv = new ContentValues();
+            // TODO: 28.01.17 Проверить корректность сохранения дат.
+            cv.put(ROW_DAYS_DATE, day.getDate().toString());
+            if (day.getPlan()!=null)
+                cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
+            return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+        }
+        public static Day get(long id){
+            Cursor c = database.query(TABLE_DAYS,
+                    null,
+                    ID + "=" + id,
+                    null, null, null, null);
+            Day day;
+            // TODO: 28.01.17 проверить корректность чтения даты с базы данных
+            if (c.moveToFirst()) {
+                Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
+                day = new Day(
+                        id,
+                        plan,
+                        new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
+                );
+                return day;
+            } else {
+                return null;
+            }
+        }
+        public static ArrayList<Day> getAll(){
+            ArrayList<Day> arrayList = new ArrayList<Day>();
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_DAYS_DATE + ", " +
+                    ROW_DAYS_PLAN_ID +" from " + TABLE_DAYS + " " +
+                    "order by " + ID, null);
+            if (c.moveToFirst()) {
+                do {
+                    Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
+                    arrayList.add(new Day(
+                            c.getLong(c.getColumnIndex(ID)),
+                            plan,
+                            new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
+                    ));
+                    c.moveToNext();
+                } while (c.isAfterLast() == false);
+            }
+            return arrayList;
+        }
+        public static void update(Day day){
+            ContentValues cv = new ContentValues();
 
+            if (day.getPlan()!=null)
+                cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
+            cv.put(ROW_DAYS_DATE, day.getDate().toString());
+            database.update(TABLE_DAYS, cv, ID + " = ?",
+                    new String[]{Long.toString(day.getId())});
+        }
+        public static void delete(PlaceCategory pl){
+            //// TODO: 28.01.17 не реализованно каскадное удаление
+            database.delete(TABLE_DAYS, ID + " = " + pl.getId(), null);
+        }
+    }
+
+    /**
+     * Класс для CRUD операций с планами
+     */
+    public static class PlanRepository {
+        public static long save(PlaceCategory pl){
+            ContentValues cv = new ContentValues();
+            cv.put(ROW_PLACE_CATEGORIES_NAME, pl.getName());
+            cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
+            return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+        }
+        public static Plan get(long id){
+            Cursor c = database.query(TABLE_PLANS,
+                    null,
+                    ID + "=" + id,
+                    null, null, null, null);
+            Plan plan;
+
+            if (c.moveToFirst()) {
+                plan = new Plan(
+                        id,
+                        c.getString(c.getColumnIndex(ROW_PLANS_NAME)),
+                        c.getLong(c.getColumnIndex(ROW_PLANS_MONEY))
+                );
+                return plan;
+            } else {
+                return null;
+            }
+        }
+        public static ArrayList<PlaceCategory> getAll(){
+            ArrayList<PlaceCategory> arrayList = new ArrayList<PlaceCategory>();
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_PLACE_CATEGORIES_NAME + ", " +
+                    ROW_PLACE_CATEGORIES_IMG +" from " + TABLE_PLACE_CATEGORIES + " " +
+                    "order by " + ID, null);
+            if (c.moveToFirst()) {
+                do {
+                    arrayList.add(new PlaceCategory(
+                            c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_NAME)),
+                            c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
+                    ));
+                    c.moveToNext();
+                } while (c.isAfterLast() == false);
+            }
+            return arrayList;
+        }
+        public static void update(PlaceCategory pl){
+            ContentValues cv = new ContentValues();
+
+            cv.put(ROW_PLACE_CATEGORIES_NAME, pl.getName());
+            cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
+            database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
+                    new String[]{Long.toString(pl.getId())});
+        }
+        public static void delete(PlaceCategory pl){
+            //// TODO: 28.01.17 не реализованно каскадное удаление
+            database.delete(TABLE_PLACE_CATEGORIES, ID + " = " + pl.getId(), null);
+        }
+    }
 
     /**
      * Класс отвечающий за создание базы данных

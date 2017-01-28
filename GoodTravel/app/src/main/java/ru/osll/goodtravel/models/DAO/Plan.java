@@ -6,10 +6,24 @@ import ru.osll.goodtravel.utils.ModelUtils;
 
 
 public class Plan {
-
+    private long id;
     private String name;
-    private int money;
+    private long money;
     private ArrayList<Day> days;
+
+    public Plan(long id, String name, long money) {
+        this.id = id;
+        this.name = name;
+        this.money = money;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -19,7 +33,7 @@ public class Plan {
         this.name = name;
     }
 
-    public int getMoney() {
+    public long getMoney() {
         return money;
     }
 

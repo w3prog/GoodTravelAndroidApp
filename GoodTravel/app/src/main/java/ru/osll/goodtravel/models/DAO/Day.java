@@ -13,6 +13,12 @@ public class Day {
     private Date date;
     private ArrayList<Place> places;
 
+    public Day(long id, Plan plan, Date date) {
+        this.id = id;
+        this.plan = plan;
+        this.date = date;
+    }
+
     public Plan getPlan() {
         return plan;
     }
