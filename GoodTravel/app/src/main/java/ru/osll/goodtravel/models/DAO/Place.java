@@ -7,14 +7,14 @@ import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
 
 public class Place {
-
+    private long id;
     private String name;
     private String description;
 
     private String placeName;
     private String address;
     private String coordinate;
-    private int price;
+    private long price;
     private String srcToImg;
     private String typeOfGroup;
     private PlaceCategory category;
@@ -50,7 +50,6 @@ public class Place {
     public void setCategory(PlaceCategory category) {
         this.category = category;
     }
-
 
     public Place() {
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
@@ -90,6 +89,22 @@ public class Place {
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
     }
 
+    public Place(long id, String name, String description,
+                 String placeName,
+                 String address, String coordinate, long price, String srcToImg,
+                 String typeOfGroup, PlaceCategory category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.placeName = placeName;
+        this.address = address;
+        this.coordinate = coordinate;
+        this.price = price;
+        this.srcToImg = srcToImg;
+        this.typeOfGroup = typeOfGroup;
+        this.category = category;
+    }
+
     public TypeOfGroupEnum getTypeOfGroup() {
         return TypeOfGroupEnum.valueOf(typeOfGroup);
     }
@@ -113,7 +128,7 @@ public class Place {
         this.description = description;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
@@ -124,6 +139,18 @@ public class Place {
     public String getSrcToImg() {
 
         return srcToImg;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 
     public void setSrcToImg(String srcToImg) {
