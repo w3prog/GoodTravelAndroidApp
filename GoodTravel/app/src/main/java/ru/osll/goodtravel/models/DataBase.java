@@ -224,7 +224,7 @@ public class DataBase {
             database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
                     new String[]{Long.toString(pl.getId())});
         }
-        public  void delete(PlaceCategory pl){
+        public  void delete(Place pl){
             //// TODO: 28.01.17 не реализованно каскадное удаление
             database.delete(TABLE_PLACES, ID + " = " + pl.getId(), null);
         }
@@ -289,7 +289,7 @@ public class DataBase {
             database.update(TABLE_DAYS, cv, ID + " = ?",
                     new String[]{Long.toString(day.getId())});
         }
-        public static void delete(PlaceCategory pl){
+        public static void delete(Day pl){
             //// TODO: 28.01.17 не реализованно каскадное удаление
             database.delete(TABLE_DAYS, ID + " = " + pl.getId(), null);
         }
@@ -299,11 +299,11 @@ public class DataBase {
      * Класс для CRUD операций с планами
      */
     public static class PlanRepository {
-        public static long save(PlaceCategory pl){
+        public static long save(Plan pl){
             ContentValues cv = new ContentValues();
-            cv.put(ROW_PLACE_CATEGORIES_NAME, pl.getName());
-            cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
-            return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+            cv.put(ROW_PLANS_NAME, pl.getName());
+            cv.put(ROW_PLANS_MONEY, pl.getMoney());
+            return database.insert(TABLE_PLANS, null, cv);
         }
         public static Plan get(long id){
             Cursor c = database.query(TABLE_PLANS,
@@ -323,34 +323,35 @@ public class DataBase {
                 return null;
             }
         }
-        public static ArrayList<PlaceCategory> getAll(){
-            ArrayList<PlaceCategory> arrayList = new ArrayList<PlaceCategory>();
+        public static ArrayList<Plan> getAll(){
+            ArrayList<Plan> arrayList = new ArrayList<Plan>();
             Cursor c = database.rawQuery("Select " + ID + ", " +
-                    ROW_PLACE_CATEGORIES_NAME + ", " +
-                    ROW_PLACE_CATEGORIES_IMG +" from " + TABLE_PLACE_CATEGORIES + " " +
+                    ROW_PLANS_NAME + ", " +
+                    ROW_PLANS_MONEY +" from " + TABLE_PLANS + " " +
                     "order by " + ID, null);
             if (c.moveToFirst()) {
                 do {
-                    arrayList.add(new PlaceCategory(
-                            c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_NAME)),
-                            c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
+                    arrayList.add(new Plan(
+                            c.getLong(c.getColumnIndex(ID)),
+                            c.getString(c.getColumnIndex(ROW_PLANS_NAME)),
+                            c.getLong(c.getColumnIndex(ROW_PLANS_MONEY))
                     ));
                     c.moveToNext();
                 } while (c.isAfterLast() == false);
             }
             return arrayList;
         }
-        public static void update(PlaceCategory pl){
+        public static void update(Plan pl){
             ContentValues cv = new ContentValues();
 
-            cv.put(ROW_PLACE_CATEGORIES_NAME, pl.getName());
-            cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
-            database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
+            cv.put(ROW_PLANS_NAME, pl.getName());
+            cv.put(ROW_PLANS_MONEY, pl.getMoney());
+            database.update(TABLE_PLANS, cv, ID + " = ?",
                     new String[]{Long.toString(pl.getId())});
         }
-        public static void delete(PlaceCategory pl){
+        public static void delete(Plan pl){
             //// TODO: 28.01.17 не реализованно каскадное удаление
-            database.delete(TABLE_PLACE_CATEGORIES, ID + " = " + pl.getId(), null);
+            database.delete(TABLE_PLANS, ID + " = " + pl.getId(), null);
         }
     }
 
