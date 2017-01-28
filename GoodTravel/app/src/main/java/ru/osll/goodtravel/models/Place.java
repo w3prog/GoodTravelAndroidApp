@@ -3,19 +3,14 @@ package ru.osll.goodtravel.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
 /**
  * Created by denis on 11/26/16.
  */
 
-public class Place extends RealmObject {
+public class Place {
 
-    @PrimaryKey
     private String name;
     private String Description;
 
@@ -50,7 +45,6 @@ public class Place extends RealmObject {
 
     private int price;
     private String srcToImg;
-    @Ignore
     private String typeOfGroup;
 
     private PlaceCategory category;
@@ -143,27 +137,31 @@ public class Place extends RealmObject {
     }
 
     public static Place getByName(String name) {
-        return Realm
-                .getDefaultInstance()
-                .where(Place.class)
-                .equalTo("name", name)
-                .findFirst();
+        // TODO: 28.01.17 Реализовать
+//        return Realm
+//                .getDefaultInstance()
+//                .where(Place.class)
+//                .equalTo("name", name)
+//                .findFirst();
+        return null;
     }
 
-    public static List<Place> getAll(Realm realm)
+    public static List<Place> getAll()
     {
-        return realm.where(Place.class).findAll();
+        // TODO: 28.01.17 Реализовать
+        return null;
     }
 
     public static List<Place> getServicesWithCategory(PlaceCategory placeCategory)
     {
-        Realm realm = Realm.getDefaultInstance();
-        List<Place> places = realm
-                .where(Place.class)
-                .equalTo("category", placeCategory.getName())
-                .findAll();
+        // TODO: 28.01.17 Реализовать
+//        Realm realm = Realm.getDefaultInstance();
+//        List<Place> places = realm
+//                .where(Place.class)
+//                .equalTo("category", placeCategory.getName())
+//                .findAll();
 
-        return places;
+        return null;
     }
 
     public static List<Place> getServices(PlaceCategory placeCategory, int price)

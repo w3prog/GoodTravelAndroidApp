@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 
 import java.util.List;
 
-import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;

@@ -2,24 +2,21 @@ package ru.osll.goodtravel.models;
 
 
 import java.util.Date;
+import java.util.ArrayList;
+import ru.osll.goodtravel.utils.DBHelper;
 
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 10/30/16.
  */
 
-public class Day extends RealmObject {
+public class Day {
 
-    @PrimaryKey
     private long id;
 
     private Plan plan;
     private Date date;
-    private RealmList<Place> places;
+    private ArrayList<Place> places;
 
     public Plan getPlan() {
         return plan;
@@ -37,11 +34,11 @@ public class Day extends RealmObject {
         this.date = date;
     }
 
-    public RealmList<Place> getPlaces() {
+    public ArrayList<Place> getPlaces() {
         return places;
     }
 
-    public void setPlaces(RealmList<Place> places) {
+    public void setPlaces(ArrayList<Place> places) {
         this.places = places;
     }
 
@@ -54,15 +51,16 @@ public class Day extends RealmObject {
     }
 
     public Day() {
-        places = new RealmList<>();
+        places = new ArrayList<>();
     }
 
     public static Day getById(long id){
-        return Realm
-                .getDefaultInstance()
-                .where(Day.class)
-                .equalTo("id", id)
-                .findFirst();
+        // TODO: 28.01.17 Реализовать
+//        return DBHelper.getInstance()
+//                .getDefaultInstance()
+//                .where(Day.class)
+//                .equalTo("id", id)
+//                .findFirst();
+        return null;
     }
-
 }

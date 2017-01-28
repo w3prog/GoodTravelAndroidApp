@@ -1,20 +1,18 @@
 package ru.osll.goodtravel.models;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.util.ArrayList;
+
 import ru.osll.goodtravel.utils.ModelUtils;
 
 /**
  * Created by denis on 10/30/16.
  */
 
-public class Plan extends RealmObject {
+public class Plan {
 
-    @PrimaryKey
     private String name;
     private int money;
-    private RealmList<Day> days;
+    private ArrayList<Day> days;
 
     public String getName() {
         return name;
@@ -32,15 +30,15 @@ public class Plan extends RealmObject {
         this.money = money;
     }
 
-    public RealmList<Day> getDays() {
+    public ArrayList<Day> getDays() {
         return days;
     }
 
-    public void setDays(RealmList<Day> days) {
+    public void setDays(ArrayList<Day> days) {
         this.days = days;
     }
 
-    public Plan(String name, RealmList<Day> days) {
+    public Plan(String name, ArrayList<Day> days) {
         this.name = name;
         this.days=days;
         this.money = ModelUtils.costPrice(days);

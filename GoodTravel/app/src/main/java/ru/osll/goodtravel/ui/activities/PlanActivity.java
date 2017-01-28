@@ -11,16 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.PlanAdapter;
-import ru.osll.goodtravel.models.PlanService;
 import ru.osll.goodtravel.utils.DBHelper;
 
 public class PlanActivity extends AppCompatActivity
 {
     private RecyclerView planRecyclerView;
-    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,8 +30,6 @@ public class PlanActivity extends AppCompatActivity
     private void init()
     {
         planRecyclerView = (RecyclerView)findViewById(R.id.planRecyclerView);
-        realm = DBHelper.getInstance();
-
         initToolbar();
         initPlans();
     }
@@ -52,7 +47,7 @@ public class PlanActivity extends AppCompatActivity
     {
         planRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        planRecyclerView.setAdapter(new PlanAdapter(PlanService.getAll(realm)));
+       // planRecyclerView.setAdapter(new PlanAdapter(PlanService.getAll(realm)));
     }
 
     @Override

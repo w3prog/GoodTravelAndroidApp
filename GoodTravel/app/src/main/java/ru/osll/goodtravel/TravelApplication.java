@@ -25,7 +25,6 @@ public class TravelApplication extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-        DBHelper.initRealm(this);
     }
 
 }

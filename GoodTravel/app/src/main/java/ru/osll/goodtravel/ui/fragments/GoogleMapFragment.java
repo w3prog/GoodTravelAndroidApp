@@ -1,6 +1,7 @@
 package ru.osll.goodtravel.ui.fragments;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,19 +17,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 import ru.osll.goodtravel.models.Day;
 import ru.osll.goodtravel.models.Place;
+import ru.osll.goodtravel.models.PlaceCategory;
 import ru.osll.goodtravel.models.responses.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
+import ru.osll.goodtravel.utils.DBHelper;
+import ru.osll.goodtravel.utils.ModelUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,18 +70,32 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
         LatLng SaintPeterburgLng = new LatLng(60, 30);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SaintPeterburgLng));
+        PlaceCategory c1 = new PlaceCategory("Музей",
+                "http://moodle.presby.edu/file.php/1/library.png");
+        PlaceCategory c2 = PlaceCategory.getByName("Экскурсии по городу");
+        String place = "Санкт-Петербург";
+        ArrayList<Place> places = new ArrayList<>();
+        places.add(new Place("Русский музей",340,place,"59.991078,30.318714",c1));
+        places.add(new Place("Эрмитаж",400,place,"59.992078,30.318435",c1));
+        places.add(new Place("Музей артиллерии",1200,place,"59.992534,30.318643",c1));
+        places.add(new Place("Музей радиосвязи",600,place,"59.992643,30.318543",c1));
+        places.add(new Place("Кунскамера",700,place,"59.992548,30.318643",c1, TypeOfGroupEnum.NO_FAMILY));
+        places.add(new Place("Экскурсия по Санкт-Петербургу",2000,place,"59.992564,30.318543",c2));
+        places.add(new Place("Водная экскурсия по Санкт-Петербургу",2200,place,"59.992543,30.318543",c2));
+        places.add(new Place("Экскурсия по Петергофу",450,place,"59.992436,30.318543",c2));
+        places.add(new Place("Экскурсия по городу Пушкину",700,place,"59.992546,30.318643",c2));
+        places.add(new Place("Экскурсия по Кромштату",800,place,"59.992345,30.318543",c2));
 
-        // Draw a route from obshaga to univer
-        LatLng obshagaLeng = new LatLng(59.991078, 30.318714);
-        LatLng univerLeng = new LatLng(59.972280, 30.322924);
+        Day testDay = new Day();
+        testDay.setPlaces(places);
 
-        callRouteService(obshagaLeng, univerLeng);
+        showDayInMap(testDay);
     }
 
-    public void showDayInMap(Day day){
+    public void showDayInMap(@NonNull Day day){
         // TODO: 27.01.17 Реализовать отображения маршрута на один день
-        Day testDay = Day.getById(1);
-        RealmList<Place> places = testDay.getPlaces();
+
+        ArrayList<Place> places = day.getPlaces();
 
         places.get(1).getCoordinate();
         for (int i = 0; i < places.size() - 1; i++) {

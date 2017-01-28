@@ -38,7 +38,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'io.realm:realm-android:0.82.2'
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'

@@ -14,13 +14,12 @@ import java.util.Date;
 import java.util.List;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.PlanService;
 
 
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>
 {
-    public List<PlanService> planServices;
+    //public List<PlanService> planServices;
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -63,10 +62,10 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>
         }
     }
 
-    public PlanAdapter(List<PlanService> planServices)
-    {
-        this.planServices = planServices;
-    }
+//    public PlanAdapter(List<PlanService> planServices)
+//    {
+//        this.planServices = planServices;
+//    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -78,16 +77,18 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position)
     {
-        PlanService planService = planServices.get(position);
-
-        holder.setDate(planService.getDate());
-        holder.setDescription(planService.getName());
-        holder.setPreview(planService.getSrcToImg());
+//        PlanService planService = planServices.get(position);
+//
+//        holder.setDate(planService.getDate());
+//        holder.setDescription(planService.getName());
+//        holder.setPreview(planService.getSrcToImg());
     }
 
     @Override
     public int getItemCount()
     {
-        return planServices.size();
+        // TODO: 28.01.17 Реализовать
+        return 0;
+        //return planServices.size();
     }
 }

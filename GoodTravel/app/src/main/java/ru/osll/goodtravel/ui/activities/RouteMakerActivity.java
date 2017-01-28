@@ -12,11 +12,9 @@ import android.widget.TabHost;
 
 import com.prolificinteractive.materialcalendarview.CalendarPagerAdapter;
 
-import io.realm.Realm;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.models.PlaceCategory;
-import ru.osll.goodtravel.models.PlanService;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
@@ -286,8 +284,7 @@ public class RouteMakerActivity extends AppCompatActivity
     {
         MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
         fragment.fixCurrentDay();
-        Realm realm = DBHelper.getInstance();
-        PlanService.addAll(MakerTravelListFragment.placeList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
+        //PlanService.addAll(MakerTravelListFragment.placeList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
         finish();
     }
 

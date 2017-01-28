@@ -1,22 +1,17 @@
 package ru.osll.goodtravel.models;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by denis on 11/26/16.
  */
 
-public class PlaceCategory extends RealmObject {
+public class PlaceCategory {
 
-    @PrimaryKey
     private String name;
     private String strImg;
-    private RealmList<Place> places;
+    private ArrayList<Place> places;
 
     public PlaceCategory(){ }
 
@@ -45,32 +40,35 @@ public class PlaceCategory extends RealmObject {
         this.name = name;
     }
     
-    public RealmList<Place> getPlaces() {
+    public ArrayList<Place> getPlaces() {
         return places;
     }
 
-    public void setPlaces(RealmList<Place> places) {
+    public void setPlaces(ArrayList<Place> places) {
         this.places = places;
     }
 
     public static PlaceCategory getByPrimaryKey(int id) {
-        return Realm.getDefaultInstance()
-                .where(PlaceCategory.class)
-                .equalTo("id", id)
-                .findFirst();
+//        return Realm.getDefaultInstance()
+//                .where(PlaceCategory.class)
+//                .equalTo("id", id)
+//                .findFirst();
+        return null;
     }
 
     public static PlaceCategory getByName(String name) {
-        return Realm.getDefaultInstance()
-                .where(PlaceCategory.class)
-                .equalTo("name", name)
-                .findFirst();
+//        return Realm.getDefaultInstance()
+//                .where(PlaceCategory.class)
+//                .equalTo("name", name)
+//                .findFirst();
+        return null;
     }
 
     public static List<PlaceCategory> getAll()
     {
-        return Realm.getDefaultInstance()
-                .where(PlaceCategory.class)
-                .findAll();
+//        return Realm.getDefaultInstance()
+//                .where(PlaceCategory.class)
+//                .findAll();
+        return null;
     }
 }
