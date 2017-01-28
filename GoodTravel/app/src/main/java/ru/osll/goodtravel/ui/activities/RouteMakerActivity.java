@@ -10,18 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TabHost;
 
-import com.prolificinteractive.materialcalendarview.CalendarPagerAdapter;
-
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.models.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelPackingFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
-import ru.osll.goodtravel.utils.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;

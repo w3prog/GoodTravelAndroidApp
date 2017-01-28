@@ -1,12 +1,9 @@
-package ru.osll.goodtravel.models;
+package ru.osll.goodtravel.models.DAO;
 
 import java.util.ArrayList;
 
 import ru.osll.goodtravel.utils.ModelUtils;
 
-/**
- * Created by denis on 10/30/16.
- */
 
 public class Plan {
 

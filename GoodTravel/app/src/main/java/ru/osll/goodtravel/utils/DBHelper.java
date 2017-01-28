@@ -2,15 +2,12 @@ package ru.osll.goodtravel.utils;
 
 import java.util.ArrayList;
 import java.sql.Date;
-import java.util.List;
 
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
-import ru.osll.goodtravel.models.Day;
-import ru.osll.goodtravel.models.PlaceCategory;
-import ru.osll.goodtravel.models.Place;
-import ru.osll.goodtravel.models.Plan;
-
-import static android.content.ContentValues.TAG;
+import ru.osll.goodtravel.models.DAO.Day;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.Place;
+import ru.osll.goodtravel.models.DAO.Plan;
 
 public final class DBHelper {
 

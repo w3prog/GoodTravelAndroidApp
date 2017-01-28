@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.Plan;
-
-import java.util.List;
+import ru.osll.goodtravel.models.DAO.Plan;
 
 /**
  * A fragment representing a list of Items.

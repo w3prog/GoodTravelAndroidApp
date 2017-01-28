@@ -1,14 +1,11 @@
-package ru.osll.goodtravel.models;
+package ru.osll.goodtravel.models.DAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by denis on 11/26/16.
- */
 
 public class PlaceCategory {
-
+    private long id;
     private String name;
     private String strImg;
     private ArrayList<Place> places;
@@ -47,6 +44,15 @@ public class PlaceCategory {
     public void setPlaces(ArrayList<Place> places) {
         this.places = places;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 
     public static PlaceCategory getByPrimaryKey(int id) {
 //        return Realm.getDefaultInstance()

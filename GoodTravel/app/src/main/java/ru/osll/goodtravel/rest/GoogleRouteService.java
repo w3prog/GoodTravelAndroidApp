@@ -3,7 +3,7 @@ package ru.osll.goodtravel.rest;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import ru.osll.goodtravel.models.responses.RouteResponse;
+import ru.osll.goodtravel.models.RouteResponse;
 
 /**
  * Возвращает путь, основанный на

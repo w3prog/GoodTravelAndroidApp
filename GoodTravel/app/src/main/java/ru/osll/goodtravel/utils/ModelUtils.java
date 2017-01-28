@@ -4,8 +4,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import ru.osll.goodtravel.models.Day;
-import ru.osll.goodtravel.models.Place;
+import ru.osll.goodtravel.models.DAO.Day;
+import ru.osll.goodtravel.models.DAO.Place;
 
 import static android.content.ContentValues.TAG;
 

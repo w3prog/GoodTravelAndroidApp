@@ -27,13 +27,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
-import ru.osll.goodtravel.models.Day;
-import ru.osll.goodtravel.models.Place;
-import ru.osll.goodtravel.models.PlaceCategory;
-import ru.osll.goodtravel.models.responses.RouteResponse;
+import ru.osll.goodtravel.models.DAO.Day;
+import ru.osll.goodtravel.models.DAO.Place;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
-import ru.osll.goodtravel.utils.DBHelper;
-import ru.osll.goodtravel.utils.ModelUtils;
 
 /**
  * A simple {@link Fragment} subclass.

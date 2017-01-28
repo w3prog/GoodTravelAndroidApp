@@ -1,21 +1,23 @@
-package ru.osll.goodtravel.models;
+package ru.osll.goodtravel.models.DAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 
-/**
- * Created by denis on 11/26/16.
- */
 
 public class Place {
 
     private String name;
-    private String Description;
+    private String description;
 
-    private String PlaceName;
+    private String placeName;
     private String address;
+    private String coordinate;
+    private int price;
+    private String srcToImg;
+    private String typeOfGroup;
+    private PlaceCategory category;
 
     public String getCoordinate() {
         return coordinate;
@@ -34,20 +36,12 @@ public class Place {
     }
 
     public String getPlaceName() {
-        return PlaceName;
+        return placeName;
     }
 
     public void setPlaceName(String placeName) {
-        PlaceName = placeName;
+        this.placeName = placeName;
     }
-
-    private String coordinate;
-
-    private int price;
-    private String srcToImg;
-    private String typeOfGroup;
-
-    private PlaceCategory category;
 
     public PlaceCategory getCategory() {
         return category;
@@ -65,21 +59,21 @@ public class Place {
     public Place(String name, int price, String place) {
         this.name = name;
         this.price = price;
-        this.PlaceName = place;
+        this.placeName = place;
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
     }
 
     public Place(String name, int price, String place, PlaceCategory category) {
         this.name = name;
         this.price = price;
-        this.PlaceName = place;
+        this.placeName = place;
         this.category = category;
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
     }
     public Place(String name, int price, String place,String coords, PlaceCategory category) {
         this.name = name;
         this.price = price;
-        this.PlaceName = place;
+        this.placeName = place;
         this.category = category;
         coordinate = coords;
         typeOfGroup = TypeOfGroupEnum.ALL.toString();
@@ -89,7 +83,7 @@ public class Place {
                  PlaceCategory category, TypeOfGroupEnum typeOfGroupEnum) {
         this.name = name;
         this.price = price;
-        this.PlaceName = place;
+        this.placeName = place;
         this.category = category;
         coordinate = coords;
         this.typeOfGroup = typeOfGroupEnum.toString();
@@ -112,11 +106,11 @@ public class Place {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public int getPrice() {

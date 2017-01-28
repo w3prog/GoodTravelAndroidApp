@@ -3,7 +3,6 @@ package ru.osll.goodtravel.ui.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import java.util.List;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.models.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.utils.DBHelper;
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.Place;
+import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 

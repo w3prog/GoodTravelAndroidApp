@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.models.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
 
 /**
  * Created by mycrfotkai on 26.11.16.
