@@ -11,10 +11,28 @@ public class Plan {
     private long money;
     private ArrayList<Day> days;
 
+    public Plan(){
+        name = "unknown plan";
+        days = new ArrayList<>();
+        money = 0;
+    }
+
+    public Plan(String name) {
+        this.name = name;
+        days = new ArrayList<>();
+        money = 0;
+    }
+
     public Plan(long id, String name, long money) {
         this.id = id;
         this.name = name;
         this.money = money;
+    }
+
+    public Plan(String name, ArrayList<Day> days) {
+        this.name = name;
+        this.days=days;
+        this.money = ModelUtils.costPrice(days);
     }
 
     public long getId() {
@@ -47,15 +65,6 @@ public class Plan {
 
     public void setDays(ArrayList<Day> days) {
         this.days = days;
-    }
-
-    public Plan(String name, ArrayList<Day> days) {
-        this.name = name;
-        this.days=days;
-        this.money = ModelUtils.costPrice(days);
-    }
-    public Plan(){
-        name = "unknown plan";
     }
 
 }

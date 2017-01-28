@@ -55,13 +55,4 @@ public class Day {
         places = new ArrayList<>();
     }
 
-    public static Day getById(long id){
-        // TODO: 28.01.17 Реализовать
-//        return DBHelper.getInstance()
-//                .getDefaultInstance()
-//                .where(Day.class)
-//                .equalTo("id", id)
-//                .findFirst();
-        return null;
-    }
 }

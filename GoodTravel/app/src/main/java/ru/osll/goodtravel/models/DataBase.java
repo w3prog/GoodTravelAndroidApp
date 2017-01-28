@@ -86,6 +86,11 @@ public class DataBase {
             cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
             return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
         }
+        public static void save(ArrayList<PlaceCategory> placeCategories){
+            for (PlaceCategory pl: placeCategories ) {
+                save(pl);
+            }
+        }
         public static PlaceCategory get(long id){
             Cursor c = database.query(TABLE_PLACE_CATEGORIES,
                     null,
@@ -98,6 +103,7 @@ public class DataBase {
                         c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_NAME)),
                         c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
                 );
+                c.close();
                 return placeCategory;
             } else {
                 return null;
@@ -116,8 +122,9 @@ public class DataBase {
                             c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
                     ));
                     c.moveToNext();
-                } while (c.isAfterLast() == false);
+                } while (!c.isAfterLast());
             }
+            c.close();
             return arrayList;
         }
         public static void update(PlaceCategory pl){
@@ -138,7 +145,7 @@ public class DataBase {
      * Класс для CRUD операций с местами
      */
     public static class PlaceRepository {
-        public Place save(Place pl){
+        public static Place save(Place pl){
             ContentValues cv = new ContentValues();
             cv.put(ROW_PLACES_NAME, pl.getName());
             cv.put(ROW_PLACES_IMG, pl.getSrcToImg());
@@ -154,7 +161,7 @@ public class DataBase {
             pl.setId(database.insert(TABLE_PLACES, null, cv));
             return pl;
         }
-        public Place saveOrUpdate(Place pl){
+        public static Place saveOrUpdate(Place pl){
 
             if (get(pl.getId())!=null){
                 update(pl);
@@ -163,13 +170,13 @@ public class DataBase {
             }
             return pl;
         }
-        public ArrayList<Place> saveOrUpdate(ArrayList<Place> places){
+        public static ArrayList<Place> saveOrUpdate(ArrayList<Place> places){
             for(int i=0;i<places.size();i++){
                 places.set(i,saveOrUpdate(places.get(i)));
             }
             return places;
         }
-        public  void update(Place pl){
+        public static void update(Place pl){
             ContentValues cv = new ContentValues();
 
             cv.put(ROW_PLACES_NAME, pl.getName());
@@ -184,11 +191,11 @@ public class DataBase {
             database.update(TABLE_PLACE_CATEGORIES, cv, ID + " = ?",
                     new String[]{Long.toString(pl.getId())});
         }
-        public  void delete(Place pl){
+        public static void delete(Place pl){
             //// TODO: 28.01.17 не реализованно каскадное удаление
             database.delete(TABLE_PLACES, ID + " = " + pl.getId(), null);
         }
-        public Place get(long id){
+        public static Place get(long id){
             Cursor c = database.query(TABLE_PLACE_CATEGORIES,
                     null,
                     ID + "=" + id,
@@ -210,12 +217,13 @@ public class DataBase {
                         c.getString(c.getColumnIndex(ROW_PLACES_IMG)),
                         c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
                         placeCategory);
+                c.close();
                 return place;
             } else {
                 return null;
             }
         }
-        public ArrayList<Place> getAll(){
+        public static ArrayList<Place> getAll(){
             ArrayList<Place> arrayList = new ArrayList<Place>();
             Cursor c = database.rawQuery("Select " + ID + ", " +
                     ROW_PLACES_NAME + ", " +
@@ -244,11 +252,12 @@ public class DataBase {
                             c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
                             placeCategory));
                     c.moveToNext();
-                } while (c.isAfterLast() == false);
+                } while (!c.isAfterLast());
             }
+            c.close();
             return arrayList;
         }
-        public ArrayList<Place> getFromFilter(@NotNull ArrayList<PlaceCategory> categories, Long price){
+        public static ArrayList<Place> getFromFilter(@NotNull ArrayList<PlaceCategory> categories, Long price){
             ArrayList<Place> arrayList = new ArrayList<Place>();
             String categ = "";
             for (int i = 0; i < categories.size(); i++) {
@@ -304,7 +313,11 @@ public class DataBase {
             cv.put(ROW_DAYS_DATE, day.getDate().toString());
             if (day.getPlan()!=null)
                 cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
-            return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+            long id =  database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+            if (!day.getPlaces().isEmpty())
+                PlaceInDayRepository.addPlacesInDay(day,day.getPlaces());
+
+            return id;
         }
         public static Day get(long id){
             Cursor c = database.query(TABLE_DAYS,
@@ -320,6 +333,7 @@ public class DataBase {
                         plan,
                         new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
                 );
+                c.close();
                 return day;
             } else {
                 return null;
@@ -340,8 +354,9 @@ public class DataBase {
                             new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
                     ));
                     c.moveToNext();
-                } while (c.isAfterLast() == false);
+                } while (!c.isAfterLast());
             }
+            c.close();
             return arrayList;
         }
         public static void update(Day day){
@@ -382,6 +397,7 @@ public class DataBase {
                         c.getString(c.getColumnIndex(ROW_PLANS_NAME)),
                         c.getLong(c.getColumnIndex(ROW_PLANS_MONEY))
                 );
+                c.close();
                 return plan;
             } else {
                 return null;
@@ -401,8 +417,9 @@ public class DataBase {
                             c.getLong(c.getColumnIndex(ROW_PLANS_MONEY))
                     ));
                     c.moveToNext();
-                } while (c.isAfterLast() == false);
+                } while (!c.isAfterLast());
             }
+            c.close();
             return arrayList;
         }
         public static void update(Plan pl){
@@ -467,9 +484,9 @@ public class DataBase {
                             c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
                             placeCategory));
                     c.moveToNext();
-                } while (c.isAfterLast() == false);
+                } while (!c.isAfterLast());
             }
-
+            c.close();
             return places;
         }
         public static void deletePlaceInDay(Day day,Place place){

@@ -53,28 +53,4 @@ public class PlaceCategory {
         this.id = id;
     }
 
-
-    public static PlaceCategory getByPrimaryKey(int id) {
-//        return Realm.getDefaultInstance()
-//                .where(PlaceCategory.class)
-//                .equalTo("id", id)
-//                .findFirst();
-        return null;
-    }
-
-    public static PlaceCategory getByName(String name) {
-//        return Realm.getDefaultInstance()
-//                .where(PlaceCategory.class)
-//                .equalTo("name", name)
-//                .findFirst();
-        return null;
-    }
-
-    public static List<PlaceCategory> getAll()
-    {
-//        return Realm.getDefaultInstance()
-//                .where(PlaceCategory.class)
-//                .findAll();
-        return null;
-    }
 }

@@ -156,46 +156,4 @@ public class Place {
     public void setSrcToImg(String srcToImg) {
         this.srcToImg = srcToImg;
     }
-
-    public static Place getByName(String name) {
-        // TODO: 28.01.17 Реализовать
-//        return Realm
-//                .getDefaultInstance()
-//                .where(Place.class)
-//                .equalTo("name", name)
-//                .findFirst();
-        return null;
-    }
-
-    public static List<Place> getAll()
-    {
-        // TODO: 28.01.17 Реализовать
-        return null;
-    }
-
-    public static List<Place> getServicesWithCategory(PlaceCategory placeCategory)
-    {
-        // TODO: 28.01.17 Реализовать
-//        Realm realm = Realm.getDefaultInstance();
-//        List<Place> places = realm
-//                .where(Place.class)
-//                .equalTo("category", placeCategory.getName())
-//                .findAll();
-
-        return null;
-    }
-
-    public static List<Place> getServices(PlaceCategory placeCategory, int price)
-    {
-        List<Place> servicesList = getServicesWithCategory(placeCategory);
-        List<Place> tempPlaceList = new ArrayList<>();
-
-        for(int i = 0; i < servicesList.size(); i++)
-        {
-            Place place = servicesList.get(i);
-            if(place.getPrice() <= price) tempPlaceList.add(place);
-        }
-
-        return tempPlaceList;
-    }
 }
