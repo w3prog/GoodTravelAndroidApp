@@ -3,6 +3,7 @@ package ru.osll.goodtravel.models;
 
 import java.util.Date;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -53,6 +54,15 @@ public class Day extends RealmObject {
     }
 
     public Day() {
+        places = new RealmList<>();
+    }
+
+    public static Day getById(long id){
+        return Realm
+                .getDefaultInstance()
+                .where(Day.class)
+                .equalTo("id", id)
+                .findFirst();
     }
 
 }

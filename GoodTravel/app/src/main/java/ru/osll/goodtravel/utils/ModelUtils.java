@@ -1,8 +1,12 @@
 package ru.osll.goodtravel.utils;
 
+import android.util.Log;
+
 import io.realm.RealmList;
 import ru.osll.goodtravel.models.Day;
 import ru.osll.goodtravel.models.Place;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by denis on 28.01.17.
@@ -10,17 +14,24 @@ import ru.osll.goodtravel.models.Place;
 
 public final class ModelUtils {
     public static int costPrice(RealmList<Day> days) {
-//        int answer = 0;
-//        for (Day a :days) {
-//            // TODO: 28.01.17 реализовать данный метод
-//            RealmList<Place> places = a.getPlaces();
-//            for(Place p:places){
-//                answer+=p.getPrice();
-//            }
-//        }
-//        return answer;
+        int answer = 0;
+        if (days!=null)
+            for (Day a :days) {
+                // TODO: 28.01.17 реализовать данный метод
+                RealmList<Place> places = a.getPlaces();
+                if(places!=null)
+                    for(Place p:places){
+                        answer+=p.getPrice();
+                    }
+                else{
+                    Log.d(TAG, "Place list is null.");
+                }
+            }
+        else
+            Log.d(TAG, "Day list is null.");
+        return answer;
 
-        return 10000;
+   //     return 10000;
     }
 
 

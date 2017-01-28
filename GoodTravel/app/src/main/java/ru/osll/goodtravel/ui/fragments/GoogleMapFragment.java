@@ -18,6 +18,7 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.List;
 
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.Day;
+import ru.osll.goodtravel.models.Place;
 import ru.osll.goodtravel.models.responses.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
 
@@ -61,10 +63,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng SaintPeterburgLng = new LatLng(60, 30);
-        mMap.addMarker(new MarkerOptions().position(SaintPeterburgLng)
-                .title("Маркер в Санкт-Петербурге"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SaintPeterburgLng));
 
         // Draw a route from obshaga to univer
@@ -74,8 +73,18 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         callRouteService(obshagaLeng, univerLeng);
     }
 
-    public void showDay(Day day){
+    public void showDayInMap(Day day){
         // TODO: 27.01.17 Реализовать отображения маршрута на один день
+        Day testDay = Day.getById(1);
+        RealmList<Place> places = testDay.getPlaces();
+
+        places.get(1).getCoordinate();
+        for (int i = 0; i < places.size() - 1; i++) {
+            //получить координаты
+            String position = places.get(i).getCoordinate();
+            String dest = places.get(i+1).getCoordinate();
+            callRouteService(position,dest);
+        }
     }
 
     /**
@@ -103,6 +112,13 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         rawCall.enqueue(this);
 
     }
+    public void callRouteService(String position, String dest) {
+
+        Call<RouteResponse> rawCall = routeService.getRoute(position, dest, true, "ru");
+
+        rawCall.enqueue(this);
+
+    }
 
     /**
      * Draw route on the map, based on google route service
@@ -123,6 +139,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
             if (i == 0) {
                 MarkerOptions startMarkerOptions = new MarkerOptions()
                         .position(route.get(i))
+                        //// TODO: 28.01.17 Нужно как-то передать сведения о названии места
                         .title("Начальная точка маршрута");
                 mMap.addMarker(startMarkerOptions);
             } else if (i == route.size() - 1) {
@@ -148,7 +165,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     @Override
     public void onFailure(Call<RouteResponse> response, Throwable t) {
         Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        Log.e("ContentActivity: ", "Cannot access google route service");
+        Log.e("GoogleMapFragment: ", "Cannot access google route service");
     }
 
     @Override

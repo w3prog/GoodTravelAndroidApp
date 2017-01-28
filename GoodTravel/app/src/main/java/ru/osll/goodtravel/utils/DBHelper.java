@@ -1,6 +1,7 @@
 package ru.osll.goodtravel.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.sql.Date;
@@ -16,6 +17,8 @@ import ru.osll.goodtravel.models.Day;
 import ru.osll.goodtravel.models.PlaceCategory;
 import ru.osll.goodtravel.models.Place;
 import ru.osll.goodtravel.models.Plan;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by denis on 11/26/16.
@@ -169,19 +172,24 @@ public final class DBHelper {
         places1.add(Place.getByName("Кунскамера"));
         places1.add(Place.getByName("Экскурсия по Санкт-Петербургу"));
         places1.add(Place.getByName("Чемпионат по стрельбе"));
-        day3.setPlaces(places1);
-        day3.setDate(new Date(117,6,23));
+        day4.setPlaces(places1);
+        day4.setDate(new Date(117,6,23));
 
         Day day5 = new Day();
         places1 = new RealmList<>();
-        places1.add(Place.getByName("Экскурсия по городу Пушкину"));
-        places1.add(Place.getByName("Рок концерт"));
-        places1.add(Place.getByName("Петропавловская крепость"));
-        day3.setPlaces(places1);
-        day3.setDate(new Date(117,6,24));
+        places1.add(Place.getByName("Музей артиллерии"));
+        places1.add(Place.getByName("Экскурсия по Кромштату"));
+        places1.add(Place.getByName("Центральная площадь"));
+        day5.setPlaces(places1);
+        day5.setDate(new Date(117,6,24));
 
         Day day6 = new Day();
-
+        places1 = new RealmList<>();
+        places1.add(Place.getByName("Music holl"));
+        places1.add(Place.getByName("Медный всадник"));
+        places1.add(Place.getByName("Сьезд любителей Гарри Поттера"));
+        day6.setPlaces(places1);
+        day6.setDate(new Date(117,6,24));
 
         RealmList<Day> days = new RealmList<>();
         days.add(day1);
@@ -191,6 +199,7 @@ public final class DBHelper {
         days.add(day5);
         days.add(day6);
         execute(days);
+
         Plan plan = new Plan("Летний отдых",days);
         execute(plan);
     }
