@@ -75,6 +75,14 @@ public class DataBase {
         database = newDBH.getWritableDatabase();
     }
 
+    public static void clearData() {
+        database.delete(TABLE_PLACE_IN_DAYS, "", null);
+        database.delete(TABLE_PLACES, "", null);
+        database.delete(TABLE_PLACE_CATEGORIES, "", null);
+        database.delete(TABLE_DAYS, "", null);
+        database.delete(TABLE_PLANS, "", null);
+    }
+
     /**
      * Класс для CRUD операций с категориями
      */
@@ -504,7 +512,7 @@ public class DataBase {
         private static final String DATA_BASE_NAME = "PersonManagersDataBase";
         private static final int DATA_BASE_VERSION = 1;
 
-        public myDataBaseHelper(Context context) {
+        myDataBaseHelper(Context context) {
             super(context, DATA_BASE_NAME, null, DATA_BASE_VERSION);
         }
 

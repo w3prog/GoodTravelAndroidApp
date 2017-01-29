@@ -17,6 +17,7 @@ public final class DBHelper {
      */
     public static void generateData(){
 
+        DataBase.clearData();
         String place = "Санкт-Петербург";
         PlaceCategory c1 = new PlaceCategory("Музей",
                 "http://moodle.presby.edu/file.php/1/library.png");

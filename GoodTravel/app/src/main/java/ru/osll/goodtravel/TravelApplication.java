@@ -10,9 +10,10 @@ import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.utils.DBHelper;
 
 /**
- * Created by artem96 on 06.12.16.
+ * Класс для задания параметров запуска приложения.
+ * Подключение Мультидекса
+ * Подключение и генерации данных в базе данных
  */
-
 public class TravelApplication extends MultiDexApplication {
 
     @Override
@@ -25,8 +26,11 @@ public class TravelApplication extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+        //Создание базы данных
         DataBase.getInstance(base);
-        DBHelper.generateData();
+        Boolean debug = true;
+        if (debug)
+            DBHelper.generateData();
     }
 
 }
