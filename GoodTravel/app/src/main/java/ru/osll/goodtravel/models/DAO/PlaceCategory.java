@@ -12,13 +12,19 @@ public class PlaceCategory {
 
     public PlaceCategory(){ }
 
+    public PlaceCategory(String name) {
+        this.name = name;
+    }
+
     public PlaceCategory(String name, String strImg) {
         this.name = name;
         this.strImg = strImg;
     }
 
-    public PlaceCategory(String name) {
+    public PlaceCategory(long id, String name, String strImg) {
+        this.id = id;
         this.name = name;
+        this.strImg = strImg;
     }
 
     public String getStrImg() {

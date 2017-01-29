@@ -36,14 +36,14 @@ public final class DBHelper {
         PlaceCategory c8 = new PlaceCategory("Особые",
                 "https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.avanta-med.ru/images/eye.gif");
 
-        DataBase.PlaceCategoryRepository.save(c1);
-        DataBase.PlaceCategoryRepository.save(c2);
-        DataBase.PlaceCategoryRepository.save(c3);
-        DataBase.PlaceCategoryRepository.save(c4);
-        DataBase.PlaceCategoryRepository.save(c5);
-        DataBase.PlaceCategoryRepository.save(c6);
-        DataBase.PlaceCategoryRepository.save(c7);
-        DataBase.PlaceCategoryRepository.save(c8);
+        c1 = DataBase.PlaceCategoryRepository.save(c1);
+        c2 = DataBase.PlaceCategoryRepository.save(c2);
+        c3 = DataBase.PlaceCategoryRepository.save(c3);
+        c4 = DataBase.PlaceCategoryRepository.save(c4);
+        c5 = DataBase.PlaceCategoryRepository.save(c5);
+        c6 = DataBase.PlaceCategoryRepository.save(c6);
+        c7 = DataBase.PlaceCategoryRepository.save(c7);
+        c8 = DataBase.PlaceCategoryRepository.save(c8);
 
         Place place1 = new Place("Русский музей",340,place,"59.991078,30.318714",c1);
         Place place2 = new Place("Эрмитаж",400,place,"59.992078,30.318435",c1);
@@ -111,6 +111,7 @@ public final class DBHelper {
         place31 = DataBase.PlaceRepository.save(place31);
 
         Plan plan = new Plan("Летний отдых");
+        plan = DataBase.PlanRepository.save(plan);
 
 
         Day day1 = new Day();
@@ -123,7 +124,7 @@ public final class DBHelper {
         day1.setPlaces(places1);
         day1.setPlan(plan);
         day1.setDate(new Date(117,6,21));
-        DataBase.DayRepository.save(day1);
+        day1 = DataBase.DayRepository.save(day1);
 
         Day day2 = new Day();
         places1 = new ArrayList<>();
@@ -133,7 +134,7 @@ public final class DBHelper {
         day2.setPlaces(places1);
         day2.setPlan(plan);
         day2.setDate(new Date(117,6,21));
-        DataBase.DayRepository.save(day2);
+        day2 = DataBase.DayRepository.save(day2);
 
         Day day3 = new Day();
         places1 = new ArrayList<>();
@@ -143,7 +144,7 @@ public final class DBHelper {
         day3.setPlaces(places1);
         day3.setPlan(plan);
         day3.setDate(new Date(117,6,22));
-        DataBase.DayRepository.save(day3);
+        day3 = DataBase.DayRepository.save(day3);
 
         Day day4 = new Day();
         places1 = new ArrayList<>();
@@ -153,7 +154,7 @@ public final class DBHelper {
         day4.setPlaces(places1);
         day4.setPlan(plan);
         day4.setDate(new Date(117,6,23));
-        DataBase.DayRepository.save(day4);
+        day4 = DataBase.DayRepository.save(day4);
 
         Day day5 = new Day();
         places1 = new ArrayList<>();
@@ -163,7 +164,7 @@ public final class DBHelper {
         day5.setPlaces(places1);
         day5.setPlan(plan);
         day5.setDate(new Date(117,6,24));
-        DataBase.DayRepository.save(day5);
+        day5 = DataBase.DayRepository.save(day5);
 
         Day day6 = new Day();
         places1 = new ArrayList<>();
@@ -173,7 +174,7 @@ public final class DBHelper {
         day6.setPlaces(places1);
         day6.setPlan(plan);
         day6.setDate(new Date(117,6,24));
-        DataBase.DayRepository.save(day6);
+        day6 = DataBase.DayRepository.save(day6);
 
     }
 }

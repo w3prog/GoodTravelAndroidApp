@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -87,11 +88,12 @@ public class DataBase {
      * Класс для CRUD операций с категориями
      */
     public static class PlaceCategoryRepository {
-        public static long save(PlaceCategory pl){
+        public static PlaceCategory save(PlaceCategory pl){
             ContentValues cv = new ContentValues();
             cv.put(ROW_PLACE_CATEGORIES_NAME, pl.getName());
             cv.put(ROW_PLACE_CATEGORIES_IMG, pl.getStrImg());
-            return database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+            pl.setId( database.insert(TABLE_PLACE_CATEGORIES, null, cv));
+            return pl;
         }
         public static void save(ArrayList<PlaceCategory> placeCategories){
             for (PlaceCategory pl: placeCategories ) {
@@ -125,6 +127,7 @@ public class DataBase {
             if (c.moveToFirst()) {
                 do {
                     arrayList.add(new PlaceCategory(
+                            c.getLong(c.getColumnIndex(ID)),
                             c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_NAME)),
                             c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
                     ));
@@ -158,13 +161,12 @@ public class DataBase {
             cv.put(ROW_PLACES_IMG, pl.getSrcToImg());
             cv.put(ROW_PLACES_DESCRIPTION, pl.getDescription());
             cv.put(ROW_PLACES_PLACE_NAME, pl.getPlaceName());
-
             cv.put(ROW_PLACES_ADDRESS, pl.getAddress());
             cv.put(ROW_PLACES_COORDINATE, pl.getCoordinate());
             cv.put(ROW_PLACES_PRICE, pl.getPrice());
             cv.put(ROW_PLACES_TYPEOFGROUP, pl.getTypeOfGroup().toString());
             cv.put(ROW_PLACES_PLACE_CATEGORY, pl.getCategory().getId());
-
+            Log.d(TAG, "save: pl.getCategory() " + pl.getCategory().getId() );
             pl.setId(database.insert(TABLE_PLACES, null, cv));
             return pl;
         }
@@ -267,14 +269,18 @@ public class DataBase {
         public static ArrayList<Place> getFromFilter(@NotNull ArrayList<PlaceCategory> categories, Long price){
             ArrayList<Place> arrayList = new ArrayList<Place>();
             String categ = "";
+            StringBuilder stringBuilder = new StringBuilder();
+            Log.d(TAG, ""+categories.size());
             for (int i = 0; i < categories.size(); i++) {
                 if (categories.size()-1==i)
-                    categ.concat(Long.toString(categories.get(i).getId()));
+                    stringBuilder.append(Long.toString(categories.get(i).getId()));
                 else
-                    categ.concat(Long.toString(categories.get(i).getId())).concat(", ");
+                    stringBuilder.append(Long.toString(categories.get(i).getId())).append(", ");
             }
 
-            Cursor c = database.rawQuery("Select " + ID + ", " +
+            categ=stringBuilder.toString();
+            Log.d(TAG, "Перечисление индексов категорий" + categ);
+            String sql = "Select " + ID + ", " +
                     ROW_PLACES_NAME + ", " +
                     ROW_PLACES_DESCRIPTION + ", " +
                     ROW_PLACES_PLACE_NAME + ", " +
@@ -283,10 +289,12 @@ public class DataBase {
                     ROW_PLACES_PRICE + ", " +
                     ROW_PLACES_IMG + ", " +
                     ROW_PLACES_PLACE_CATEGORY + ", " +
-                    ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
-                    " where "+ ROW_PLACES_PLACE_CATEGORY + " in ( " + categ+ " ) and " +
-                    ROW_PLACES_PRICE +" >= "+price.toString()+
-                    "order by " + ID, null);
+                    ROW_PLACES_TYPEOFGROUP + " from " + TABLE_PLACES + " " +
+                    //" where " + ROW_PLACES_PLACE_CATEGORY + " in ( " + categ + " ) " +
+                    //"and " + ROW_PLACES_PRICE + " <= " + price.toString() +
+                    " order by " + ID;
+            Log.d(TAG, sql);
+            Cursor c = database.rawQuery(sql, null);
 
             if (c.moveToFirst()) {
                 do {
@@ -314,17 +322,17 @@ public class DataBase {
      * Класс для CRUD операций с днями
      */
     public static class DayRepository {
-        public static long save(Day day){
+        public static Day save(Day day){
             ContentValues cv = new ContentValues();
             // TODO: 28.01.17 Проверить корректность сохранения дат.
             cv.put(ROW_DAYS_DATE, day.getDate().toString());
             if (day.getPlan()!=null)
                 cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
-            long id =  database.insert(TABLE_PLACE_CATEGORIES, null, cv);
+            long id =  database.insert(TABLE_DAYS, null, cv);
             if (!day.getPlaces().isEmpty())
                 PlaceInDayRepository.addPlacesInDay(day,day.getPlaces());
 
-            return id;
+            return day;
         }
         public static Day get(long id){
             Cursor c = database.query(TABLE_DAYS,
@@ -385,11 +393,12 @@ public class DataBase {
      * Класс для CRUD операций с планами
      */
     public static class PlanRepository {
-        public static long save(Plan pl){
+        public static Plan save(Plan pl){
             ContentValues cv = new ContentValues();
             cv.put(ROW_PLANS_NAME, pl.getName());
             cv.put(ROW_PLANS_MONEY, pl.getMoney());
-            return database.insert(TABLE_PLANS, null, cv);
+            pl.setId( database.insert(TABLE_PLANS, null, cv));
+            return pl;
         }
         public static Plan get(long id){
             Cursor c = database.query(TABLE_PLANS,

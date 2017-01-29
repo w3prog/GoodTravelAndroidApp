@@ -88,8 +88,7 @@ public class MakerTravelSpecsFragment extends BaseFragment {
     }
 
     @Override
-    public void request()
-    {
+    public void request() {
 
     }
 

@@ -23,10 +23,6 @@ import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by artem96 on 10.10.16.
- */
-
 public class RouteMakerActivity extends AppCompatActivity
         implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
@@ -39,7 +35,7 @@ public class RouteMakerActivity extends AppCompatActivity
     private RouteMakerAdapter adapter;
 
 
-    public static List<PlaceCategory> placeCategoryList = new ArrayList<>();
+    public static ArrayList<PlaceCategory> placeCategoryList = new ArrayList<>();
     public static int progress = 0;
 
     TabHost mTabHost;
@@ -67,11 +63,16 @@ public class RouteMakerActivity extends AppCompatActivity
 
         FakeTabContent fakeFactory = new FakeTabContent(this);
 
-        mTabHost.addTab(mTabHost.newTabSpec("first_step").setIndicator("Шаг 1").setContent(fakeFactory));
-        mTabHost.addTab(mTabHost.newTabSpec("second_step").setIndicator("Шаг 2").setContent(fakeFactory));
-        mTabHost.addTab(mTabHost.newTabSpec("third_step").setIndicator("Шаг 3").setContent(fakeFactory));
-        mTabHost.addTab(mTabHost.newTabSpec("fourth_step").setIndicator("Шаг 4").setContent(fakeFactory));
-        mTabHost.addTab(mTabHost.newTabSpec("fifth_step").setIndicator("Шаг 5").setContent(fakeFactory));
+        mTabHost.addTab(mTabHost.newTabSpec("first_step")
+                .setIndicator("Шаг 1").setContent(fakeFactory));
+        mTabHost.addTab(mTabHost.newTabSpec("second_step")
+                .setIndicator("Шаг 2").setContent(fakeFactory));
+        mTabHost.addTab(mTabHost.newTabSpec("third_step")
+                .setIndicator("Шаг 3").setContent(fakeFactory));
+        mTabHost.addTab(mTabHost.newTabSpec("fourth_step")
+                .setIndicator("Шаг 4").setContent(fakeFactory));
+        mTabHost.addTab(mTabHost.newTabSpec("fifth_step")
+                .setIndicator("Шаг 5").setContent(fakeFactory));
 
         for(int i = 0; i < mTabHost.getTabWidget().getTabCount(); i++)
             mTabHost.getTabWidget().getChildTabViewAt(i).setEnabled(false);
@@ -246,7 +247,8 @@ public class RouteMakerActivity extends AppCompatActivity
 
         mTabHost.setCurrentTab(selectedItem);
 
-        Fragment currentFragment = getSupportFragmentManager().getFragments().get(pager.getCurrentItem());
+        Fragment currentFragment = getSupportFragmentManager()
+                .getFragments().get(pager.getCurrentItem());
         ((BaseFragment)currentFragment).request();
 
     }
@@ -263,7 +265,8 @@ public class RouteMakerActivity extends AppCompatActivity
 
     public void onClickNextButton(View view)
     {
-        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+        MakerTravelCalendarFragment fragment =
+                (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
 
         if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
@@ -279,9 +282,11 @@ public class RouteMakerActivity extends AppCompatActivity
 
     public void onClickFinishButton(View view)
     {
-        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter
+                .instantiateItem(pager, 1);
         fragment.fixCurrentDay();
-        //PlanService.addAll(MakerTravelListFragment.placeList, realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
+        //PlanService.addAll(MakerTravelListFragment.placeList,
+        // realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
         finish();
     }
 

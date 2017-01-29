@@ -4,6 +4,7 @@ package ru.osll.goodtravel.ui.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
+import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
@@ -29,6 +31,7 @@ import java.util.List;
 
 public class MakerTravelListFragment extends BaseFragment {
 
+    private final String TAG ="MakerTravelListFragment";
     RouteMakerInfoBundle routeInfo;
     RouteMakerActivity maker;
 
@@ -60,20 +63,26 @@ public class MakerTravelListFragment extends BaseFragment {
     }
 
     @Override
-    public void request()
-    {
+    public void request() {
         placeList.clear();
 
+        Log.d(TAG, "Входит в фильтр");
+        final List<Place> placeArrayList = DataBase.PlaceRepository
+                .getFromFilter(
+                        RouteMakerActivity.placeCategoryList,
+                        (long)RouteMakerActivity.progress);
 
-        final List<Place> placeArrayList = new ArrayList<>();
-
+        Log.d(TAG, "Выходит");
         for(int i = 0; i < RouteMakerActivity.placeCategoryList.size(); i++)
         {
             // TODO: 29.01.17 реализовать
 //            placeArrayList.addAll(Place.getServices(
 //                    RouteMakerActivity.placeCategoryList.get(i), RouteMakerActivity.progress));
         }
-
+        Log.d(TAG, "" + placeArrayList.size());
+        for (int i=0;i<placeArrayList.size();i++){
+            Log.d(TAG, ""+placeArrayList.get(i).getCategory().getId());
+        }
         TravelListAdapter adapter = new TravelListAdapter(new ArrayList<>(placeArrayList));
 
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener()

@@ -48,15 +48,13 @@ public class MakerTravelTypeFragment extends BaseFragment
         return v;
     }
 
-    private void init(View view)
-    {
+    private void init(View view) {
         categoryRecyclerView = (RecyclerView)view.findViewById(R.id.categoryRecyclerView);
 
         initCategory();
     }
 
-    private void initCategory()
-    {
+    private void initCategory() {
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
 
         final List<PlaceCategory> placeCategoryList = DataBase.PlaceCategoryRepository.getAll();
