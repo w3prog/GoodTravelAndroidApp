@@ -15,16 +15,17 @@ import ru.osll.goodtravel.enums.PartnerType;
 import ru.osll.goodtravel.models.DAO.Day;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DAO.Plan;
+import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
-import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
-import ru.osll.goodtravel.ui.fragments.MakerTravelListFragment;
-import ru.osll.goodtravel.ui.fragments.MakerTravelPackingFragment;
-import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
-import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
+import ru.osll.goodtravel.ui.fragments.TravelMaker.SelectPlaceFragment;
+import ru.osll.goodtravel.ui.fragments.TravelMaker.CalendarFragment;
+import ru.osll.goodtravel.ui.fragments.TravelMaker.MakeDayFragment;
+import ru.osll.goodtravel.ui.fragments.TravelMaker.MoneyFragment;
+import ru.osll.goodtravel.ui.fragments.TravelMaker.PlaceCategoryFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class RouteMakerActivity extends AppCompatActivity
         implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
@@ -43,6 +44,7 @@ public class RouteMakerActivity extends AppCompatActivity
     public static Date SelectedDate;
     public static int progress = 0;
     public static PartnerType partnerType = PartnerType.SINGLE;
+    public Plan currentPlan;
 
     TabHost mTabHost;
 
@@ -52,6 +54,8 @@ public class RouteMakerActivity extends AppCompatActivity
         this.setContentView(R.layout.route_maker_activity);
         initViewPager();
         initTabHost();
+        currentPlan=new Plan();
+
     }
 
     private void initViewPager() {
@@ -110,19 +114,19 @@ public class RouteMakerActivity extends AppCompatActivity
 
             switch (position) {
                 case 0:
-                    stepFragment = MakerTravelTypeFragment.createInstance();
+                    stepFragment = PlaceCategoryFragment.createInstance();
                     break;
                 case 1:
-                    stepFragment = MakerTravelCalendarFragment.createInstance();
+                    stepFragment = CalendarFragment.createInstance();
                     break;
                 case 2:
-                    stepFragment = MakerTravelSpecsFragment.createInstance();
+                    stepFragment = MoneyFragment.createInstance();
                     break;
                 case 3:
-                    stepFragment = MakerTravelListFragment.createInstance(RouteMakerActivity.this);
+                    stepFragment = SelectPlaceFragment.createInstance(RouteMakerActivity.this);
                     break;
                 case 4:
-                    stepFragment = MakerTravelPackingFragment.createInstance( RouteMakerActivity.this);
+                    stepFragment = MakeDayFragment.createInstance( RouteMakerActivity.this);
                     break;
                 default:
             }
@@ -263,8 +267,8 @@ public class RouteMakerActivity extends AppCompatActivity
 
     public void onClickNextButton(View view)
     {
-        MakerTravelCalendarFragment fragment =
-                (MakerTravelCalendarFragment)adapter.instantiateItem(pager, 1);
+        CalendarFragment fragment =
+                (CalendarFragment)adapter.instantiateItem(pager, 1);
 
         if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
@@ -274,19 +278,27 @@ public class RouteMakerActivity extends AppCompatActivity
         }
         else
         {
-            Day day = new Day();
+            makeDay();
             pager.setCurrentItem(0);
             fragment.fixCurrentDay();
         }
     }
 
+    private void makeDay() {
+        Day day = new Day(this.currentPlan,SelectedDate);
+        day.setPlaces(Places);
+        Places = new ArrayList<>();
+        Days.add(day);
+    }
+
     public void onClickFinishButton(View view)
     {
-        MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter
+        CalendarFragment fragment = (CalendarFragment)adapter
                 .instantiateItem(pager, 1);
         fragment.fixCurrentDay();
-        //PlanService.addAll(MakerTravelListFragment.placeList,
-        // realm, CalendarPagerAdapter.fixedList.get(CalendarPagerAdapter.fixedList.size() - 1).getDate());
+        makeDay();
+        currentPlan = DataBase.PlanRepository.save(currentPlan);
+        DataBase.DayRepository.save(Days);
         finish();
     }
 
@@ -295,7 +307,7 @@ public class RouteMakerActivity extends AppCompatActivity
     {
         if(pager.getCurrentItem() == 0)
         {
-            MakerTravelCalendarFragment fragment = (MakerTravelCalendarFragment)adapter
+            CalendarFragment fragment = (CalendarFragment)adapter
                     .instantiateItem(pager, 1);
             fragment.clearFixed();
 

@@ -350,6 +350,9 @@ public class DataBase {
 
             return day;
         }
+        public static void save(ArrayList<Day> days){
+            for (Day d: days) save(d);
+        }
         public static Day get(long id){
             Cursor c = database.query(TABLE_DAYS,
                     null,

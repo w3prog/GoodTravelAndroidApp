@@ -13,10 +13,18 @@ public class Day {
     private Date date;
     private ArrayList<Place> places;
 
+    public Day(){
+        places = new ArrayList<>();
+    }
+    public Day(Plan plan, Date date) {
+        places = new ArrayList<>();
+    }
+
     public Day(long id, Plan plan, Date date) {
         this.id = id;
         this.plan = plan;
         this.date = date;
+        places = new ArrayList<>();
     }
 
     public Plan getPlan() {
@@ -49,10 +57,6 @@ public class Day {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Day() {
-        places = new ArrayList<>();
     }
 
 }

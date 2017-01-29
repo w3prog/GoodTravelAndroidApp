@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.ui.fragments;
+package ru.osll.goodtravel.ui.fragments.TravelMaker;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,23 +15,21 @@ import com.squareup.picasso.Picasso;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * Created by artem96 on 13.10.16.
- */
 
-public class MakerTravelPackingFragment extends BaseFragment {
+public class MakeDayFragment extends BaseFragment {
 
     private LinearLayout packingContainer;
     private RouteMakerActivity maker;
     private RecyclerView view;
 
-    public static MakerTravelPackingFragment createInstance(RouteMakerActivity maker) {
+    public static MakeDayFragment createInstance(RouteMakerActivity maker) {
 
-        MakerTravelPackingFragment fragment = new MakerTravelPackingFragment();
+        MakeDayFragment fragment = new MakeDayFragment();
         fragment.maker = maker;
         // here we can add some information with bundle class
 
@@ -63,7 +61,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
     @Override
     public void request()
     {
-        view.setAdapter(new PackingListAdapter(MakerTravelListFragment.placeList));
+        view.setAdapter(new PackingListAdapter(RouteMakerActivity.Places));
     }
 
     private class PackingListItemHolder extends RecyclerView.ViewHolder {

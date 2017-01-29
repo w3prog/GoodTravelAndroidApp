@@ -1,20 +1,17 @@
-package ru.osll.goodtravel.ui.fragments;
+package ru.osll.goodtravel.ui.fragments.TravelMaker;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.enums.PartnerType;
 
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -22,15 +19,15 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
  * Created by artem96 on 11.10.16.
  */
 
-public class MakerTravelSpecsFragment extends BaseFragment {
+public class MoneyFragment extends BaseFragment {
 
     private DiscreteSeekBar seekBar;
     private View singleButton;
     private View coupleButton;
     private View familyButton;
 
-    public static MakerTravelSpecsFragment createInstance() {
-        MakerTravelSpecsFragment fragment = new MakerTravelSpecsFragment();
+    public static MoneyFragment createInstance() {
+        MoneyFragment fragment = new MoneyFragment();
         // here we can add some information with bundle class
 
         return fragment;

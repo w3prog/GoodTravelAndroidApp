@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.ui.fragments;
+package ru.osll.goodtravel.ui.fragments.TravelMaker;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,21 +15,19 @@ import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
-import ru.osll.goodtravel.utils.DBHelper;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 
 /**
- * Created by artem96 on 10.10.16.
+ * Фрагмент для выбора категории мастере создания машрутов
  */
-
-public class MakerTravelTypeFragment extends BaseFragment
+public class PlaceCategoryFragment extends BaseFragment
 {
-
 
     private RecyclerView categoryRecyclerView;
 
 
-    public static MakerTravelTypeFragment createInstance() {
-        MakerTravelTypeFragment fragment = new MakerTravelTypeFragment();
+    public static PlaceCategoryFragment createInstance() {
+        PlaceCategoryFragment fragment = new PlaceCategoryFragment();
         return fragment;
     }
 

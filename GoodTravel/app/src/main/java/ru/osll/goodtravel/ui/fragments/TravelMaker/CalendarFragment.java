@@ -1,8 +1,7 @@
-package ru.osll.goodtravel.ui.fragments;
+package ru.osll.goodtravel.ui.fragments.TravelMaker;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,16 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 
 
-public class MakerTravelCalendarFragment extends BaseFragment {
+public class CalendarFragment extends BaseFragment {
 
     private CalendarDay currentDay;
     private MaterialCalendarView calendarView;
 
-    public static MakerTravelCalendarFragment createInstance() {
-        MakerTravelCalendarFragment fragment = new MakerTravelCalendarFragment();
+    public static CalendarFragment createInstance() {
+        CalendarFragment fragment = new CalendarFragment();
 
         // here we can add some information with bundle class
 

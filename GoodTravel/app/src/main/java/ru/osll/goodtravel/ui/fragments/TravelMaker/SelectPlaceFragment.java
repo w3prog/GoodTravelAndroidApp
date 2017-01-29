@@ -1,4 +1,4 @@
-package ru.osll.goodtravel.ui.fragments;
+package ru.osll.goodtravel.ui.fragments.TravelMaker;
 
 
 import android.os.Bundle;
@@ -19,29 +19,24 @@ import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
+import ru.osll.goodtravel.ui.fragments.BaseFragment;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by artem96 on 13.10.16.
- */
 
-public class MakerTravelListFragment extends BaseFragment {
+public class SelectPlaceFragment extends BaseFragment {
 
-    private final String TAG ="MakerTravelListFragment";
+    private final String TAG ="SelectPlaceFragment";
     RouteMakerActivity maker;
 
     RecyclerView recyclerView;
 
-    public static List<Place> placeList;
-
-    public static MakerTravelListFragment createInstance(
+    public static SelectPlaceFragment createInstance(
             RouteMakerActivity maker) {
-        MakerTravelListFragment fragment = new MakerTravelListFragment();
+        SelectPlaceFragment fragment = new SelectPlaceFragment();
         fragment.maker = maker;
-        placeList = new ArrayList<>();
 
         // here we can add some information with bundle class
 
@@ -61,7 +56,7 @@ public class MakerTravelListFragment extends BaseFragment {
 
     @Override
     public void request() {
-        placeList.clear();
+        RouteMakerActivity.Places.clear();
 
         Log.d(TAG, "Входит в фильтр");
         final List<Place> placeArrayList = DataBase.PlaceRepository
@@ -84,13 +79,13 @@ public class MakerTravelListFragment extends BaseFragment {
             {
                 Place selectedPlace = placeArrayList.get(i);
 
-                if(placeList.contains(selectedPlace))
+                if(RouteMakerActivity.Places.contains(selectedPlace))
                 {
-                    placeList.remove(selectedPlace);
+                    RouteMakerActivity.Places.remove(selectedPlace);
                 }
                 else
                 {
-                    placeList.add(selectedPlace);
+                    RouteMakerActivity.Places.add(selectedPlace);
                 }
             }
         });
