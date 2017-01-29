@@ -70,7 +70,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SaintPeterburgLng));
         PlaceCategory c1 = new PlaceCategory("Музей",
                 "http://moodle.presby.edu/file.php/1/library.png");
-        PlaceCategory c2 = PlaceCategory.getByName("Экскурсии по городу");
+        PlaceCategory c2 = new PlaceCategory("Экскурсии по городу");
         String place = "Санкт-Петербург";
         ArrayList<Place> places = new ArrayList<>();
         places.add(new Place("Русский музей",340,place,"59.991078,30.318714",c1));

@@ -40,7 +40,6 @@ public class DataBase {
     private static final String ROW_PLACES_IMG = "image";
     private static final String ROW_PLACES_DESCRIPTION = "desc";
     private static final String ROW_PLACES_PLACE_NAME = "place_name";
-
     private static final String ROW_PLACES_ADDRESS = "address";
     private static final String ROW_PLACES_COORDINATE = "coordinate";
     private static final String ROW_PLACES_PRICE = "price";
@@ -529,7 +528,6 @@ public class DataBase {
                     + ROW_PLACES_DESCRIPTION + " text, "
                     + ROW_PLACES_ADDRESS + " text, "
                     + ROW_PLACES_PRICE + " text, "
-                    + ROW_PLACES_NAME + " text, "
                     + ROW_PLACES_PLACE_CATEGORY + " integer, "
                     + ROW_PLACES_TYPEOFGROUP + " text" + ");");
 

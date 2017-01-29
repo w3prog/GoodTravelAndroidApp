@@ -69,8 +69,9 @@ public class MakerTravelListFragment extends BaseFragment {
 
         for(int i = 0; i < RouteMakerActivity.placeCategoryList.size(); i++)
         {
-            placeArrayList.addAll(Place.getServices(
-                    RouteMakerActivity.placeCategoryList.get(i), RouteMakerActivity.progress));
+            // TODO: 29.01.17 реализовать
+//            placeArrayList.addAll(Place.getServices(
+//                    RouteMakerActivity.placeCategoryList.get(i), RouteMakerActivity.progress));
         }
 
         TravelListAdapter adapter = new TravelListAdapter(new ArrayList<>(placeArrayList));

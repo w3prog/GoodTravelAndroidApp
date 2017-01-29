@@ -16,9 +16,6 @@ import java.util.List;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
 
-/**
- * Created by mycrfotkai on 26.11.16.
- */
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
 {
@@ -65,7 +62,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         public void onClick(View view)
         {
             if(onItemClickListener != null)
-                onItemClickListener.onItemClick(null, view, getAdapterPosition(), getAdapterPosition());
+                onItemClickListener.onItemClick(null, view, getAdapterPosition(),
+                        getAdapterPosition());
         }
 
         public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
@@ -90,7 +88,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.maker_travel_category_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.maker_travel_category_item, parent, false);
         return new ViewHolder(view, parent.getContext());
     }
 

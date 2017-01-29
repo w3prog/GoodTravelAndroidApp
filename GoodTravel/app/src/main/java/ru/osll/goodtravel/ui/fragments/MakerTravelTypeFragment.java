@@ -14,6 +14,7 @@ import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.utils.DBHelper;
 
@@ -57,8 +58,8 @@ public class MakerTravelTypeFragment extends BaseFragment
     private void initCategory()
     {
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
-        DBHelper.generateData();
-        final List<PlaceCategory> placeCategoryList = PlaceCategory.getAll();
+
+        final List<PlaceCategory> placeCategoryList = DataBase.PlaceCategoryRepository.getAll();
         CategoryAdapter categoryAdapter = new CategoryAdapter(placeCategoryList);
         categoryAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
