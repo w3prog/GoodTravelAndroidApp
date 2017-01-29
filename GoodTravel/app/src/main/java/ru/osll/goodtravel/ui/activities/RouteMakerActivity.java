@@ -285,7 +285,8 @@ public class RouteMakerActivity extends AppCompatActivity
     }
 
     private void makeDay() {
-        Day day = new Day(this.currentPlan,SelectedDate);
+        //// TODO: 29.01.17 Найти лучший способ копирования даты
+        Day day = new Day(this.currentPlan,new Date(SelectedDate.toString()));
         day.setPlaces(Places);
         Places = new ArrayList<>();
         Days.add(day);
@@ -293,10 +294,11 @@ public class RouteMakerActivity extends AppCompatActivity
 
     public void onClickFinishButton(View view)
     {
+        makeDay();
         CalendarFragment fragment = (CalendarFragment)adapter
                 .instantiateItem(pager, 1);
         fragment.fixCurrentDay();
-        makeDay();
+
         currentPlan = DataBase.PlanRepository.save(currentPlan);
         DataBase.DayRepository.save(Days);
         finish();

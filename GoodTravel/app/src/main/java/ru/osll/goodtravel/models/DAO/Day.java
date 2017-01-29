@@ -17,6 +17,8 @@ public class Day {
         places = new ArrayList<>();
     }
     public Day(Plan plan, Date date) {
+        this.plan = plan;
+        this.date = date;
         places = new ArrayList<>();
     }
 
