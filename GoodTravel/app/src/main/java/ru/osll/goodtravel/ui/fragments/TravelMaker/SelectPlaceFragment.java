@@ -16,7 +16,9 @@ import com.squareup.picasso.Picasso;
 
 
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.adapters.PlanAdapter;
 import ru.osll.goodtravel.models.DAO.Place;
+import ru.osll.goodtravel.models.DAO.Plan;
 import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
@@ -29,15 +31,12 @@ import java.util.List;
 public class SelectPlaceFragment extends BaseFragment {
 
     private final String TAG ="SelectPlaceFragment";
-    RouteMakerActivity maker;
 
     RecyclerView recyclerView;
 
     public static SelectPlaceFragment createInstance(
             RouteMakerActivity maker) {
         SelectPlaceFragment fragment = new SelectPlaceFragment();
-        fragment.maker = maker;
-
         // here we can add some information with bundle class
 
         return fragment;
@@ -50,7 +49,6 @@ public class SelectPlaceFragment extends BaseFragment {
         View v = (View) inflater.inflate(R.layout.maker_travel_list_fragment, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.route_maker_list);
         recyclerView.setNestedScrollingEnabled(false);
-
         return v;
     }
 

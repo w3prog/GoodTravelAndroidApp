@@ -11,9 +11,9 @@
             android:icon="@android:drawable/ic_dialog_map"
             android:title="@string/make_easy_route"/>
         <item
-            android:id="@+id/path_list"
+            android:id="@+id/plan_list"
             android:icon="@drawable/ic_menu_share"
-            android:title="Список маршрутов" />
+            android:title="Список планов" />
     </group>
 
 </menu>

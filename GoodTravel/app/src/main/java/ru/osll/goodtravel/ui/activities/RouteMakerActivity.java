@@ -54,7 +54,7 @@ public class RouteMakerActivity extends AppCompatActivity
         this.setContentView(R.layout.route_maker_activity);
         initViewPager();
         initTabHost();
-        currentPlan=new Plan();
+        currentPlan=new Plan("Новый план");
 
     }
 

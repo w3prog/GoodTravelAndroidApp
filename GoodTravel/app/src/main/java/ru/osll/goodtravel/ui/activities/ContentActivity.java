@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.ArrayList;
+
 import ru.osll.goodtravel.R;
+import ru.osll.goodtravel.models.DAO.Plan;
+import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.fragments.GoogleMapFragment;
-import ru.osll.goodtravel.utils.DBHelper;
+import ru.osll.goodtravel.ui.fragments.PlansFragment;
 
 public class ContentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -92,9 +96,11 @@ public class ContentActivity extends AppCompatActivity
         } else if (id == R.id.menu_easy_make_route_button) {
             // start easy route make wizard
             startRouteMaker();
-        } else if (id == R.id.path_list) {
-            //// TODO: 27.01.17 исправить на фрагмент
-            startActivity(new Intent(this, PlanActivity.class));
+        } else if (id == R.id.plan_list) {
+            PlansFragment fragment = PlansFragment.newInstance();
+            ArrayList<Plan> plans = DataBase.PlanRepository.getAll();
+            fragment.setPlans(plans);
+            setFragment(fragment);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

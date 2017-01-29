@@ -4,17 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/previewImageView"/>
-
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dateTextView"/>
-
-    <TextView
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/descriptionTextView"/>
