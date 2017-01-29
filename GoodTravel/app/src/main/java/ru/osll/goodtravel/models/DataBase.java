@@ -170,7 +170,6 @@ public class DataBase {
             cv.put(ROW_PLACES_PRICE, pl.getPrice());
             cv.put(ROW_PLACES_TYPEOFGROUP, pl.getTypeOfGroup().toString());
             cv.put(ROW_PLACES_PLACE_CATEGORY, pl.getCategory().getId());
-            Log.d(TAG, "save: pl.getCategory() " + pl.getCategory().getId() );
             pl.setId(database.insert(TABLE_PLACES, null, cv));
             return pl;
         }
@@ -308,7 +307,7 @@ public class DataBase {
                     ROW_PLACES_TYPEOFGROUP + " from " + TABLE_PLACES + " " +
                     " where " + ROW_PLACES_PLACE_CATEGORY + " in ( " + stringBuilder.toString() + " ) " +
                     "and " + ROW_PLACES_PRICE + " <= " + price.toString() +
-                    partnerQuery+
+                    //partnerQuery+
                     " order by " + ID;
             Log.d(TAG, sql);
             Cursor c = database.rawQuery(sql, null);

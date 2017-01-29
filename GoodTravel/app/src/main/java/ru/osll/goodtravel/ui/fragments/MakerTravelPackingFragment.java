@@ -17,6 +17,7 @@ import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -49,7 +50,8 @@ public class MakerTravelPackingFragment extends BaseFragment {
 
         TextView dayLabel = (TextView) v.findViewById(R.id.maker_packing_firstDayLabel);
 
-        dayLabel.setText(routeInfo.getFirstDay().getDate().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
+        dayLabel.setText(sdf.format(routeInfo.getFirstDay().getDate()));
 
         view = (RecyclerView) v.findViewById(R.id.packing_list_container);
 
