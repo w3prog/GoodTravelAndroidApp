@@ -70,15 +70,10 @@ public class MakerTravelListFragment extends BaseFragment {
         final List<Place> placeArrayList = DataBase.PlaceRepository
                 .getFromFilter(
                         RouteMakerActivity.placeCategoryList,
-                        (long)RouteMakerActivity.progress);
+                        (long)RouteMakerActivity.progress,
+                        RouteMakerActivity.partnerType);
 
         Log.d(TAG, "Выходит");
-        for(int i = 0; i < RouteMakerActivity.placeCategoryList.size(); i++)
-        {
-            // TODO: 29.01.17 реализовать
-//            placeArrayList.addAll(Place.getServices(
-//                    RouteMakerActivity.placeCategoryList.get(i), RouteMakerActivity.progress));
-        }
         Log.d(TAG, "" + placeArrayList.size());
         for (int i=0;i<placeArrayList.size();i++){
             Log.d(TAG, ""+placeArrayList.get(i).getCategory().getId());

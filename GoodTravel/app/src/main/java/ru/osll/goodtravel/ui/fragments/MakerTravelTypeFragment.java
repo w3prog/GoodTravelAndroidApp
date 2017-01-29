@@ -26,7 +26,6 @@ public class MakerTravelTypeFragment extends BaseFragment
 {
 
     private RouteMakerInfoBundle routeInfo;
-    private DBHelper dbHelper;
 
     private RecyclerView categoryRecyclerView;
 

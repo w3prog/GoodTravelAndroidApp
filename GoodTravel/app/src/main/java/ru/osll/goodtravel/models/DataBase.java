@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ru.osll.goodtravel.enums.PartnerType;
+import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 import ru.osll.goodtravel.models.DAO.Day;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
@@ -109,6 +111,7 @@ public class DataBase {
 
             if (c.moveToFirst()) {
                 placeCategory = new PlaceCategory(
+                        c.getLong(c.getColumnIndex(ID)),
                         c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_NAME)),
                         c.getString(c.getColumnIndex(ROW_PLACE_CATEGORIES_IMG))
                 );
@@ -146,7 +149,8 @@ public class DataBase {
                     new String[]{Long.toString(pl.getId())});
         }
         public static void delete(PlaceCategory pl){
-            //// TODO: 28.01.17 не реализованно каскадное удаление
+
+            database.delete(TABLE_PLACES,ROW_PLACES_PLACE_CATEGORY + " = "+ pl.getId(),null);
             database.delete(TABLE_PLACE_CATEGORIES, ID + " = " + pl.getId(), null);
         }
     }
@@ -266,20 +270,32 @@ public class DataBase {
             c.close();
             return arrayList;
         }
-        public static ArrayList<Place> getFromFilter(@NotNull ArrayList<PlaceCategory> categories, Long price){
+        public static ArrayList<Place> getFromFilter(
+                @NotNull ArrayList<PlaceCategory> categories,
+                Long price,
+                PartnerType pt){
             ArrayList<Place> arrayList = new ArrayList<Place>();
-            String categ = "";
             StringBuilder stringBuilder = new StringBuilder();
-            Log.d(TAG, ""+categories.size());
             for (int i = 0; i < categories.size(); i++) {
-                if (categories.size()-1==i)
-                    stringBuilder.append(Long.toString(categories.get(i).getId()));
-                else
-                    stringBuilder.append(Long.toString(categories.get(i).getId())).append(", ");
+                if (categories.size()-1==i) stringBuilder.append(Long.toString(categories.get(i).getId()));
+                else stringBuilder.append(Long.toString(categories.get(i).getId())).append(", ");
             }
+            String partnerQuery=" and "+ ROW_PLACES_TYPEOFGROUP + " in ( "+ TypeOfGroupEnum.ALL.toString();
+            if (pt ==PartnerType.SINGLE) partnerQuery+=
+                    ", " +  TypeOfGroupEnum.ONLY_SINGLE.toString() +
+                    ", " + TypeOfGroupEnum.NO_FAMILY.toString() +
+                    ", " + TypeOfGroupEnum.NO_COUPLE.toString();
+            else if(pt==PartnerType.COUPLE) partnerQuery+=
+                    ", " +  TypeOfGroupEnum.ONLY_COUPLE.toString() +
+                    ", " + TypeOfGroupEnum.NO_FAMILY.toString() +
+                    ", " + TypeOfGroupEnum.NO_SINGLE.toString();
+            else  partnerQuery+=
+                    ", " +  TypeOfGroupEnum.ONLY_FAMILY.toString() +
+                    ", " + TypeOfGroupEnum.NO_SINGLE.toString() +
+                    ", " + TypeOfGroupEnum.NO_SINGLE.toString();
+            partnerQuery+=" ) ";
 
-            categ=stringBuilder.toString();
-            Log.d(TAG, "Перечисление индексов категорий" + categ);
+
             String sql = "Select " + ID + ", " +
                     ROW_PLACES_NAME + ", " +
                     ROW_PLACES_DESCRIPTION + ", " +
@@ -290,8 +306,9 @@ public class DataBase {
                     ROW_PLACES_IMG + ", " +
                     ROW_PLACES_PLACE_CATEGORY + ", " +
                     ROW_PLACES_TYPEOFGROUP + " from " + TABLE_PLACES + " " +
-                    //" where " + ROW_PLACES_PLACE_CATEGORY + " in ( " + categ + " ) " +
-                    //"and " + ROW_PLACES_PRICE + " <= " + price.toString() +
+                    " where " + ROW_PLACES_PLACE_CATEGORY + " in ( " + stringBuilder.toString() + " ) " +
+                    "and " + ROW_PLACES_PRICE + " <= " + price.toString() +
+                    partnerQuery+
                     " order by " + ID;
             Log.d(TAG, sql);
             Cursor c = database.rawQuery(sql, null);

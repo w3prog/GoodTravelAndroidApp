@@ -11,5 +11,5 @@ public enum TypeOfGroupEnum {
     NO_SINGLE,
     NO_COUPLE,//правда не могу представить такую ситуацию.
     NO_FAMILY,
-    ALL;
+    ALL
 }

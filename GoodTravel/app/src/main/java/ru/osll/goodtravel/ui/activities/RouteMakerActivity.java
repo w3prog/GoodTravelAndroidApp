@@ -12,6 +12,7 @@ import android.widget.TabHost;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.enums.PartnerType;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
@@ -37,6 +38,7 @@ public class RouteMakerActivity extends AppCompatActivity
 
     public static ArrayList<PlaceCategory> placeCategoryList = new ArrayList<>();
     public static int progress = 0;
+    public static PartnerType partnerType = PartnerType.SINGLE;
 
     TabHost mTabHost;
 

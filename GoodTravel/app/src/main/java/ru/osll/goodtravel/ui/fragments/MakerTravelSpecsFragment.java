@@ -101,11 +101,11 @@ public class MakerTravelSpecsFragment extends BaseFragment {
             tickView.setVisibility(View.VISIBLE);
 
             if (v.getId() == R.id.family_button) {
-                routeInfo.setPartnerType(PartnerType.FAMILY);
+                RouteMakerActivity.partnerType = PartnerType.FAMILY;
             } else if (v.getId() == R.id.couple_button) {
-                routeInfo.setPartnerType(PartnerType.COUPLE);
+                RouteMakerActivity.partnerType = PartnerType.COUPLE;
             } else {
-                routeInfo.setPartnerType(PartnerType.SINGLE);
+                RouteMakerActivity.partnerType = PartnerType.SINGLE;
             }
         }
 
