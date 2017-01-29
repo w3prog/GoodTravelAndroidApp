@@ -19,7 +19,6 @@ import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
 
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.List;
 public class MakerTravelListFragment extends BaseFragment {
 
     private final String TAG ="MakerTravelListFragment";
-    RouteMakerInfoBundle routeInfo;
     RouteMakerActivity maker;
 
     RecyclerView recyclerView;
@@ -40,9 +38,8 @@ public class MakerTravelListFragment extends BaseFragment {
     public static List<Place> placeList;
 
     public static MakerTravelListFragment createInstance(
-            RouteMakerActivity maker, RouteMakerInfoBundle routeInfo) {
+            RouteMakerActivity maker) {
         MakerTravelListFragment fragment = new MakerTravelListFragment();
-        fragment.routeInfo = routeInfo;
         fragment.maker = maker;
         placeList = new ArrayList<>();
 

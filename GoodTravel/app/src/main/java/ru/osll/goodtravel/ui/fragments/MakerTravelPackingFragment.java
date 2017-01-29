@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,16 +25,13 @@ import java.util.List;
 
 public class MakerTravelPackingFragment extends BaseFragment {
 
-    private RouteMakerInfoBundle routeInfo;
     private LinearLayout packingContainer;
     private RouteMakerActivity maker;
     private RecyclerView view;
 
-    public static MakerTravelPackingFragment createInstance(RouteMakerInfoBundle routeInfo,
-                                                            RouteMakerActivity maker) {
+    public static MakerTravelPackingFragment createInstance(RouteMakerActivity maker) {
 
         MakerTravelPackingFragment fragment = new MakerTravelPackingFragment();
-        fragment.routeInfo = routeInfo;
         fragment.maker = maker;
         // here we can add some information with bundle class
 
@@ -51,7 +47,7 @@ public class MakerTravelPackingFragment extends BaseFragment {
         TextView dayLabel = (TextView) v.findViewById(R.id.maker_packing_firstDayLabel);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
-        dayLabel.setText(sdf.format(routeInfo.getFirstDay().getDate()));
+        dayLabel.setText(sdf.format(RouteMakerActivity.SelectedDate));
 
         view = (RecyclerView) v.findViewById(R.id.packing_list_container);
 

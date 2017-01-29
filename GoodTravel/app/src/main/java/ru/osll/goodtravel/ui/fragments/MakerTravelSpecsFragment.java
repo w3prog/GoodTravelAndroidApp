@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.enums.PartnerType;
 
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
-import ru.osll.goodtravel.enums.WealthType;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -26,16 +24,13 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class MakerTravelSpecsFragment extends BaseFragment {
 
-    private RouteMakerInfoBundle routeInfo;
-
     private DiscreteSeekBar seekBar;
     private View singleButton;
     private View coupleButton;
     private View familyButton;
 
-    public static MakerTravelSpecsFragment createInstance(RouteMakerInfoBundle routeInfo) {
+    public static MakerTravelSpecsFragment createInstance() {
         MakerTravelSpecsFragment fragment = new MakerTravelSpecsFragment();
-        fragment.routeInfo = routeInfo;
         // here we can add some information with bundle class
 
         return fragment;
@@ -58,13 +53,6 @@ public class MakerTravelSpecsFragment extends BaseFragment {
                 if(value >= 1500) value = Integer.MAX_VALUE;
 
                 RouteMakerActivity.progress = value;
-                if (value == 1) {
-                    routeInfo.setWealthType(WealthType.BUDGET);
-                } else if (value == 2) {
-                    routeInfo.setWealthType(WealthType.NORMAL);
-                } else {
-                    routeInfo.setWealthType(WealthType.LUXURY);
-                }
             }
 
             @Override

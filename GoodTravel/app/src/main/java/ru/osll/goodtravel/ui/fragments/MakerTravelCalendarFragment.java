@@ -12,7 +12,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
+import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
 
 
 public class MakerTravelCalendarFragment extends BaseFragment {
@@ -20,7 +20,7 @@ public class MakerTravelCalendarFragment extends BaseFragment {
     private CalendarDay currentDay;
     private MaterialCalendarView calendarView;
 
-    public static MakerTravelCalendarFragment createInstance(RouteMakerInfoBundle routeInfo) {
+    public static MakerTravelCalendarFragment createInstance() {
         MakerTravelCalendarFragment fragment = new MakerTravelCalendarFragment();
 
         // here we can add some information with bundle class
@@ -40,7 +40,7 @@ public class MakerTravelCalendarFragment extends BaseFragment {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public boolean onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
+                RouteMakerActivity.SelectedDate = date.getDate();
                 currentDay = date;
 
                 return false;

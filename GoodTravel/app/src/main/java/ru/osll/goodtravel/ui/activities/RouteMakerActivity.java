@@ -11,8 +11,9 @@ import android.view.View;
 import android.widget.TabHost;
 
 import ru.osll.goodtravel.R;
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.enums.PartnerType;
+import ru.osll.goodtravel.models.DAO.Day;
+import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.ui.fragments.BaseFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelCalendarFragment;
@@ -22,6 +23,7 @@ import ru.osll.goodtravel.ui.fragments.MakerTravelSpecsFragment;
 import ru.osll.goodtravel.ui.fragments.MakerTravelTypeFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RouteMakerActivity extends AppCompatActivity
@@ -29,7 +31,6 @@ public class RouteMakerActivity extends AppCompatActivity
 
     private static final String POSITION_ARGUMENT = "posarg";
 
-    private RouteMakerInfoBundle routeInfo;
     public static final int STEP_COUNT = 5;
 
     private ViewPager pager;
@@ -37,6 +38,9 @@ public class RouteMakerActivity extends AppCompatActivity
 
 
     public static ArrayList<PlaceCategory> placeCategoryList = new ArrayList<>();
+    public static ArrayList<Place> Places = new ArrayList<>();
+    public static ArrayList<Day> Days = new ArrayList<>();
+    public static Date SelectedDate;
     public static int progress = 0;
     public static PartnerType partnerType = PartnerType.SINGLE;
 
@@ -48,8 +52,6 @@ public class RouteMakerActivity extends AppCompatActivity
         this.setContentView(R.layout.route_maker_activity);
         initViewPager();
         initTabHost();
-        routeInfo = new RouteMakerInfoBundle();
-
     }
 
     private void initViewPager() {
@@ -62,9 +64,7 @@ public class RouteMakerActivity extends AppCompatActivity
     private void initTabHost() {
         mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup();
-
         FakeTabContent fakeFactory = new FakeTabContent(this);
-
         mTabHost.addTab(mTabHost.newTabSpec("first_step")
                 .setIndicator("Шаг 1").setContent(fakeFactory));
         mTabHost.addTab(mTabHost.newTabSpec("second_step")
@@ -89,11 +89,9 @@ public class RouteMakerActivity extends AppCompatActivity
         }
 
         public View createTabContent(String tabTag) {
-
             View fakeView = new View(context);
             fakeView.setMinimumHeight(0);
             fakeView.setMinimumWidth(0);
-
             return fakeView;
         }
     }
@@ -112,19 +110,19 @@ public class RouteMakerActivity extends AppCompatActivity
 
             switch (position) {
                 case 0:
-                    stepFragment = MakerTravelTypeFragment.createInstance(routeInfo);
+                    stepFragment = MakerTravelTypeFragment.createInstance();
                     break;
                 case 1:
-                    stepFragment = MakerTravelCalendarFragment.createInstance(routeInfo);
+                    stepFragment = MakerTravelCalendarFragment.createInstance();
                     break;
                 case 2:
-                    stepFragment = MakerTravelSpecsFragment.createInstance(routeInfo);
+                    stepFragment = MakerTravelSpecsFragment.createInstance();
                     break;
                 case 3:
-                    stepFragment = MakerTravelListFragment.createInstance(RouteMakerActivity.this, routeInfo);
+                    stepFragment = MakerTravelListFragment.createInstance(RouteMakerActivity.this);
                     break;
                 case 4:
-                    stepFragment = MakerTravelPackingFragment.createInstance(routeInfo, RouteMakerActivity.this);
+                    stepFragment = MakerTravelPackingFragment.createInstance( RouteMakerActivity.this);
                     break;
                 default:
             }
@@ -246,9 +244,7 @@ public class RouteMakerActivity extends AppCompatActivity
 
     @Override
     public void onPageSelected(int selectedItem) {
-
         mTabHost.setCurrentTab(selectedItem);
-
         Fragment currentFragment = getSupportFragmentManager()
                 .getFragments().get(pager.getCurrentItem());
         ((BaseFragment)currentFragment).request();
@@ -273,10 +269,12 @@ public class RouteMakerActivity extends AppCompatActivity
         if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
             pager.setCurrentItem(pager.getCurrentItem() + 1);
-            routeInfo.addDay(fragment.getCurrentDay());
+            // TODO: 29.01.17 Реализовать
+            //routeInfo.addDay(fragment.getCurrentDay());
         }
         else
         {
+            Day day = new Day();
             pager.setCurrentItem(0);
             fragment.fixCurrentDay();
         }

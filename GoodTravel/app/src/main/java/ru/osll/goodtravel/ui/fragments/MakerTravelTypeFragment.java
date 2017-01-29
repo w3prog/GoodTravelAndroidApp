@@ -12,7 +12,6 @@ import java.util.List;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.adapters.CategoryAdapter;
-import ru.osll.goodtravel.bundles.RouteMakerInfoBundle;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
 import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.ui.activities.RouteMakerActivity;
@@ -25,14 +24,12 @@ import ru.osll.goodtravel.utils.DBHelper;
 public class MakerTravelTypeFragment extends BaseFragment
 {
 
-    private RouteMakerInfoBundle routeInfo;
 
     private RecyclerView categoryRecyclerView;
 
 
-    public static MakerTravelTypeFragment createInstance(RouteMakerInfoBundle routeInfo) {
+    public static MakerTravelTypeFragment createInstance() {
         MakerTravelTypeFragment fragment = new MakerTravelTypeFragment();
-        fragment.routeInfo = routeInfo;
         return fragment;
     }
 
