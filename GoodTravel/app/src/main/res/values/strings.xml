@@ -7,7 +7,6 @@
     <string name="action_settings">Settings</string>
 
 
-
     <string name="make_easy_route">Создать маршрут</string>
     <string name="maker_travel_type_text">Выберете одну или несколько категорий отдыха.</string>
     <string name="maker_travel_spec_text">Расскажите подробнее о том, какой отдых Вас интересует.</string>
@@ -43,5 +42,8 @@
     <string name="new_quote_author_hint">Введите автора</string>
     <string name="add_new_quote_title">Добавление цитаты</string>
     <string name="continue_without_signin">Продолжить без входа</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -273,8 +273,6 @@ public class RouteMakerActivity extends AppCompatActivity
         if(pager.getCurrentItem() != mTabHost.getTabWidget().getTabCount() - 1)
         {
             pager.setCurrentItem(pager.getCurrentItem() + 1);
-            // TODO: 29.01.17 Реализовать
-            //routeInfo.addDay(fragment.getCurrentDay());
         }
         else
         {

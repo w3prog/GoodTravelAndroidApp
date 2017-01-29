@@ -91,8 +91,6 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     }
 
     public void showDayInMap(@NonNull Day day){
-        // TODO: 27.01.17 Реализовать отображения маршрута на один день
-
         ArrayList<Place> places = day.getPlaces();
 
         places.get(1).getCoordinate();
@@ -156,7 +154,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
             if (i == 0) {
                 MarkerOptions startMarkerOptions = new MarkerOptions()
                         .position(route.get(i))
-                        //// TODO: 28.01.17 Нужно как-то передать сведения о названии места
+                        //// TODO: Для Артема 28.01.17 Нужно как-то передать сведения о названии места
                         .title("Начальная точка маршрута");
                 mMap.addMarker(startMarkerOptions);
             } else if (i == route.size() - 1) {

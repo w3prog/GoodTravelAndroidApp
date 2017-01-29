@@ -18,7 +18,6 @@ public final class ModelUtils {
         int answer = 0;
         if (days!=null)
             for (Day a :days) {
-                // TODO: 28.01.17 реализовать данный метод
                 ArrayList<Place> places = a.getPlaces();
                 if(places!=null)
                     for(Place p:places){
@@ -31,8 +30,6 @@ public final class ModelUtils {
         else
             Log.d(TAG, "Day list is null.");
         return answer;
-
-   //     return 10000;
     }
 
 }
