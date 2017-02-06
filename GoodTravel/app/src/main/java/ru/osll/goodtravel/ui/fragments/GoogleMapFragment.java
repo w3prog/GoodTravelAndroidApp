@@ -36,8 +36,7 @@ import ru.osll.goodtravel.rest.GoogleRouteService;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyCallback,
-        Callback<RouteResponse> {
+public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     //for google maps
@@ -49,6 +48,14 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
     // color of route
     private static final int ROUTE_PATH_COLOR = R.color.vk_light_color;
+
+    /**
+     * Last route obtained from google route service
+     */
+    private RouteResponse lastRoute;
+
+    // temp fake data array
+    private ArrayList<Place> places;
 
     public GoogleMapFragment() {
         // init google service
@@ -72,17 +79,20 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
                 "http://moodle.presby.edu/file.php/1/library.png");
         PlaceCategory c2 = new PlaceCategory("Экскурсии по городу");
         String place = "Санкт-Петербург";
-        ArrayList<Place> places = new ArrayList<>();
-        places.add(new Place("Русский музей",340,place,"59.991078,30.318714",c1));
-        places.add(new Place("Эрмитаж",400,place,"59.992078,30.318435",c1));
-        places.add(new Place("Музей артиллерии",1200,place,"59.992534,30.318643",c1));
-        places.add(new Place("Музей радиосвязи",600,place,"59.992643,30.318543",c1));
-        places.add(new Place("Кунскамера",700,place,"59.992548,30.318643",c1, TypeOfGroupEnum.NO_FAMILY));
-        places.add(new Place("Экскурсия по Санкт-Петербургу",2000,place,"59.992564,30.318543",c2));
-        places.add(new Place("Водная экскурсия по Санкт-Петербургу",2200,place,"59.992543,30.318543",c2));
-        places.add(new Place("Экскурсия по Петергофу",450,place,"59.992436,30.318543",c2));
-        places.add(new Place("Экскурсия по городу Пушкину",700,place,"59.992546,30.318643",c2));
-        places.add(new Place("Экскурсия по Кромштату",800,place,"59.992345,30.318543",c2));
+        places = new ArrayList<>();
+        places.add(new Place("Русский музей",340,place,"59.99107,30.31871",c1));
+        places.add(new Place("Эрмитаж",400,place,"59.99207,30.31843",c1));
+        places.add(new Place("Музей артиллерии",1200,place,"59.99253,30.31864",c1));
+        places.add(new Place("Музей радиосвязи",600,place,"59.99264,30.31854",c1));
+        Place placex = new Place("Кунскамера",700,place,"59.99254,30.31864",c1, TypeOfGroupEnum.NO_FAMILY);
+        placex.setDescription("Place, you want to visit.");
+
+        places.add(placex);
+        places.add(new Place("Экскурсия по Санкт-Петербургу",2000,place,"59.99256,30.31854",c2));
+        places.add(new Place("Водная экскурсия по Санкт-Петербургу",2200,place,"59.99254,30.31854",c2));
+        places.add(new Place("Экскурсия по Петергофу",450,place,"59.99243,30.31854",c2));
+        places.add(new Place("Экскурсия по городу Пушкину",700,place,"59.99254,30.31864",c2));
+        places.add(new Place("Экскурсия по Кромштату",800,place,"59.99234,30.31854",c2));
 
         Day testDay = new Day();
         testDay.setPlaces(places);
@@ -95,43 +105,26 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
         places.get(1).getCoordinate();
         for (int i = 0; i < places.size() - 1; i++) {
-            //получить координаты
-            String position = places.get(i).getCoordinate();
-            String dest = places.get(i+1).getCoordinate();
-            callRouteService(position,dest);
+            callRouteService(places.get(i), places.get(i+1));
         }
     }
 
     /**
      * Call a google route service.
      *
-     * @param origin - first point of route
-     * @param destination - second point of route
+     * @param position - start place
+     * @param destination - finish place
      */
-    public void callRouteService(LatLng origin, LatLng destination) {
+    public void callRouteService(Place position, Place destination) {
 
-        String position = new StringBuilder()
-                .append(origin.latitude)
-                .append(",")
-                .append(origin.longitude)
-                .toString();
+        String pos = position.getCoordinate();
+        String dest = destination.getCoordinate();
 
-        String dest = new StringBuilder()
-                .append(destination.latitude)
-                .append(",")
-                .append(destination.longitude)
-                .toString();
+        Call<RouteResponse> rawCall = routeService.getRoute(pos, dest, true, "ru");
 
-        Call<RouteResponse> rawCall = routeService.getRoute(position, dest, true, "ru");
+        RouteServiceCallback callback = new RouteServiceCallback(position, destination);
 
-        rawCall.enqueue(this);
-
-    }
-    public void callRouteService(String position, String dest) {
-
-        Call<RouteResponse> rawCall = routeService.getRoute(position, dest, true, "ru");
-
-        rawCall.enqueue(this);
+        rawCall.enqueue(callback);
 
     }
 
@@ -139,9 +132,11 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
      * Draw route on the map, based on google route service
      * response. Call callRouteService method for response obj.
      *
-     * @param routeInfo
+     * @param routeInfo - information from Google about route
+     * @param first - first place where we start
+     * @param second - place, where we wanna go
      */
-    private void drawRouteOnMap(RouteResponse routeInfo) {
+    private void drawRouteOnMap(RouteResponse routeInfo, Place first, Place second) {
 
 
         List<LatLng> route = PolyUtil.decode(routeInfo.getPoints());
@@ -151,17 +146,25 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
 
         for (int i = 0; i < route.size(); i++) {
-            if (i == 0) {
-                MarkerOptions startMarkerOptions = new MarkerOptions()
+
+            if (i == 0 || i == route.size()-1) {
+
+                String title, description;
+
+                if (i == 0) {
+                    title = first.getName();
+                    description = second.getDescription();
+                } else {
+                    title = second.getName();
+                    description = second.getDescription();
+                }
+
+                MarkerOptions nextMarkerOptions = new MarkerOptions()
                         .position(route.get(i))
-                        //// TODO: Для Артема 28.01.17 Нужно как-то передать сведения о названии места
-                        .title("Начальная точка маршрута");
-                mMap.addMarker(startMarkerOptions);
-            } else if (i == route.size() - 1) {
-                MarkerOptions startMarkerOptions = new MarkerOptions()
-                        .position(route.get(i))
-                        .title("Конечная точка маршрута");
-                mMap.addMarker(startMarkerOptions);
+                        .title(title)
+                        .snippet(description);
+                mMap.addMarker(nextMarkerOptions);
+
             }
 
             line.add(route.get(i));
@@ -175,16 +178,59 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         mMap.moveCamera(track);
     }
 
+    /**
+     * Return place according to given
+     * coordinates
+     *
+     * @param coords - coords of place
+     * @return place
+     */
+    private Place getPlaceByCoords(LatLng coords) {
+        for (Place place : places) {
+            String[] coord = place.getCoordinate().split(",");
 
+            double lat,lng;
 
-    @Override
-    public void onFailure(Call<RouteResponse> response, Throwable t) {
-        Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        Log.e("GoogleMapFragment: ", "Cannot access google route service");
+            lat = Double.parseDouble(coord[0]);
+            lng = Double.parseDouble(coord[1]);
+
+            if (coords.equals(new LatLng(lat, lng))) {
+
+                return place;
+            }
+        }
+
+        return null;
     }
 
-    @Override
-    public void onResponse(Call<RouteResponse> call, Response<RouteResponse> response) {
-        drawRouteOnMap(response.body());
+
+    private class RouteServiceCallback implements Callback<RouteResponse> {
+
+        private Place firstPlace;
+        private Place secondPlace;
+
+        RouteServiceCallback(Place firstPlace, Place secondPlace) {
+            this.firstPlace = firstPlace;
+            this.secondPlace = secondPlace;
+        }
+
+        @Override
+        public void onFailure(Call<RouteResponse> response, Throwable t) {
+            Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("GoogleMapFragment: ", "Cannot access google route service");
+        }
+
+        @Override
+        public void onResponse(Call<RouteResponse> call, Response<RouteResponse> response) {
+            drawRouteOnMap(response.body(), firstPlace, secondPlace);
+        }
+
+        public Place getFirstPlace() {
+            return firstPlace;
+        }
+
+        public Place getSecondPlace() {
+            return secondPlace;
+        }
     }
 }
