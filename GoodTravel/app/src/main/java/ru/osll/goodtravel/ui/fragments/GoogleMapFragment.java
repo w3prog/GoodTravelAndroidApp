@@ -1,8 +1,11 @@
 package ru.osll.goodtravel.ui.fragments;
 
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
@@ -98,6 +102,19 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         testDay.setPlaces(places);
 
         showDayInMap(testDay);
+
+        // redefine onMarkerClickListener for
+        // our use
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                DialogFragment dialog = PlaceMapPreviewDialog.createDialog(findPlaceByName(marker.getTitle()));
+
+                dialog.show(getActivity().getFragmentManager(), marker.getTitle());
+
+                return false;
+            }
+        });
     }
 
     public void showDayInMap(@NonNull Day day){
@@ -164,7 +181,6 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
                         .title(title)
                         .snippet(description);
                 mMap.addMarker(nextMarkerOptions);
-
             }
 
             line.add(route.get(i));
@@ -203,6 +219,21 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         return null;
     }
 
+    /**
+     * Find place by given name
+     *
+     * need it for OnMarkerClick function
+     */
+    private Place findPlaceByName(String name) {
+        for (Place place : places) {
+            if (place.getName().equals(name)) {
+                return place;
+            }
+        }
+
+        return null;
+    }
+
 
     private class RouteServiceCallback implements Callback<RouteResponse> {
 
@@ -233,4 +264,6 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
             return secondPlace;
         }
     }
+
+
 }
