@@ -373,6 +373,32 @@ public class DataBase {
                 return null;
             }
         }
+        public static ArrayList<Day> getDaysFromPlan(Plan plan){
+            return getDaysFromPlan(plan.getId());
+        }
+        public static ArrayList<Day> getDaysFromPlan(long id){
+            ArrayList<Day> arrayList = new ArrayList<Day>();
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_DAYS_DATE + ", " +
+                    ROW_DAYS_PLAN_ID +" from " + TABLE_DAYS + " " +
+                    "where " +ROW_DAYS_PLAN_ID + " = " + id + " " +
+                    "order by " + ID, null);
+            if (c.moveToFirst()) {
+                do {
+                    Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
+                    arrayList.add(new Day(
+                            c.getLong(c.getColumnIndex(ID)),
+                            plan,
+                            new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
+                    ));
+                    c.moveToNext();
+                } while (!c.isAfterLast());
+            }
+            c.close();
+            return arrayList;
+        }
+
+
         public static ArrayList<Day> getAll(){
             ArrayList<Day> arrayList = new ArrayList<Day>();
             Cursor c = database.rawQuery("Select " + ID + ", " +
@@ -529,7 +555,6 @@ public class DataBase {
                     +" and " + ROW_PLACE_IN_DAYS_ID_PLACE + " = "+place.getId(), null);
         }
     }
-
 
     /**
      * Класс отвечающий за создание базы данных
