@@ -124,7 +124,6 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
         currentDay = day.getId();
 
-        places.get(1).getCoordinate();
         for (int i = 0; i < places.size() - 1; i++) {
             callRouteService(places.get(i), places.get(i+1));
         }
