@@ -9,6 +9,8 @@ import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -345,6 +347,8 @@ public class DataBase {
             if (day.getPlan()!=null)
                 cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
             long id =  database.insert(TABLE_DAYS, null, cv);
+            day.setId(id);
+
             if (!day.getPlaces().isEmpty())
                 PlaceInDayRepository.addPlacesInDay(day,day.getPlaces());
 
@@ -359,16 +363,27 @@ public class DataBase {
                     ID + "=" + id,
                     null, null, null, null);
             Day day;
+
             // TODO: 28.01.17 проверить корректность чтения даты с базы данных
             if (c.moveToFirst()) {
+
                 Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
-                day = new Day(
-                        id,
-                        plan,
-                        new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
-                );
+                String s = c.getString(c.getColumnIndex(ROW_DAYS_DATE));
+
+                try {
+
+                    day = new Day(id, plan, DateFormat.getDateInstance().
+                                    parse(c.getString(c.getColumnIndex(ROW_DAYS_DATE))));
+
+                } catch (ParseException e) {
+                    Log.e(TAG, "Error while parsing date in DayRepository.get()");
+                    return null;
+                }
+
                 c.close();
+
                 return day;
+
             } else {
                 return null;
             }

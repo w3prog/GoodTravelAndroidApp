@@ -156,4 +156,28 @@ public class Place {
     public void setSrcToImg(String srcToImg) {
         this.srcToImg = srcToImg;
     }
+
+     //A very hardcoded piece, but
+     //i don't know how to make it
+     //better
+    public String getTypeOfGroupName() {
+        switch (getTypeOfGroup()) {
+            case ALL:
+                return "Для всех";
+            case NO_COUPLE:
+                return "Без пар";
+            case NO_FAMILY:
+                return "Не для семьи";
+            case NO_SINGLE:
+                return "Не для одного";
+            case ONLY_COUPLE:
+                return "Только для пары";
+            case ONLY_FAMILY:
+                return "Только для семьи";
+            case ONLY_SINGLE:
+                return "Только одному";
+            default:
+                return null;
+        }
+    }
 }
