@@ -7,53 +7,76 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.Marker;
 
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Place;
+import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DataBase;
 
 /**
  * Created by artem96 on 06.02.17.
  */
 public class PlaceMapPreviewDialog extends DialogFragment {
 
-    //@TODO replace with single Place object, when standard storage will be available;
-    public static final String PLACE_IMAGE_KEY = "placeImage";
-    public static final String PLACE_TITLE_KEY = "placeTitle";
-    public static final String PLACE_DESCRIPTION_KEY = "placeDescription";
-    public static final String PLACE_PRICE_KEY = "placePrice";
-    public static final String PLACE_CATEGORY_KEY = "placeCategory";
+    private static final String PLACE_ID_EXTRA_KEY = "placeIdKey";
+
+    private Place place;
 
     public PlaceMapPreviewDialog() {
+
         super();
+
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        /* Get all arguments for this dialog */
+
+        Bundle arguments = this.getArguments();
+
+        long placeId = arguments.getLong(PLACE_ID_EXTRA_KEY);
+
+        place = DataBase.PlaceRepository.get(placeId);
+
+        /* Set up dialog */
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.map_place_preview, null));
+        View view = inflater.inflate(R.layout.map_place_preview, null);
+
+        TextView title = (TextView) view.findViewById(R.id.place_preview_title);
+        TextView description = (TextView) view.findViewById(R.id.place_preview_description);
+        TextView price = (TextView) view.findViewById(R.id.place_preview_avg_price);
+        TextView category = (TextView) view.findViewById(R.id.place_preview_type);
+        TextView relationship = (TextView) view.findViewById(R.id.place_preview_relationship);
+        ImageView picture = (ImageView) view.findViewById(R.id.place_preview_image);
+
+        title.setText(place.getName());
+        description.setText(place.getDescription());
+        price.setText("" + place.getPrice());
+        category.setText(place.getCategory().getName());
+        relationship.setText(place.getTypeOfGroupName());
+        //picture.setImageDrawable(this.getResources().getDrawable(place.getSrcToImg(), null));
+
+        builder.setView(view);
 
         return builder.create();
     }
 
-
-
-    public static PlaceMapPreviewDialog createDialog(Place place) {
+    public static PlaceMapPreviewDialog createDialog(long placeId) {
         PlaceMapPreviewDialog dialog = new PlaceMapPreviewDialog();
 
         Bundle extra = new Bundle();
 
-        extra.putSerializable(PLACE_CATEGORY_KEY, place.getCategory().getName());
-        extra.putSerializable(PLACE_DESCRIPTION_KEY, place.getDescription());
-        extra.putSerializable(PLACE_IMAGE_KEY, place.getSrcToImg());
-        extra.putSerializable(PLACE_PRICE_KEY, place.getPrice());
-        extra.putSerializable(PLACE_TITLE_KEY, place.getName());
+        extra.putSerializable(PLACE_ID_EXTRA_KEY, placeId);
 
         dialog.setArguments(extra);
 

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,8 +36,10 @@ import ru.osll.goodtravel.enums.TypeOfGroupEnum;
 import ru.osll.goodtravel.models.DAO.Day;
 import ru.osll.goodtravel.models.DAO.Place;
 import ru.osll.goodtravel.models.DAO.PlaceCategory;
+import ru.osll.goodtravel.models.DataBase;
 import ru.osll.goodtravel.models.RouteResponse;
 import ru.osll.goodtravel.rest.GoogleRouteService;
+import ru.osll.goodtravel.utils.DBHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +65,14 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     // temp fake data array
     private ArrayList<Place> places;
 
+    /**
+     * Maybe it's not belongs in here
+     *
+     * id of current displayed day
+     */
+    private long currentDay;
+
+
     public GoogleMapFragment() {
         // init google service
 
@@ -79,36 +91,26 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
         LatLng SaintPeterburgLng = new LatLng(60, 30);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SaintPeterburgLng));
-        PlaceCategory c1 = new PlaceCategory("Музей",
-                "http://moodle.presby.edu/file.php/1/library.png");
-        PlaceCategory c2 = new PlaceCategory("Экскурсии по городу");
-        String place = "Санкт-Петербург";
-        places = new ArrayList<>();
-        places.add(new Place("Русский музей",340,place,"59.99107,30.31871",c1));
-        places.add(new Place("Эрмитаж",400,place,"59.99207,30.31843",c1));
-        places.add(new Place("Музей артиллерии",1200,place,"59.99253,30.31864",c1));
-        places.add(new Place("Музей радиосвязи",600,place,"59.99264,30.31854",c1));
-        Place placex = new Place("Кунскамера",700,place,"59.99254,30.31864",c1, TypeOfGroupEnum.NO_FAMILY);
-        placex.setDescription("Place, you want to visit.");
 
-        places.add(placex);
-        places.add(new Place("Экскурсия по Санкт-Петербургу",2000,place,"59.99256,30.31854",c2));
-        places.add(new Place("Водная экскурсия по Санкт-Петербургу",2200,place,"59.99254,30.31854",c2));
-        places.add(new Place("Экскурсия по Петергофу",450,place,"59.99243,30.31854",c2));
-        places.add(new Place("Экскурсия по городу Пушкину",700,place,"59.99254,30.31864",c2));
-        places.add(new Place("Экскурсия по Кромштату",800,place,"59.99234,30.31854",c2));
+        // get random day from repository;
+        DBHelper.generateData();
 
-        Day testDay = new Day();
-        testDay.setPlaces(places);
+        Day day;
+        long i = 0;
 
-        showDayInMap(testDay);
+        while((day = DataBase.DayRepository.get(i)) == null) {
+            i++;
+        }
+
+        showDayInMap(day);
 
         // redefine onMarkerClickListener for
         // our use
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                DialogFragment dialog = PlaceMapPreviewDialog.createDialog(findPlaceByName(marker.getTitle()));
+                DialogFragment dialog = PlaceMapPreviewDialog.createDialog(
+                        findPlaceByName(marker.getTitle()).getId());
 
                 dialog.show(getActivity().getFragmentManager(), marker.getTitle());
 
@@ -119,6 +121,8 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
     public void showDayInMap(@NonNull Day day){
         ArrayList<Place> places = day.getPlaces();
+
+        currentDay = day.getId();
 
         places.get(1).getCoordinate();
         for (int i = 0; i < places.size() - 1; i++) {
@@ -225,13 +229,15 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
      * need it for OnMarkerClick function
      */
     private Place findPlaceByName(String name) {
+        Place forReturn = null;
+
         for (Place place : places) {
             if (place.getName().equals(name)) {
-                return place;
+                forReturn = place;
             }
         }
 
-        return null;
+        return forReturn;
     }
 
 

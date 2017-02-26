@@ -9,8 +9,6 @@ import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -361,6 +359,7 @@ public class DataBase {
                     ID + "=" + id,
                     null, null, null, null);
             Day day;
+            // TODO: 28.01.17 проверить корректность чтения даты с базы данных
             if (c.moveToFirst()) {
                 Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
                 day = new Day(
@@ -387,20 +386,11 @@ public class DataBase {
             if (c.moveToFirst()) {
                 do {
                     Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
-
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
-                    Date date = null;
-                    try {
-                        date = simpleDateFormat.parse(c.getString(c.getColumnIndex(ROW_DAYS_DATE)));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                     arrayList.add(new Day(
                             c.getLong(c.getColumnIndex(ID)),
                             plan,
-                            date
+                            new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
                     ));
-                    if (date==null) Log.d(TAG,"date is null");
                     c.moveToNext();
                 } while (!c.isAfterLast());
             }
