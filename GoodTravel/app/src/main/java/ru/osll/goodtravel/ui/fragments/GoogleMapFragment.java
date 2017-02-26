@@ -3,6 +3,7 @@ package ru.osll.goodtravel.ui.fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,6 +48,7 @@ import ru.osll.goodtravel.utils.DBHelper;
 public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private static final String TAG = "GoogleMapFragment";
+    private static final String DAY_ID = "DAY_ID";
 
     //for google maps
     Retrofit retrofitMaps;
@@ -90,44 +92,56 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         routeService = retrofitMaps.create(GoogleRouteService.class);
         this.getMapAsync(this);
     }
+    public static GoogleMapFragment newInstance(long id) {
+
+        Bundle args = new Bundle();
+        args.putLong(DAY_ID,id);
+        GoogleMapFragment fragment = new GoogleMapFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            idDay= getArguments().getLong(DAY_ID);
+        }catch (Exception e ){
+            idDay=0;
+            Log.e(TAG,"idDay is not init");
+            return;
+        }
 
         LatLng SaintPeterburgLng = new LatLng(60, 30);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SaintPeterburgLng));
 
-        // get random day from repository;
-        DBHelper.generateData();
-        if (idDay == 0){
-            Log.e(TAG,"idDay is not init");
+        Day day = DataBase.DayRepository.get(idDay);
+        if(day==null){
+            Log.e(TAG,"day is null");
+            return;
         }
-        else {
-            Day day = DataBase.DayRepository.get(idDay);
-            showDayInMap(day);
-            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    DialogFragment dialog = PlaceMapPreviewDialog.createDialog(
-                            findPlaceByName(marker.getTitle()).getId());
-
-                    dialog.show(getActivity().getFragmentManager(), marker.getTitle());
-
-                    return false;
-                }
-            });
+        if(day.getPlaces()==null){
+            Log.e(TAG,"Places is null");
+            return;
         }
+        showDayInMap(day);
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                DialogFragment dialog = PlaceMapPreviewDialog.createDialog(
+                        findPlaceByName(marker.getTitle()).getId());
 
+                dialog.show(getActivity().getFragmentManager(), marker.getTitle());
 
-        // redefine onMarkerClickListener for
-        // our use
+                return false;
+            }
+        });
 
     }
 
-    public void showDayInMap(@NonNull Day day){
+    public void showDayInMap( Day day){
         ArrayList<Place> places = day.getPlaces();
 
         currentDay = day.getId();

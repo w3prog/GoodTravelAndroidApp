@@ -4,6 +4,7 @@ package ru.osll.goodtravel.ui.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,9 @@ public class DaysInPlanListFragment extends Fragment {
         daysAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GoogleMapFragment fragment = new GoogleMapFragment();
-                fragment.setIdDay(days.get(position).getId());
+                long id1 = days.get(position).getId();
+                Log.e(TAG, "onItemClick: " + id1);
+                GoogleMapFragment fragment = GoogleMapFragment.newInstance(id1);
                 ((ContentActivity)getActivity()).setFragment(fragment);
             }
         });

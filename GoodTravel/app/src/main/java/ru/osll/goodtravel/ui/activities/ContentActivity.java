@@ -20,20 +20,21 @@ import java.util.ArrayList;
 import ru.osll.goodtravel.R;
 import ru.osll.goodtravel.models.DAO.Plan;
 import ru.osll.goodtravel.models.DataBase;
+import ru.osll.goodtravel.ui.fragments.DashboardFragment;
 import ru.osll.goodtravel.ui.fragments.GoogleMapFragment;
 import ru.osll.goodtravel.ui.fragments.PlansFragment;
 
 public class ContentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    SupportMapFragment mapFragment;
+    DashboardFragment mapFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mapFragment = new GoogleMapFragment();
+        mapFragment = DashboardFragment.newInstance();
         setFragment(mapFragment);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

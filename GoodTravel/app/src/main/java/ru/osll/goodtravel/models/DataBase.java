@@ -342,11 +342,11 @@ public class DataBase {
     public static class DayRepository {
         public static Day save(Day day){
             ContentValues cv = new ContentValues();
-            // TODO: 28.01.17 Проверить корректность сохранения дат.
             cv.put(ROW_DAYS_DATE, day.getDate().toString());
             if (day.getPlan()!=null)
                 cv.put(ROW_DAYS_PLAN_ID, day.getPlan().getId());
             long id =  database.insert(TABLE_DAYS, null, cv);
+            day.setId(id);
             if (!day.getPlaces().isEmpty())
                 PlaceInDayRepository.addPlacesInDay(day,day.getPlaces());
 
@@ -356,12 +356,14 @@ public class DataBase {
             for (Day d: days) save(d);
         }
         public static Day get(long id){
-            Cursor c = database.query(TABLE_DAYS,
-                    null,
-                    ID + "=" + id,
-                    null, null, null, null);
+            Cursor c = database.rawQuery("Select " + ID + ", " +
+                    ROW_DAYS_DATE + ", " +
+                    ROW_DAYS_PLAN_ID +" from " + TABLE_DAYS + " " +
+                    " where " + ID + " = " + id +
+                    " order by " + ID, null);
             Day day;
             if (c.moveToFirst()) {
+                Log.d(TAG, "query for day is correct for id=" + id );
                 Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
                 Date date = null;
@@ -376,8 +378,14 @@ public class DataBase {
                         date
                 );
                 c.close();
+
+                day.setPlaces(DataBase.PlaceInDayRepository.getPlacesFromDay(day));
+                if (day.getPlaces().size()==0){
+                    Log.d(TAG, "empty day!" );
+                }
                 return day;
             } else {
+                Log.e(TAG, "query for day is incorrect for id=" + id);
                 return null;
             }
         }
@@ -391,6 +399,7 @@ public class DataBase {
                     ROW_DAYS_PLAN_ID +" from " + TABLE_DAYS + " " +
                     "where " +ROW_DAYS_PLAN_ID + " = " + id + " " +
                     "order by " + ID, null);
+
             if (c.moveToFirst()) {
                 do {
                     Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
@@ -424,10 +433,18 @@ public class DataBase {
             if (c.moveToFirst()) {
                 do {
                     Plan plan = PlanRepository.get(c.getLong(c.getColumnIndex(ROW_DAYS_PLAN_ID)));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                    Date date = null;
+                    try {
+                        date = simpleDateFormat.parse(c.getString(c.getColumnIndex(ROW_DAYS_DATE)));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                     arrayList.add(new Day(
                             c.getLong(c.getColumnIndex(ID)),
                             plan,
-                            new Date(c.getString(c.getColumnIndex(ROW_DAYS_DATE)))
+                            date
                     ));
                     c.moveToNext();
                 } while (!c.isAfterLast());
@@ -530,40 +547,61 @@ public class DataBase {
         }
         public static ArrayList<Place> getPlacesFromDay(Day day){
             ArrayList<Place> places = new ArrayList<Place>();
-            // TODO: 28.01.17 Проверить данный запрос
-            Cursor c = database.rawQuery("Select " + ID + ", " +
-                    ROW_PLACES_NAME + ", " +
-                    ROW_PLACES_DESCRIPTION + ", " +
-                    ROW_PLACES_PLACE_NAME + ", " +
-                    ROW_PLACES_ADDRESS + ", " +
-                    ROW_PLACES_COORDINATE + ", " +
-                    ROW_PLACES_PLACE_CATEGORY + ", " +
-                    ROW_PLACES_PRICE + ", " +
-                    ROW_PLACES_IMG + ", " +
-                    ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
-                    "where " + ROW_PLACES_PLACE_CATEGORY + " in ( select "
-                    +ROW_PLACE_IN_DAYS_ID_PLACE+ " from "+ TABLE_PLACE_IN_DAYS + " where "+
-                    ROW_PLACE_IN_DAYS_ID_DAY + " = " + Long.toString(day.getId()) + " ) " +
-                    "order by " + ID, null);
-            if (c.moveToFirst()) {
-                do {
-                    PlaceCategory placeCategory = PlaceCategoryRepository
-                            .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
-                    places.add(new Place(
-                            c.getLong(c.getColumnIndex(ID)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_NAME)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_DESCRIPTION)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_PLACE_NAME)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_ADDRESS)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_COORDINATE)),
-                            c.getLong(c.getColumnIndex(ROW_PLACES_PRICE)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_IMG)),
-                            c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
-                            placeCategory));
-                    c.moveToNext();
-                } while (!c.isAfterLast());
+            Cursor cr =database.rawQuery("select "+
+                            ROW_PLACE_IN_DAYS_ID_PLACE+ " "+
+                    " from "+ TABLE_PLACE_IN_DAYS + " "
+                    + " where " +ROW_PLACE_IN_DAYS_ID_DAY + " = " +day.getId()
+                    ,null);
+            long n = cr.getCount();
+
+            long[] ids = new long[cr.getCount()];
+            int i=0;
+            cr.moveToFirst();
+            do {
+
+                ids[i] = cr.getLong(cr.getColumnIndex(ROW_PLACE_IN_DAYS_ID_PLACE));
+                i++;
+                cr.moveToNext();
             }
-            c.close();
+            while (!cr.isAfterLast());
+
+            for (int j = 0; j < ids.length; j++) {
+                Cursor c = database.rawQuery("Select " + ID + ", " +
+                        ROW_PLACES_NAME + ", " +
+                        ROW_PLACES_DESCRIPTION + ", " +
+                        ROW_PLACES_PLACE_NAME + ", " +
+                        ROW_PLACES_ADDRESS + ", " +
+                        ROW_PLACES_COORDINATE + ", " +
+                        ROW_PLACES_PLACE_CATEGORY + ", " +
+                        ROW_PLACES_PRICE + ", " +
+                        ROW_PLACES_IMG + ", " +
+                        ROW_PLACES_TYPEOFGROUP +" from " + TABLE_PLACES + " " +
+                        "where " + ID + " = " + ids[j]+ " " +
+                        "order by " + ID, null);
+
+                if (c.moveToFirst()) {
+                    do {
+                        PlaceCategory placeCategory = PlaceCategoryRepository
+                                .get(c.getLong(c.getColumnIndex(ROW_PLACES_PLACE_CATEGORY)));
+                        places.add(new Place(
+                                c.getLong(c.getColumnIndex(ID)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_NAME)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_DESCRIPTION)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_PLACE_NAME)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_ADDRESS)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_COORDINATE)),
+                                c.getLong(c.getColumnIndex(ROW_PLACES_PRICE)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_IMG)),
+                                c.getString(c.getColumnIndex(ROW_PLACES_TYPEOFGROUP)),
+                                placeCategory));
+                        c.moveToNext();
+                    } while (!c.isAfterLast());
+                }else {
+                    Log.e(TAG, "getPlacesFromDay: error with select");
+                }
+                c.close();
+            }
+
             return places;
         }
         public static void deletePlaceInDay(Day day,Place place){
@@ -592,12 +630,12 @@ public class DataBase {
 
         private void createTable(SQLiteDatabase db) {
             db.execSQL("create table " + TABLE_PLACE_CATEGORIES + "("
-                    + ID + " integer primary key autoincrement, "
+                    + ID + " integer primary key AUTOINCREMENT NOT NULL, "
                     + ROW_PLACE_CATEGORIES_NAME + " text, "
                     + ROW_PLACE_CATEGORIES_IMG + " text);");
 
             db.execSQL("create table " + TABLE_PLACES + "("
-                    + ID + " integer primary key autoincrement, "
+                    + ID + " integer primary key AUTOINCREMENT NOT NULL, "
                     + ROW_PLACES_NAME + " text, "
                     + ROW_PLACES_IMG + " text, "
                     + ROW_PLACES_PLACE_NAME + " text, "
@@ -609,17 +647,17 @@ public class DataBase {
                     + ROW_PLACES_TYPEOFGROUP + " text" + ");");
 
             db.execSQL("create table " + TABLE_DAYS + "("
-                    + ID + " integer primary key autoincrement, "
+                    + ID + " integer primary key AUTOINCREMENT NOT NULL, "
                     + ROW_DAYS_DATE + " text, "
                     + ROW_DAYS_PLAN_ID + " integer" + ");");
 
             db.execSQL("create table " + TABLE_PLACE_IN_DAYS + "("
-                    + ID + " integer primary key autoincrement, "
+                    + ID + " integer primary key AUTOINCREMENT NOT NULL, "
                     + ROW_PLACE_IN_DAYS_ID_PLACE + " integer, "
                     + ROW_PLACE_IN_DAYS_ID_DAY + " integer" + ");");
 
             db.execSQL("create table " + TABLE_PLANS + "("
-                    + ID + " integer primary key autoincrement, "
+                    + ID + " integer primary key AUTOINCREMENT NOT NULL, "
                     + ROW_PLANS_NAME + " text, "
                     + ROW_PLANS_MONEY + " integer" + ");");
 
