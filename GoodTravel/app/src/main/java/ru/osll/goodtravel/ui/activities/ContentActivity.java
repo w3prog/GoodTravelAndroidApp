@@ -57,7 +57,7 @@ public class ContentActivity extends AppCompatActivity
         }
     }
 
-    void setFragment(Fragment fragment){
+    public void setFragment(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.containerFrame,fragment)
@@ -113,5 +113,4 @@ public class ContentActivity extends AppCompatActivity
         Intent i = new Intent(this, RouteMakerActivity.class);
         startActivity(i);
     }
-
 }

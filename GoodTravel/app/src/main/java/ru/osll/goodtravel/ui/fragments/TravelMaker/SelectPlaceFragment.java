@@ -115,8 +115,7 @@ public class SelectPlaceFragment extends BaseFragment {
         }
 
         @Override
-        public void onClick(View view)
-        {
+        public void onClick(View view) {
             view = view.findViewById(R.id.tickImageView);
 
             if(view.getVisibility() == View.GONE)
@@ -132,8 +131,7 @@ public class SelectPlaceFragment extends BaseFragment {
                 onItemClickListener.onItemClick(null, view, getAdapterPosition(), getAdapterPosition());
         }
 
-        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
-        {
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
             this.onItemClickListener = onItemClickListener;
         }
     }
@@ -183,8 +181,7 @@ public class SelectPlaceFragment extends BaseFragment {
             }
         }
 
-        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener)
-        {
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
             this.onItemClickListener = onItemClickListener;
         }
 
