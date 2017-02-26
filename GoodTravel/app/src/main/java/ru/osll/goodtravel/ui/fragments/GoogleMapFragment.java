@@ -46,10 +46,17 @@ import ru.osll.goodtravel.utils.DBHelper;
  */
 public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyCallback {
     private GoogleMap mMap;
+    private static final String TAG = "GoogleMapFragment";
 
     //for google maps
     Retrofit retrofitMaps;
     GoogleRouteService routeService;
+
+    public void setIdDay(long idDay) {
+        this.idDay = idDay;
+    }
+
+    private  long idDay;
 
     // width of route line
     private static final float ROUTE_PATH_WIDTH = 4f;
@@ -85,6 +92,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     }
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -94,29 +102,29 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
 
         // get random day from repository;
         DBHelper.generateData();
+        if (idDay == 0){
+            Log.e(TAG,"idDay is not init");
+        }
+        else {
+            Day day = DataBase.DayRepository.get(idDay);
+            showDayInMap(day);
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    DialogFragment dialog = PlaceMapPreviewDialog.createDialog(
+                            findPlaceByName(marker.getTitle()).getId());
 
-        Day day;
-        long i = 0;
+                    dialog.show(getActivity().getFragmentManager(), marker.getTitle());
 
-        while((day = DataBase.DayRepository.get(i)) == null) {
-            i++;
+                    return false;
+                }
+            });
         }
 
-        showDayInMap(day);
 
         // redefine onMarkerClickListener for
         // our use
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                DialogFragment dialog = PlaceMapPreviewDialog.createDialog(
-                        findPlaceByName(marker.getTitle()).getId());
 
-                dialog.show(getActivity().getFragmentManager(), marker.getTitle());
-
-                return false;
-            }
-        });
     }
 
     public void showDayInMap(@NonNull Day day){

@@ -56,10 +56,8 @@ public class DaysInPlanListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GoogleMapFragment fragment = new GoogleMapFragment();
-                //заменить вызов
-                //GoogleMapFragment(days.get(position).getId());
+                fragment.setIdDay(days.get(position).getId());
                 ((ContentActivity)getActivity()).setFragment(fragment);
-                ;
             }
         });
 
